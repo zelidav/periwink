@@ -1,0 +1,682 @@
+// ============================================================================
+// PERIWINK — Database Schema
+// A privacy-first community + tracking platform for perimenopause/menopause
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// AUTH & IDENTITY
+// ============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime? // soft delete
+
+  // Auth
+  accounts Account[]
+  sessions Session[]
+
+  // Identity
+  profile        Profile?
+  privacySettings PrivacySettings?
+
+  // Community
+  posts          Post[]
+  comments       Comment[]
+  reactions      Reaction[]
+  reports        Report[]
+  roomFollows    RoomFollow[]
+  notifications  Notification[]
+
+  // Moderation
+  moderatorOf      RoomModerator[]
+  moderationActions ModerationAction[]
+  roomBans         RoomBan[]
+
+  // Tracking
+  symptomLogs          SymptomLog[]
+  treatmentLogs        TreatmentLog[]
+  medications          UserMedication[]
+  supplements          UserSupplement[]
+
+  // Citizen Science
+  citizenScienceConsent CitizenScienceConsent?
+  consentRecords        ConsentRecord[]
+
+  // Applications
+  founderApplication FounderApplication?
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ============================================================================
+// PROFILE & PRIVACY
+// ============================================================================
+
+model Profile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Display identity (all optional — pseudonym-first)
+  displayName String?  // pseudonym, shown publicly
+  bio         String?
+  avatarStyle String?  // generated avatar style key (no photo uploads in MVP)
+
+  // Private demographic data (never shown publicly, used for aggregate insights)
+  birthYear       Int?
+  menopauseStage  MenopauseStage?
+  yearsInStage    Int?
+  country         String?
+  timezone        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+enum MenopauseStage {
+  EARLY_PERIMENOPAUSE
+  LATE_PERIMENOPAUSE
+  MENOPAUSE
+  POSTMENOPAUSE
+  UNSURE
+  PREFER_NOT_TO_SAY
+}
+
+model PrivacySettings {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Posting identity
+  defaultPostIdentity PostIdentity @default(PSEUDONYM)
+
+  // Profile visibility
+  profileVisible      Boolean @default(false) // public profile page
+  stageVisible         Boolean @default(false) // show menopause stage on profile
+  trackingStatsVisible Boolean @default(false) // show "tracking X symptoms" badge
+
+  // Notifications
+  emailDigest    Boolean @default(true)
+  emailReplies   Boolean @default(true)
+  emailReactions Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("privacy_settings")
+}
+
+enum PostIdentity {
+  PSEUDONYM  // display name shown
+  ANONYMOUS  // "Anonymous Periwink Member"
+}
+
+// ============================================================================
+// COMMUNITY — ROOMS, POSTS, COMMENTS
+// ============================================================================
+
+model Room {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String
+  icon        String?  // emoji or icon key
+  color       String?  // hex accent color for room
+  sortOrder   Int      @default(0)
+  isDefault   Boolean  @default(false) // auto-follow on signup
+  isArchived  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  posts      Post[]
+  followers  RoomFollow[]
+  moderators RoomModerator[]
+  bans       RoomBan[]
+  modActions ModerationAction[]
+
+  @@map("rooms")
+}
+
+model RoomFollow {
+  id        String   @id @default(cuid())
+  userId    String
+  roomId    String
+  createdAt DateTime @default(now())
+
+  // Notification preferences per room
+  notifyNewPosts Boolean @default(true)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roomId])
+  @@map("room_follows")
+}
+
+// ============================================================================
+// MODERATION
+// ============================================================================
+
+model RoomModerator {
+  id        String   @id @default(cuid())
+  userId    String
+  roomId    String
+  role      ModRole  @default(MODERATOR)
+  createdAt DateTime @default(now())
+
+  appointedById String? // who granted mod status (null = system/founder)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roomId])
+  @@map("room_moderators")
+}
+
+enum ModRole {
+  OWNER      // full control — can appoint/remove mods, archive room
+  MODERATOR  // can hide posts, lock threads, warn/ban users in room
+}
+
+model RoomBan {
+  id        String    @id @default(cuid())
+  userId    String
+  roomId    String
+  bannedById String   // the mod who issued the ban
+  createdAt DateTime  @default(now())
+  expiresAt DateTime? // null = permanent
+  reason    String
+  isActive  Boolean   @default(true)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([userId, roomId, isActive])
+  @@map("room_bans")
+}
+
+model ModerationAction {
+  id          String   @id @default(cuid())
+  moderatorId String
+  roomId      String
+  createdAt   DateTime @default(now())
+
+  action      ModActionType
+  reason      String
+
+  // Target (polymorphic — one will be set)
+  targetPostId    String?
+  targetCommentId String?
+  targetUserId    String? // for warns/bans
+
+  // What changed
+  details String? // e.g. "Changed post visibility from visible to hidden"
+
+  moderator User @relation(fields: [moderatorId], references: [id], onDelete: Cascade)
+  room      Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, createdAt(sort: Desc)])
+  @@index([moderatorId])
+  @@map("moderation_actions")
+}
+
+enum ModActionType {
+  HIDE_POST
+  UNHIDE_POST
+  LOCK_POST
+  UNLOCK_POST
+  HIDE_COMMENT
+  UNHIDE_COMMENT
+  WARN_USER
+  BAN_USER
+  UNBAN_USER
+  PIN_POST
+  UNPIN_POST
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  roomId    String
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // soft delete
+
+  title    String
+  body     String // markdown
+  identity PostIdentity @default(PSEUDONYM)
+
+  // Engagement
+  isPinned    Boolean @default(false)
+  isLocked    Boolean @default(false) // prevent new comments
+  viewCount   Int     @default(0)
+  commentCount Int    @default(0) // denormalized for perf
+  reactionCount Int   @default(0) // denormalized
+
+  // Moderation
+  isHidden      Boolean @default(false) // hidden by mod
+  moderationNote String?
+
+  room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments  Comment[]
+  reactions Reaction[]
+  reports   Report[]
+
+  @@index([roomId, createdAt(sort: Desc)])
+  @@index([authorId])
+  @@map("posts")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  authorId  String
+  parentId  String?  // for threading
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // soft delete
+
+  body     String // markdown
+  identity PostIdentity @default(PSEUDONYM)
+
+  // Moderation
+  isHidden      Boolean @default(false)
+  moderationNote String?
+
+  post     Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent   Comment?  @relation("CommentThread", fields: [parentId], references: [id])
+  children Comment[] @relation("CommentThread")
+  reactions Reaction[]
+  reports   Report[]
+
+  @@index([postId, createdAt])
+  @@index([parentId])
+  @@map("comments")
+}
+
+model Reaction {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String?
+  commentId String?
+  type      ReactionType
+  createdAt DateTime @default(now())
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  // One reaction per type per user per target
+  @@unique([userId, postId, type])
+  @@unique([userId, commentId, type])
+  @@map("reactions")
+}
+
+enum ReactionType {
+  HEART        // ❤️ support/love
+  HUG          // 🤗 empathy
+  SAME         // 🙋 "me too" — important for community validation
+  HELPFUL      // 💡 useful info
+  BOOKMARK     // 🔖 save for later
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String?
+  commentId String?
+  reason    ReportReason
+  details   String?
+  status    ReportStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+  resolvedAt DateTime?
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+}
+
+enum ReportReason {
+  HARASSMENT
+  MISINFORMATION
+  SPAM
+  INAPPROPRIATE
+  SELF_HARM
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  ACTIONED
+  DISMISSED
+}
+
+// ============================================================================
+// SYMPTOM & TREATMENT TRACKING
+// ============================================================================
+
+model SymptomLog {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+  logDate   DateTime // the date being logged (may differ from createdAt)
+
+  symptom   SymptomType
+  severity  Int         // 1-5
+  notes     String?
+  duration  String?     // "all day", "morning", "evening", etc.
+
+  // Citizen science opt-in (per-entry level)
+  contributedToInsights Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, logDate(sort: Desc)])
+  @@index([symptom, contributedToInsights]) // for aggregate queries
+  @@map("symptom_logs")
+}
+
+enum SymptomType {
+  // Vasomotor
+  HOT_FLASHES
+  NIGHT_SWEATS
+  CHILLS
+
+  // Sleep
+  INSOMNIA
+  SLEEP_DISRUPTION
+  FATIGUE
+
+  // Mood
+  ANXIETY
+  DEPRESSION
+  IRRITABILITY
+  MOOD_SWINGS
+  BRAIN_FOG
+
+  // Physical
+  JOINT_PAIN
+  HEADACHES
+  HEART_PALPITATIONS
+  WEIGHT_CHANGES
+  BLOATING
+  BREAST_TENDERNESS
+
+  // Urogenital
+  VAGINAL_DRYNESS
+  LOW_LIBIDO
+  URINARY_ISSUES
+
+  // Skin & Hair
+  DRY_SKIN
+  HAIR_CHANGES
+  SKIN_CHANGES
+
+  // Other
+  OTHER
+}
+
+model TreatmentLog {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+  logDate   DateTime
+
+  treatmentType TreatmentType
+  name          String     // specific treatment name
+  dosage        String?    // free text: "1mg", "200mg", etc.
+  frequency     String?    // "daily", "twice daily", "as needed"
+  effectiveness Int?       // 1-5 self-rated
+  sideEffects   String?
+  notes         String?
+
+  contributedToInsights Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, logDate(sort: Desc)])
+  @@index([treatmentType, contributedToInsights])
+  @@map("treatment_logs")
+}
+
+enum TreatmentType {
+  HRT
+  SUPPLEMENT
+  MEDICATION
+  THERAPY
+  LIFESTYLE
+  ALTERNATIVE
+  OTHER
+}
+
+// Current medications and supplements (standing list, separate from daily logs)
+
+model UserMedication {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name      String
+  dosage    String?
+  frequency String?
+  startDate DateTime?
+  endDate   DateTime?
+  isActive  Boolean  @default(true)
+  prescriber String? // "Dr. Smith" — private
+  notes     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isActive])
+  @@map("user_medications")
+}
+
+model UserSupplement {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name      String
+  dosage    String?
+  frequency String?
+  brand     String?
+  startDate DateTime?
+  endDate   DateTime?
+  isActive  Boolean  @default(true)
+  notes     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isActive])
+  @@map("user_supplements")
+}
+
+// ============================================================================
+// CITIZEN SCIENCE & CONSENT
+// ============================================================================
+
+model CitizenScienceConsent {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Granular opt-ins
+  shareSymptomData    Boolean @default(false)
+  shareTreatmentData  Boolean @default(false)
+  shareDemographicData Boolean @default(false) // age range, stage — never identity
+
+  // Consent metadata
+  consentVersion String  @default("1.0")
+  consentedAt    DateTime?
+  withdrawnAt    DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("citizen_science_consent")
+}
+
+model ConsentRecord {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  // Audit trail — every consent change is logged immutably
+  action      ConsentAction
+  category    String          // "symptom_data", "treatment_data", "demographic_data"
+  version     String
+  ipAddress   String?
+  userAgent   String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("consent_records")
+}
+
+enum ConsentAction {
+  GRANTED
+  WITHDRAWN
+  UPDATED
+}
+
+// ============================================================================
+// FOUNDER / PARTNER APPLICATIONS
+// ============================================================================
+
+model FounderApplication {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  applicantType ApplicantType
+  name          String
+  email         String
+  organization  String?
+  role          String?
+  interest      String  // free text: what they want to do/build/offer
+  experience    String? // relevant experience
+  website       String?
+
+  status    ApplicationStatus @default(PENDING)
+  reviewNote String?
+  reviewedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("founder_applications")
+}
+
+enum ApplicantType {
+  FOUNDER        // wants to help build Periwink
+  PRACTITIONER   // healthcare provider
+  RESEARCHER     // academic / clinical researcher
+  BRAND_PARTNER  // supplement, wellness, health brand
+  COMMUNITY_LEAD // wants to moderate/lead a room
+  OTHER
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  APPROVED
+  DECLINED
+}
+
+// ============================================================================
+// NOTIFICATIONS
+// ============================================================================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+  readAt    DateTime?
+
+  type    NotificationType
+  title   String
+  body    String
+  linkUrl String? // in-app deep link
+
+  // Source reference (polymorphic — only one will be set)
+  sourcePostId    String?
+  sourceCommentId String?
+  sourceUserId    String? // who triggered it (for "X replied to your post")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt, createdAt(sort: Desc)])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  REPLY_TO_POST
+  REPLY_TO_COMMENT
+  REACTION
+  ROOM_NEW_POST
+  SYSTEM_ANNOUNCEMENT
+  APPLICATION_UPDATE
+}
