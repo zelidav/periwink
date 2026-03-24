@@ -175,19 +175,19 @@ function LandingView({ onEnter }: { onEnter: () => void }) {
       {/* Hero section */}
       <div style={{ maxWidth: 680, margin: "0 auto", padding: "80px 28px 60px", position: "relative", zIndex: 1 }} className="animate-fade-up">
         <div style={{ marginBottom: 16 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: C.lavender }}>A community for every stage</span>
+          <span style={{ fontSize: 11, fontWeight: 400, letterSpacing: 2.5, textTransform: "uppercase", color: C.lavender }}>A community for every stage</span>
         </div>
 
-        <h1 style={{ fontFamily: fonts.heading, fontSize: 48, fontWeight: 400, color: C.ink, lineHeight: 1.15, margin: "0 0 24px", letterSpacing: -0.5 }}>
+        <h1 style={{ fontFamily: fonts.heading, fontSize: 52, fontWeight: 300, color: C.ink, lineHeight: 1.15, margin: "0 0 24px", letterSpacing: -0.5 }}>
           You&apos;re not alone<br />
           <span style={{ color: C.dustyPlum }}>in this.</span>
         </h1>
 
-        <p style={{ fontSize: 18, color: C.text2, lineHeight: 1.75, margin: "0 0 20px", maxWidth: 520 }}>
+        <p style={{ fontSize: 17, color: C.text2, lineHeight: 1.8, fontWeight: 300, margin: "0 0 20px", maxWidth: 520 }}>
           Periwink is a calm, intelligent community for women navigating perimenopause and menopause. Track your symptoms, share experiences anonymously, and contribute to research that helps everyone.
         </p>
 
-        <p style={{ fontSize: 15, color: C.text3, lineHeight: 1.7, margin: "0 0 44px", maxWidth: 480, fontStyle: "italic" }}>
+        <p style={{ fontSize: 15, color: C.text3, lineHeight: 1.75, fontWeight: 300, margin: "0 0 44px", maxWidth: 480, fontStyle: "italic" }}>
           Because the conversation about menopause deserves more than whispers.
         </p>
 
@@ -204,7 +204,7 @@ function LandingView({ onEnter }: { onEnter: () => void }) {
 
         {/* What is Periwink */}
         <section style={{ marginTop: 50, marginBottom: 50 }}>
-          <h2 style={{ fontFamily: fonts.heading, fontSize: 26, fontWeight: 400, color: C.ink, margin: "0 0 28px" }}>
+          <h2 style={{ fontFamily: fonts.heading, fontSize: 28, fontWeight: 300, color: C.ink, margin: "0 0 28px" }}>
             What is Periwink?
           </h2>
           <div style={{ display: "grid", gap: 20 }}>
@@ -217,7 +217,7 @@ function LandingView({ onEnter }: { onEnter: () => void }) {
               <div key={i} style={{ display: "flex", gap: 18, padding: "22px 24px", background: C.card, border: `1px solid ${C.borderWarm}`, borderRadius: 20, transition: "all 0.3s ease" }}>
                 <span style={{ fontSize: 24, flexShrink: 0, lineHeight: 1 }}>{item.icon}</span>
                 <div>
-                  <h3 style={{ fontSize: 15, fontWeight: 600, color: C.ink, margin: "0 0 6px" }}>{item.title}</h3>
+                  <h3 style={{ fontSize: 15, fontWeight: 500, color: C.ink, margin: "0 0 6px" }}>{item.title}</h3>
                   <p style={{ fontSize: 13.5, color: C.text2, lineHeight: 1.65, margin: 0 }}>{item.desc}</p>
                 </div>
               </div>
@@ -229,7 +229,7 @@ function LandingView({ onEnter }: { onEnter: () => void }) {
 
         {/* Community stats */}
         <section style={{ marginTop: 50, marginBottom: 50, textAlign: "center" }}>
-          <h2 style={{ fontFamily: fonts.heading, fontSize: 22, fontWeight: 400, color: C.ink, margin: "0 0 32px" }}>
+          <h2 style={{ fontFamily: fonts.heading, fontSize: 24, fontWeight: 300, color: C.ink, margin: "0 0 32px" }}>
             A growing community of support
           </h2>
           <div style={{ display: "flex", justifyContent: "center", gap: 40, flexWrap: "wrap" }}>
@@ -250,7 +250,7 @@ function LandingView({ onEnter }: { onEnter: () => void }) {
 
         {/* Peek at rooms */}
         <section style={{ marginTop: 50, marginBottom: 60 }}>
-          <h2 style={{ fontFamily: fonts.heading, fontSize: 22, fontWeight: 400, color: C.ink, margin: "0 0 20px" }}>
+          <h2 style={{ fontFamily: fonts.heading, fontSize: 24, fontWeight: 300, color: C.ink, margin: "0 0 20px" }}>
             Active rooms
           </h2>
           <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4 }}>
@@ -290,7 +290,7 @@ function HomeView({ rooms, posts, onRoomClick, onPostClick }: { rooms: Room[]; p
   return (
     <div className="animate-fade-up">
       <div style={{ marginBottom: 44 }}>
-        <h1 style={{ fontSize: 30, fontWeight: 400, color: C.ink, margin: "0 0 8px", fontFamily: fonts.heading, letterSpacing: -0.3 }}>Welcome back</h1>
+        <h1 style={{ fontSize: 32, fontWeight: 300, color: C.ink, margin: "0 0 8px", fontFamily: fonts.heading, letterSpacing: -0.3 }}>Welcome back</h1>
         <p style={{ fontSize: 15, color: C.text2, margin: 0, lineHeight: 1.6 }}>You&apos;re not alone in this. Here&apos;s what the community is sharing.</p>
       </div>
 
@@ -323,7 +323,7 @@ function HomeView({ rooms, posts, onRoomClick, onPostClick }: { rooms: Room[]; p
                   <span style={{ fontSize: 11, color: C.text3 }}>{getTimeAgo(p.createdAt)}</span>
                   <span style={{ fontSize: 11, color: C.lavender, marginLeft: "auto" }}>{p.room.icon} {p.room.name}</span>
                 </div>
-                <h3 style={{ fontSize: 16, fontWeight: 500, color: C.ink, margin: "0 0 8px", lineHeight: 1.45, fontFamily: fonts.heading }}>{p.title}</h3>
+                <h3 style={{ fontSize: 17, fontWeight: 400, color: C.ink, margin: "0 0 8px", lineHeight: 1.5, fontFamily: fonts.heading }}>{p.title}</h3>
                 <p style={{ fontSize: 13.5, color: C.text2, lineHeight: 1.65, margin: "0 0 18px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" as const, overflow: "hidden" }}>{p.body}</p>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <Reactions reactions={{ heart: Math.floor(p.reactionCount * 0.3), same: Math.floor(p.reactionCount * 0.4), helpful: Math.floor(p.reactionCount * 0.3) }} small />
@@ -351,7 +351,7 @@ function RoomDetailView({ room, onBack }: { room: Room; onBack: () => void }) {
       <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 8 }}>
         <span style={{ fontSize: 32 }}>{room.icon}</span>
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 400, color: C.ink, margin: 0, fontFamily: fonts.heading }}>{room.name}</h1>
+          <h1 style={{ fontSize: 26, fontWeight: 300, color: C.ink, margin: 0, fontFamily: fonts.heading }}>{room.name}</h1>
           <div style={{ fontSize: 12, color: C.text3, marginTop: 4 }}>{room._count.followers.toLocaleString()} members · {room._count.posts} posts</div>
         </div>
       </div>
@@ -372,7 +372,7 @@ function RoomDetailView({ room, onBack }: { room: Room; onBack: () => void }) {
                 <span style={{ fontSize: 13, fontWeight: 500, color: C.ink, opacity: 0.85 }}>{p.identity === "ANONYMOUS" ? "Anonymous" : authorName}</span>
                 <span style={{ fontSize: 11, color: C.text3 }}>{getTimeAgo(p.createdAt)}</span>
               </div>
-              <h3 style={{ fontSize: 15, fontWeight: 500, color: C.ink, margin: "0 0 8px", lineHeight: 1.45, fontFamily: fonts.heading }}>{p.title}</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 400, color: C.ink, margin: "0 0 8px", lineHeight: 1.5, fontFamily: fonts.heading }}>{p.title}</h3>
               <p style={{ fontSize: 13, color: C.text2, lineHeight: 1.6, margin: "0 0 14px" }}>{p.body}</p>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <Reactions reactions={{ heart: Math.floor(p.reactionCount * 0.3), same: Math.floor(p.reactionCount * 0.4), helpful: Math.floor(p.reactionCount * 0.3) }} small />
@@ -396,7 +396,7 @@ function TrackerView() {
   return (
     <div className="animate-fade-up">
       <div style={{ marginBottom: 36 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 400, color: C.ink, margin: "0 0 6px", fontFamily: fonts.heading }}>How are you feeling today?</h1>
+        <h1 style={{ fontSize: 28, fontWeight: 300, color: C.ink, margin: "0 0 6px", fontFamily: fonts.heading }}>How are you feeling today?</h1>
         <p style={{ fontSize: 14, color: C.text2, margin: 0 }}>{today}</p>
       </div>
       {logged > 0 && <div style={{ background: `${C.softGlow}15`, borderRadius: 14, padding: "12px 18px", marginBottom: 20, fontSize: 12, color: C.dustyPlum }}>{logged} symptom{logged > 1 ? "s" : ""} logged today</div>}
@@ -443,7 +443,7 @@ function InsightsView() {
   return (
     <div className="animate-fade-up">
       <div style={{ marginBottom: 36 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 400, color: C.ink, margin: "0 0 6px", fontFamily: fonts.heading }}>Community insights</h1>
+        <h1 style={{ fontSize: 28, fontWeight: 300, color: C.ink, margin: "0 0 6px", fontFamily: fonts.heading }}>Community insights</h1>
         <p style={{ fontSize: 14, color: C.text2, margin: 0 }}>Anonymized patterns from contributing members</p>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -483,7 +483,7 @@ export function AppShell({ initialRooms, initialPosts }: { initialRooms: Room[];
       <header style={{ position: "sticky", top: 0, zIndex: 40, background: `${C.warmIvory}EE`, backdropFilter: "blur(14px)", borderBottom: `1px solid ${C.borderWarm}33` }}>
         <div style={{ maxWidth: 780, margin: "0 auto", padding: "14px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <button onClick={() => go("home")} style={{ background: "transparent", border: "none", cursor: "pointer", padding: 0 }}>
-            <span style={{ fontSize: 22, fontWeight: 400, color: C.dustyPlum, fontFamily: fonts.heading, letterSpacing: 0.3 }}>periwink</span>
+            <span style={{ fontSize: 24, fontWeight: 300, color: C.dustyPlum, fontFamily: fonts.heading, letterSpacing: 0.3 }}>periwink</span>
           </button>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <button style={{ background: "transparent", border: `1px solid ${C.borderWarm}`, borderRadius: 16, padding: "5px 14px", fontSize: 12, color: C.text2, cursor: "pointer", fontWeight: 500, fontFamily: fonts.body }}>Sign in</button>
