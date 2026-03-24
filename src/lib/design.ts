@@ -1,4 +1,4 @@
-// Periwink Design System â single source of truth
+// Periwink Design System — single source of truth
 export const colors = {
   // Primary
   periwinkle: "#8C92FF",
@@ -28,7 +28,7 @@ export const colors = {
 } as const;
 
 export const fonts = {
-  heading: "'Libre Baskerville', Georgia, serif",
+  heading: "'Cormorant Garamond', Georgia, serif",
   body: "'DM Sans', -apple-system, sans-serif",
 } as const;
 
