@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
     const logs = await prisma.symptomLog.createMany({
       data: entries.map(
-        (entry: { symptom: string; severity: number; notes?: string }) => ({
+   (entry: { symptom: any; severity: number; notes?: string }) => ({
           userId: session.user.id as string,
           logDate: new Date(),
           symptom: entry.symptom,
