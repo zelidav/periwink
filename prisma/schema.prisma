@@ -603,7 +603,77 @@ enum ConsentAction {
 }
 
 // ============================================================================
-// FOUNDER / PARTNER APPLICATIONS
+// PRE-LAUNCH SIGNUPS (standalone, no user account required)
+// ============================================================================
+
+model CommunitySignup {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  name      String
+  email     String   @unique
+  pseudonym String
+
+  // Tracking
+  emailConfirmed Boolean @default(false)
+  confirmedAt    DateTime?
+  source         String?  // utm_source or referral tracking
+
+  @@map("community_signups")
+}
+
+model FoundingMemberApplication {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Basic info
+  name      String
+  email     String   @unique
+  roleType  FoundingRoleType
+
+  // Application questions
+  whatDrawsYou      String   // What draws you to Periwink?
+  whatYouOffer      String   // What do you hope to offer this community?
+  currentApproach   String   // How do you approach supporting women in your current work?
+  holdingSpace      String   // What does "holding space" mean to you?
+  wantToBuild       String?  // Anything you'd want to build, create, or contribute?
+  anythingElse      String?  // Anything else? (optional)
+
+  // Optional context
+  organization String?
+  website      String?
+
+  // Status
+  status      ApplicationStatus @default(PENDING)
+  reviewNote  String?
+  reviewedAt  DateTime?
+  reviewedBy  String?
+
+  // Tracking
+  emailConfirmed Boolean @default(false)
+  confirmedAt    DateTime?
+  source         String?
+
+  @@map("founding_member_applications")
+}
+
+enum FoundingRoleType {
+  PRACTITIONER    // Healthcare provider
+  RESEARCHER      // Academic / clinical researcher
+  BRAND_PARTNER   // Wellness, supplements, health brand
+  CONTENT_CREATOR // Educator, writer, content creator
+  COMMUNITY_BUILDER // Wants to moderate/lead
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  APPROVED
+  DECLINED
+}
+
+// ============================================================================
+// FOUNDER / PARTNER APPLICATIONS (post-launch, linked to user accounts)
 // ============================================================================
 
 model FounderApplication {
@@ -637,13 +707,6 @@ enum ApplicantType {
   BRAND_PARTNER  // supplement, wellness, health brand
   COMMUNITY_LEAD // wants to moderate/lead a room
   OTHER
-}
-
-enum ApplicationStatus {
-  PENDING
-  REVIEWING
-  APPROVED
-  DECLINED
 }
 
 // ============================================================================
