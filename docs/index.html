@@ -3,196 +3,944 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Periwink — You're Not Alone in This</title>
-<meta name="description" content="A calm, intelligent community for women navigating perimenopause and menopause.">
+<title>Periwink — A Wiser Way Forward</title>
+<meta name="description" content="Growth, wisdom, and shared experience for women navigating change together.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--plum:#6E5A7E;--plum-dk:#5a4869;--lavender:#B7A8C9;--rose:#C99AA5;--rose-lt:#D4B0B9;--glow:#D7CCFF;--ivory:#F7F3EE;--ivory2:#F2EDE6;--ivory3:#EBE5DC;--ink:#2B2433;--t2:#6B6575;--t3:#9B94A3;--bdr:#DDD7CE;--card:#FDFBF8;--hd:'Cormorant Garamond',Georgia,serif;--bd:'DM Sans',-apple-system,sans-serif}
-*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--bd);font-weight:300;background:var(--ivory);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}::selection{background:rgba(215,204,255,.35)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes breathe{0%,100%{opacity:.4}50%{opacity:.7}}
-.reveal{opacity:0;transform:translateY(44px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}.reveal.vis{opacity:1;transform:none}.d1{transition-delay:.12s}.d2{transition-delay:.24s}.d3{transition-delay:.36s}.d4{transition-delay:.48s}
+:root {
+  --periwinkle: #8B7AA8;
+  --periwinkle-deep: #6E5A7E;
+  --periwinkle-light: #C4B8D6;
+  --periwinkle-mist: #E8E1F0;
+  --periwinkle-whisper: #F5F2F9;
+  --lavender-blush: #F8F4FC;
+  --cream: #FFFCF9;
+  --warm-white: #FEFDFB;
+  --blush: #F2E4E6;
+  --rose-soft: #E8C4C4;
+  --sage-soft: #D4DED0;
+  --ink: #2D2438;
+  --ink-soft: #5C4E6A;
+  --ink-muted: #8B7D98;
+}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,243,238,.85);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid rgba(221,215,206,.3);transition:all .4s}
-nav.scrolled{padding:14px 48px;box-shadow:0 2px 30px rgba(43,36,51,.04)}
-.logo{font-family:var(--hd);font-size:28px;font-weight:300;color:var(--plum);text-decoration:none;letter-spacing:.6px}
-.nav-r{display:flex;gap:28px;align-items:center}
-.nav-r a{font-size:13px;color:var(--t2);text-decoration:none;font-weight:400;transition:color .3s}
-.nav-r a:hover{color:var(--plum)}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', -apple-system, sans-serif;
+  font-weight: 400;
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
 
-/* High-contrast buttons */
-.btn{display:inline-block;padding:13px 34px;border-radius:30px;font-size:14px;font-weight:500;font-family:var(--bd);text-decoration:none;cursor:pointer;transition:all .35s cubic-bezier(.16,1,.3,1);letter-spacing:.3px;text-align:center}
-.btn-fill{background:var(--plum);color:#fff;border:2px solid var(--plum)}
-.btn-fill:hover{background:var(--plum-dk);border-color:var(--plum-dk);transform:translateY(-2px);box-shadow:0 10px 32px rgba(110,90,126,.3)}
-.btn-ghost{background:rgba(255,255,255,.85);color:var(--ink);border:2px solid var(--ink);font-weight:500}
-.btn-ghost:hover{background:var(--ink);color:#fff}
+.hd { font-family: 'Playfair Display', Georgia, serif; font-weight: 400; }
 
-/* Fixed SVG */
-#line-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-#line-canvas svg{width:100%;height:100%}
-.draw-path{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.content{position:relative;z-index:1}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
 
-.hero{min-height:100vh;display:flex;align-items:center;position:relative}
-.hero-ct{max-width:580px;padding:150px 64px 90px}
-.hero-tag{font-size:11px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--lavender);margin-bottom:26px;opacity:0;animation:fadeUp 1s ease .4s forwards}
-.hero h1{font-family:var(--hd);font-size:clamp(44px,6vw,64px);font-weight:300;line-height:1.1;margin-bottom:30px;opacity:0;animation:fadeUp 1s ease .6s forwards}
-.hero h1 em{font-style:italic;color:var(--plum)}
-.hero-p{font-size:17px;line-height:1.85;color:var(--t2);max-width:480px;margin-bottom:22px;opacity:0;animation:fadeUp 1s ease .8s forwards}
-.hero-whisper{font-size:16px;color:var(--rose);font-style:italic;font-family:var(--hd);font-weight:300;margin-bottom:50px;opacity:0;animation:fadeUp 1s ease 1s forwards}
-.hero-btns{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s ease 1.2s forwards}
-.hero-btns .btn{padding:17px 44px;font-size:16px}
-.scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);opacity:0;animation:fadeIn 1s ease 2.2s forwards;color:var(--t3);font-size:10px;letter-spacing:1.5px;text-align:center;text-transform:uppercase}
-.scroll-hint::after{content:'';display:block;width:1px;height:44px;background:linear-gradient(var(--lavender),transparent);margin:10px auto 0;animation:breathe 2.5s ease-in-out infinite}
+/* Navigation */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 0;
+  transition: all 0.3s;
+}
+nav.scrolled {
+  background: rgba(255, 252, 249, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 2px 30px rgba(110, 90, 126, 0.08);
+  padding: 14px 0;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--periwinkle-deep);
+  text-decoration: none;
+}
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 14px; color: var(--ink-soft); text-decoration: none; }
+.nav-links a:hover { color: var(--periwinkle-deep); }
+@media (max-width: 768px) { .nav-links a:not(.btn) { display: none; } }
 
-.story{padding:120px 48px}.story-inner{max-width:540px;margin:0 auto}
-.story-block{margin-bottom:140px}.story-block:last-child{margin-bottom:0}
-.story-block h2{font-family:var(--hd);font-size:clamp(26px,3.5vw,36px);font-weight:300;line-height:1.3;margin-bottom:16px}
-.story-block p{font-size:16px;line-height:1.85;color:var(--t2);max-width:440px}
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  font-family: inherit;
+}
+.btn-primary {
+  background: var(--periwinkle-deep);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(110, 90, 126, 0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(110, 90, 126, 0.4); }
+.btn-secondary {
+  background: #fff;
+  color: var(--periwinkle-deep);
+  border: 2px solid var(--periwinkle-deep);
+}
+.btn-secondary:hover { background: var(--periwinkle-deep); color: #fff; }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink-muted);
+}
+.btn-ghost:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
 
-.features{padding:110px 48px;background:rgba(242,237,230,.6)}
-.features-inner{max-width:900px;margin:0 auto}
-.stag{font-size:11px;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:var(--lavender);margin-bottom:16px}
-.stitle{font-family:var(--hd);font-size:clamp(28px,4vw,40px);font-weight:300;line-height:1.2;margin-bottom:20px}
-.sbody{font-size:16px;line-height:1.8;color:var(--t2);max-width:500px}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:50px}
-.fcard{background:var(--card);border:1px solid var(--bdr);border-radius:24px;padding:36px 28px;transition:all .4s cubic-bezier(.16,1,.3,1)}
-.fcard:hover{transform:translateY(-5px);box-shadow:0 14px 44px rgba(43,36,51,.06);border-color:var(--lavender)}
-.fcard .ic{font-size:26px;margin-bottom:16px;display:block}
-.fcard h3{font-family:var(--hd);font-size:20px;font-weight:400;margin-bottom:10px}
-.fcard p{font-size:13.5px;line-height:1.7;color:var(--t2)}
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  background: linear-gradient(180deg, var(--lavender-blush) 0%, var(--cream) 100%);
+  position: relative;
+}
+.hero-content { max-width: 700px; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--periwinkle-light);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--periwinkle-deep);
+  margin-bottom: 28px;
+  animation: fadeInUp 0.8s ease 0.2s both;
+}
+.badge-dot {
+  width: 8px; height: 8px;
+  background: #7CB07F;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+.hero h1 {
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease 0.4s both;
+}
+.hero h1 em { color: var(--periwinkle-deep); font-style: italic; }
+.hero p {
+  font-size: 18px;
+  color: var(--ink-soft);
+  max-width: 560px;
+  margin: 0 auto 36px;
+  animation: fadeInUp 0.8s ease 0.6s both;
+}
+.hero-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease 0.8s both;
+}
+.social-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 48px;
+  animation: fadeInUp 0.8s ease 1s both;
+}
+.avatars { display: flex; }
+.avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  margin-left: -10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.avatar:first-child { margin-left: 0; }
+.avatar:nth-child(1) { background: linear-gradient(135deg, var(--periwinkle-light), var(--rose-soft)); }
+.avatar:nth-child(2) { background: linear-gradient(135deg, var(--sage-soft), var(--periwinkle-light)); }
+.avatar:nth-child(3) { background: linear-gradient(135deg, var(--rose-soft), var(--blush)); }
+.social-proof span { font-size: 14px; color: var(--ink-muted); }
+.social-proof strong { color: var(--ink-soft); font-weight: 500; }
 
-.rooms{padding:100px 48px}.rooms-inner{max-width:900px;margin:0 auto}
-.rooms-scroll{display:flex;gap:16px;overflow-x:auto;padding:8px 0 20px;margin-top:40px;-webkit-overflow-scrolling:touch}
-.rooms-scroll::-webkit-scrollbar{height:3px}.rooms-scroll::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px}
-.rpill{flex-shrink:0;display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--bdr);border-radius:22px;padding:20px 26px;min-width:230px;text-decoration:none;color:inherit;transition:all .35s}
-.rpill:hover{border-color:var(--lavender);transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.04)}
-.rpill .ri{font-size:24px}.rpill h4{font-size:14px;font-weight:500;margin-bottom:3px}.rpill span{font-size:11px;color:var(--t3)}
+/* Sections */
+section { padding: 100px 24px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-header { text-align: center; max-width: 600px; margin: 0 auto 60px; }
+.section-tag {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--periwinkle);
+  margin-bottom: 16px;
+}
+.section-header h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.section-header p { font-size: 17px; color: var(--ink-soft); }
 
-.quote{text-align:center;padding:130px 48px;background:rgba(242,237,230,.4)}
-.qmark{font-family:var(--hd);font-size:90px;color:var(--lavender);opacity:.25;line-height:1;margin-bottom:-24px}
-.qtxt{font-family:var(--hd);font-size:clamp(22px,3vw,34px);font-weight:300;font-style:italic;line-height:1.6;max-width:580px;margin:0 auto 18px}
-.qattr{font-size:13px;color:var(--t3)}
+/* Why Section */
+.why { background: var(--warm-white); }
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.why-image {
+  aspect-ratio: 4/3;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--periwinkle-mist), var(--lavender-blush));
+}
+.why-content h2 {
+  font-size: clamp(26px, 3.5vw, 38px);
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+.why-content p { font-size: 16px; color: var(--ink-soft); margin-bottom: 16px; }
+.highlight {
+  background: linear-gradient(180deg, transparent 60%, rgba(196, 184, 214, 0.35) 60%);
+  padding: 0 3px;
+}
+@media (max-width: 768px) { .why-grid { grid-template-columns: 1fr; } }
 
-.cta{text-align:center;padding:110px 48px 130px}
-.cta .stitle{margin-bottom:12px}
-.cta .sbody{margin:0 auto 44px;text-align:center;max-width:400px}
-.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-.cta-btns .btn{padding:18px 50px;font-size:16px}
+/* Features */
+.features { background: linear-gradient(180deg, var(--warm-white) 0%, var(--lavender-blush) 100%); }
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.feature-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 28px;
+  border: 1px solid var(--periwinkle-mist);
+  transition: all 0.3s;
+}
+.feature-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(110, 90, 126, 0.12); }
+.feature-icon {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--lavender-blush);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+.feature-card h3 { font-size: 20px; margin-bottom: 12px; }
+.feature-card p { font-size: 15px; color: var(--ink-soft); line-height: 1.7; }
 
-footer{padding:48px;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
-.flogo{font-family:var(--hd);font-size:20px;font-weight:300;color:var(--plum)}
-.flinks{display:flex;gap:24px}.flinks a{font-size:12px;color:var(--t3);text-decoration:none}.flinks a:hover{color:var(--plum)}
+/* Circles */
+.circles { background: var(--cream); }
+.circles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.circle-card {
+  background: linear-gradient(165deg, #fff 0%, var(--lavender-blush) 100%);
+  border: 1px solid var(--periwinkle-mist);
+  border-radius: 20px;
+  padding: 32px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+}
+.circle-card:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(110, 90, 126, 0.1); }
+.circle-emoji { font-size: 40px; margin-bottom: 16px; }
+.circle-card h4 { font-size: 18px; margin-bottom: 10px; }
+.circle-card p { font-size: 14px; color: var(--ink-muted); margin-bottom: 16px; }
+.circle-meta { display: flex; align-items: center; gap: 8px; }
+.circle-dot { width: 8px; height: 8px; background: #7CB07F; border-radius: 50%; }
+.circle-meta span { font-size: 13px; font-weight: 500; color: var(--periwinkle-deep); }
 
-@media(max-width:768px){nav{padding:16px 24px}.nav-r a:not(.btn){display:none}.hero-ct{padding:120px 28px 70px}section,.features,.rooms,.quote,.cta,.story{padding-left:28px;padding-right:28px}.story-block{margin-bottom:80px}footer{padding:30px 24px}}
+/* Testimonial */
+.testimonial {
+  background: var(--periwinkle-deep);
+  text-align: center;
+  padding: 100px 24px;
+}
+.testimonial-inner { max-width: 700px; margin: 0 auto; }
+.quote-mark { font-size: 80px; color: rgba(255,255,255,0.2); line-height: 1; margin-bottom: -20px; }
+.testimonial blockquote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-style: italic;
+  color: #fff;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+.testimonial-author { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.author-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--periwinkle-light), var(--rose-soft));
+}
+.author-info { text-align: left; }
+.author-info strong { color: #fff; display: block; }
+.author-info span { font-size: 14px; color: rgba(255,255,255,0.6); }
+
+/* Builders */
+.builders { background: var(--warm-white); }
+.builders-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.builders-content h2 {
+  font-size: clamp(26px, 3.5vw, 38px);
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+.builders-content p { font-size: 16px; color: var(--ink-soft); margin-bottom: 24px; }
+.role-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
+.role-tag {
+  padding: 10px 20px;
+  background: var(--lavender-blush);
+  border: 1px solid var(--periwinkle-mist);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--periwinkle-deep);
+}
+.builders-image {
+  aspect-ratio: 4/3;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--periwinkle-mist), var(--lavender-blush));
+}
+@media (max-width: 768px) { .builders-grid { grid-template-columns: 1fr; } }
+
+/* CTA */
+.cta {
+  background: linear-gradient(180deg, var(--cream) 0%, var(--lavender-blush) 100%);
+  text-align: center;
+  padding: 120px 24px;
+}
+.cta-inner { max-width: 650px; margin: 0 auto; }
+.cta h2 {
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.cta h2 em { color: var(--periwinkle-deep); font-style: italic; }
+.cta p { font-size: 18px; color: var(--ink-soft); margin-bottom: 40px; }
+.cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* Footer */
+footer {
+  background: var(--ink);
+  padding: 48px 24px;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; }
+.footer-links { display: flex; gap: 32px; }
+.footer-links a { font-size: 14px; color: rgba(255,255,255,0.5); text-decoration: none; }
+.footer-links a:hover { color: #fff; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 36, 56, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal {
+  background: #fff;
+  border-radius: 24px;
+  max-width: 440px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.3s;
+}
+.modal-overlay.active .modal { animation: modalIn 0.3s ease forwards; }
+.modal-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--periwinkle-whisper);
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--ink-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-header {
+  padding: 40px 40px 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--periwinkle-mist);
+}
+.modal-header h3 { font-size: 26px; margin-bottom: 8px; }
+.modal-header p { font-size: 15px; color: var(--ink-muted); }
+.modal-body { padding: 32px 40px 40px; }
+.form-group { margin-bottom: 24px; }
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.form-group label span { color: var(--periwinkle); }
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid var(--periwinkle-mist);
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--ink);
+  transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--periwinkle);
+}
+.form-group textarea { min-height: 100px; resize: vertical; }
+.form-group small { display: block; margin-top: 8px; font-size: 13px; color: var(--ink-muted); }
+.form-submit {
+  width: 100%;
+  padding: 16px;
+  background: var(--periwinkle-deep);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.3s;
+}
+.form-submit:hover { background: #5a4869; }
+.form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Step indicator */
+.steps { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; }
+.step-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--periwinkle-mist);
+  transition: all 0.3s;
+}
+.step-dot.active { background: var(--periwinkle-deep); transform: scale(1.2); }
+
+/* Role selection */
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.role-option {
+  padding: 16px;
+  border: 2px solid var(--periwinkle-mist);
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  background: #fff;
+}
+.role-option:hover { border-color: var(--periwinkle-light); }
+.role-option.selected {
+  border-color: var(--periwinkle-deep);
+  background: var(--lavender-blush);
+}
+
+/* Success state */
+.success-state { text-align: center; padding: 40px; }
+.success-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--sage-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 24px;
+}
+.success-state h4 { font-size: 24px; margin-bottom: 12px; }
+.success-state p { color: var(--ink-soft); }
 </style>
 </head>
 <body>
-<div id="line-canvas"><svg viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-<!-- Graceful seated woman: continuous-line Matisse/Picasso style, right side of viewport -->
-<!-- Hair top, flowing from crown -->
-<path class="draw-path" data-order="1" d="M820 120 C790 100,750 95,720 110 C690 125,675 160,680 200" stroke="#6E5A7E" stroke-width="1.8"/>
-<!-- Head right contour: forehead down to chin -->
-<path class="draw-path" data-order="2" d="M820 120 C850 115,875 135,880 170 C885 205,875 240,855 265 C840 285,820 295,800 300" stroke="#2B2433" stroke-width="1.6"/>
-<!-- Face left: jaw to chin connecting -->
-<path class="draw-path" data-order="3" d="M680 200 C685 230,695 260,715 280 C735 298,760 305,800 300" stroke="#2B2433" stroke-width="1.5"/>
-<!-- Eye left (almond) -->
-<path class="draw-path" data-order="4" d="M720 195 C732 188,748 188,758 196 C748 202,732 202,720 195" stroke="#2B2433" stroke-width="1"/>
-<!-- Eye right (almond) -->
-<path class="draw-path" data-order="5" d="M790 188 C802 180,818 180,828 188 C818 195,802 195,790 188" stroke="#2B2433" stroke-width="1"/>
-<!-- Nose: subtle curve -->
-<path class="draw-path" data-order="6" d="M770 210 C765 230,760 248,768 255 C776 260,784 252,782 242" stroke="#2B2433" stroke-width=".9"/>
-<!-- Lips -->
-<path class="draw-path" data-order="7" d="M745 278 C758 272,778 270,792 275 C780 282,760 284,745 278" stroke="#C99AA5" stroke-width="1.2"/>
-<!-- Neck: long elegant curve -->
-<path class="draw-path" data-order="8" d="M760 305 C755 330,748 360,740 390" stroke="#2B2433" stroke-width="1.3"/>
-<path class="draw-path" data-order="9" d="M810 300 C808 330,804 365,800 395" stroke="#2B2433" stroke-width="1.2"/>
-<!-- Left shoulder flowing into arm, torso curving to seated position -->
-<path class="draw-path" data-order="10" d="M740 390 C710 400,660 410,620 415 C580 420,550 418,530 425 C510 435,505 460,510 490 C515 520,525 550,540 575" stroke="#2B2433" stroke-width="1.4"/>
-<!-- Right shoulder to back curve -->
-<path class="draw-path" data-order="11" d="M800 395 C835 405,865 418,885 440 C905 465,910 500,905 535 C900 570,885 600,865 625" stroke="#2B2433" stroke-width="1.3"/>
-<!-- Torso front curve (seated) -->
-<path class="draw-path" data-order="12" d="M540 575 C555 600,580 620,610 630 C640 640,670 642,700 638" stroke="#2B2433" stroke-width="1.2"/>
-<!-- Lower back connecting -->
-<path class="draw-path" data-order="13" d="M865 625 C845 645,820 655,790 658 C760 660,730 652,700 638" stroke="#2B2433" stroke-width="1.2"/>
-<!-- Left arm resting on knee -->
-<path class="draw-path" data-order="14" d="M620 415 C610 440,595 470,585 500 C575 530,570 555,572 575 C574 590,580 600,590 605" stroke="#D4B0B9" stroke-width="1"/>
-<!-- Hand (simple elegant curve) -->
-<path class="draw-path" data-order="15" d="M590 605 C598 612,610 615,620 610 C628 605,630 596,625 590" stroke="#2B2433" stroke-width=".9"/>
-<!-- Leg: thigh curve from hip -->
-<path class="draw-path" data-order="16" d="M610 630 C630 660,660 685,695 700 C730 715,768 720,800 715" stroke="#2B2433" stroke-width="1.3"/>
-<!-- Shin + tucked foot -->
-<path class="draw-path" data-order="17" d="M800 715 C820 710,838 695,848 675 C858 655,860 635,855 618" stroke="#2B2433" stroke-width="1.1"/>
-<!-- Second leg peeking -->
-<path class="draw-path" data-order="18" d="M700 638 C720 670,745 695,775 710 C790 716,800 715,800 715" stroke="#D4B0B9" stroke-width=".8"/>
-<!-- Hair flowing left: long graceful strands -->
-<path class="draw-path" data-order="19" d="M720 110 C695 130,670 170,655 220 C640 270,630 330,628 390 C626 440,630 490,640 530" stroke="#B7A8C9" stroke-width="1.1"/>
-<!-- Hair flowing right: behind shoulders -->
-<path class="draw-path" data-order="20" d="M855 265 C875 290,890 330,895 380 C900 430,892 475,878 510 C864 545,845 570,825 585" stroke="#B7A8C9" stroke-width="1"/>
-<!-- Fine hair strand -->
-<path class="draw-path" data-order="21" d="M710 120 C688 150,672 200,665 260 C658 320,660 380,668 430" stroke="#D7CCFF" stroke-width=".6"/>
-<!-- Botanical: vine from lower left -->
-<path class="draw-path" data-order="22" d="M480 700 C460 680,435 660,405 650 C375 640,345 642,320 650 C295 658,278 675,270 695" stroke="#B7A8C9" stroke-width=".9"/>
-<!-- Leaf 1 -->
-<path class="draw-path" data-order="23" d="M405 650 C395 632,378 625,365 632 C378 644,392 648,405 650" stroke="#C99AA5" stroke-width=".7"/>
-<!-- Leaf 2 -->
-<path class="draw-path" data-order="24" d="M320 650 C312 638,298 632,288 638 C298 650,310 652,320 650" stroke="#C99AA5" stroke-width=".7"/>
-<!-- Botanical: vine from right -->
-<path class="draw-path" data-order="25" d="M920 700 C945 685,968 665,985 640 C1002 615,1010 590,1008 568" stroke="#B7A8C9" stroke-width=".8"/>
-<!-- Leaf right -->
-<path class="draw-path" data-order="26" d="M985 640 C998 628,1010 625,1015 635 C1005 645,995 645,985 640" stroke="#C99AA5" stroke-width=".6"/>
-<!-- Small flower bud -->
-<path class="draw-path" data-order="27" d="M270 695 C262 685,255 690,260 702 C265 714,275 710,270 695" stroke="#D4B0B9" stroke-width=".6"/>
-<path class="draw-path" data-order="28" d="M270 695 C280 688,285 695,278 705 C272 712,266 706,270 695" stroke="#D4B0B9" stroke-width=".5"/>
-<!-- Pollen dots -->
-<circle class="draw-path" data-order="29" cx="250" cy="670" r="1.5" stroke="#B7A8C9" stroke-width=".5"/>
-<circle class="draw-path" data-order="29" cx="295" cy="680" r="1" stroke="#D7CCFF" stroke-width=".5"/>
-<circle class="draw-path" data-order="29" cx="1020" cy="580" r="1.5" stroke="#B7A8C9" stroke-width=".5"/>
-<!-- Final connecting vine bottom -->
-<path class="draw-path" data-order="30" d="M270 695 C290 720,325 740,370 748 C415 756,470 750,520 738 C570 726,620 720,670 722 C720 724,770 730,810 738 C850 746,885 740,920 700" stroke="#B7A8C9" stroke-width=".7"/>
-</svg></div>
 
-<div class="content">
-<nav id="nav"><a href="#" class="logo">periwink</a><div class="nav-r"><a href="#features">Features</a><a href="#rooms">Rooms</a><a href="#about">About</a><a href="https://periwink-production-a893.up.railway.app" class="btn btn-fill">Join free</a></div></nav>
+<!-- Navigation -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">periwink</a>
+    <div class="nav-links">
+      <a href="#about">Our Story</a>
+      <a href="#community">Community</a>
+      <a href="#builders">Contribute</a>
+      <button class="btn btn-primary" onclick="openModal('community')">Join Early</button>
+    </div>
+  </div>
+</nav>
 
-<section class="hero" id="top"><div class="hero-ct"><div class="hero-tag">A community for every stage</div><h1>You're not alone<br><em>in this.</em></h1><p class="hero-p">Periwink is a calm, intelligent community for women navigating perimenopause and menopause. Track your symptoms, share experiences with women who understand, and contribute to research that helps everyone.</p><p class="hero-whisper">Because this conversation deserves more than whispers.</p><div class="hero-btns"><a href="https://periwink-production-a893.up.railway.app" class="btn btn-fill">Join the community</a><a href="#rooms" class="btn btn-ghost">Explore rooms</a></div></div><div class="scroll-hint">scroll</div></section>
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Building something meaningful
+    </div>
+    <h1 class="hd">A wiser way forward—<em>together.</em></h1>
+    <p>Growth, wisdom, and shared experience—for the women you are becoming. Where real conversations lead to real understanding.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="openModal('community')">Join the Community</button>
+      <button class="btn btn-secondary" onclick="openModal('founding')">Become a Founding Member</button>
+    </div>
+    <div class="social-proof">
+      <div class="avatars">
+        <div class="avatar"></div>
+        <div class="avatar"></div>
+        <div class="avatar"></div>
+      </div>
+      <span>Join <strong>2,400+ women</strong> finding their way forward</span>
+    </div>
+  </div>
+</section>
 
-<section class="story" id="about"><div class="story-inner">
-<div class="story-block reveal"><h2>She's navigating something no one prepared her for.</h2><p>Perimenopause can start in your late 30s. Most women don't see it coming — the brain fog, the sleeplessness, the sudden heat, the anxiety that wasn't there before.</p></div>
-<div class="story-block reveal"><h2>She thought she was alone.</h2><p>Doctors dismiss it. Partners don't understand. Friends don't talk about it. The silence around menopause is deafening — and it makes everything harder.</p></div>
-<div class="story-block reveal"><h2>She found her people.</h2><p>Periwink is where thousands of women share what actually works. Real experiences, real data, real support — pseudonymous or fully anonymous. No judgment, ever.</p></div>
-<div class="story-block reveal"><h2>She started tracking. She started healing.</h2><p>Daily symptom logging revealed patterns she never saw. Community insights showed her she wasn't imagining it. And the treatments others shared? Some of them changed everything.</p></div>
-</div></section>
+<!-- Why Section -->
+<section class="why" id="about">
+  <div class="section-inner">
+    <div class="why-grid">
+      <div class="why-image"></div>
+      <div class="why-content">
+        <h2 class="hd">This isn't about managing symptoms. It's about <span class="highlight">becoming who you're meant to be.</span></h2>
+        <p>There's a reason so many women feel unseen during this chapter. The conversations that matter most are rarely had. The questions that keep you up at night feel too personal to ask.</p>
+        <p>Periwink changes that. We're building a space where <span class="highlight">wisdom is shared</span>, where lived experience matters as much as expertise, and where you're never navigating alone.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section class="features" id="features"><div class="features-inner"><div class="stag reveal">What we're building</div><h2 class="stitle reveal d1">A space designed for<br>how you actually feel.</h2><p class="sbody reveal d2">Not another forum. Not another symptom checker. A living community where your experience matters.</p><div class="fgrid">
-<div class="fcard reveal d1"><span class="ic">💬</span><h3>Community Rooms</h3><p>Topic-based spaces for real conversations — hot flashes, HRT, sleep, mood, relationships. Post with your pseudonym or fully anonymously.</p></div>
-<div class="fcard reveal d2"><span class="ic">📝</span><h3>Symptom Tracker</h3><p>Log how you're feeling each day. Track patterns across vasomotor, sleep, mood, and physical categories over time.</p></div>
-<div class="fcard reveal d3"><span class="ic">📊</span><h3>Citizen Science</h3><p>Opt in to share anonymized data. See what symptoms are most common, which treatments work, and how your experience compares.</p></div>
-<div class="fcard reveal d4"><span class="ic">🔒</span><h3>Privacy First</h3><p>Pseudonyms by default. Full anonymity per post. Your data is yours — granular consent controls for everything.</p></div>
-</div></div></section>
+<!-- Features -->
+<section class="features">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag">What we're building</p>
+      <h2 class="hd">Better outcomes through connection</h2>
+      <p>A thoughtful platform where learning happens together, and support feels like belonging.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3 class="hd">Shared Circles</h3>
+        <p>Intimate spaces for real conversations. Topics that matter, with women who truly understand.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <h3 class="hd">Collective Wisdom</h3>
+        <p>Learn what actually works from women who've been there. Real insights from lived experience.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📖</div>
+        <h3 class="hd">Your Story, Tracked</h3>
+        <p>Notice patterns in your experience. Understand your body better. Share on your terms.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <h3 class="hd">Always Supported</h3>
+        <p>Feeling understood isn't optional—it's essential. Every interaction helps you feel seen.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3 class="hd">Truly Private</h3>
+        <p>Your story is yours. Pseudonymous by default, with full control over what you share.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌱</div>
+        <h3 class="hd">Always Growing</h3>
+        <p>Periwink evolves with the community. Your voice shapes what we build next.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section class="rooms" id="rooms"><div class="rooms-inner"><div class="stag reveal">Join the conversation</div><h2 class="stitle reveal d1">Active rooms</h2><p class="sbody reveal d2">Every room is a safe space. Every voice matters.</p><div class="rooms-scroll reveal d3">
-<a href="https://periwink-production-a893.up.railway.app" class="rpill"><span class="ri">🔥</span><div><h4>Hot Flashes &amp; Night Sweats</h4><span>2,847 members</span></div></a>
-<a href="https://periwink-production-a893.up.railway.app" class="rpill"><span class="ri">🌙</span><div><h4>Sleep &amp; Fatigue</h4><span>3,201 members</span></div></a>
-<a href="https://periwink-production-a893.up.railway.app" class="rpill"><span class="ri">💊</span><div><h4>HRT &amp; Hormone Therapy</h4><span>4,102 members</span></div></a>
-<a href="https://periwink-production-a893.up.railway.app" class="rpill"><span class="ri">🧠</span><div><h4>Mood &amp; Mental Health</h4><span>2,956 members</span></div></a>
-<a href="https://periwink-production-a893.up.railway.app" class="rpill"><span class="ri">🌿</span><div><h4>Supplements &amp; Nutrition</h4><span>2,103 members</span></div></a>
-<a href="https://periwink-production-a893.up.railway.app" class="rpill"><span class="ri">💜</span><div><h4>Relationships &amp; Intimacy</h4><span>1,890 members</span></div></a>
-</div></div></section>
+<!-- Circles -->
+<section class="circles" id="community">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="section-tag">Active circles</p>
+      <h2 class="hd">Find your people</h2>
+      <p>Every circle is a safe space for honest conversation. Real women sharing real experiences.</p>
+    </div>
+    <div class="circles-grid">
+      <div class="circle-card" onclick="openModal('community')">
+        <div class="circle-emoji">🔥</div>
+        <h4 class="hd">Bodies in Flux</h4>
+        <p>Hot flashes, night sweats, and everything your body is doing differently.</p>
+        <div class="circle-meta">
+          <span class="circle-dot"></span>
+          <span>2,847 sharing</span>
+        </div>
+      </div>
+      <div class="circle-card" onclick="openModal('community')">
+        <div class="circle-emoji">🌙</div>
+        <h4 class="hd">Sleep & Energy</h4>
+        <p>Finding rest when your body forgot how. Real strategies that work.</p>
+        <div class="circle-meta">
+          <span class="circle-dot"></span>
+          <span>3,201 sharing</span>
+        </div>
+      </div>
+      <div class="circle-card" onclick="openModal('community')">
+        <div class="circle-emoji">🧠</div>
+        <h4 class="hd">Mind & Mood</h4>
+        <p>The emotional journey—anxiety, clarity, fog, and breakthroughs.</p>
+        <div class="circle-meta">
+          <span class="circle-dot"></span>
+          <span>2,956 sharing</span>
+        </div>
+      </div>
+      <div class="circle-card" onclick="openModal('community')">
+        <div class="circle-emoji">💊</div>
+        <h4 class="hd">Treatment Paths</h4>
+        <p>HRT, alternatives, and everything in between. What's working for whom.</p>
+        <div class="circle-meta">
+          <span class="circle-dot"></span>
+          <span>4,102 sharing</span>
+        </div>
+      </div>
+      <div class="circle-card" onclick="openModal('community')">
+        <div class="circle-emoji">💜</div>
+        <h4 class="hd">Identity & Relationships</h4>
+        <p>Who you're becoming. How your relationships are evolving.</p>
+        <div class="circle-meta">
+          <span class="circle-dot"></span>
+          <span>1,890 sharing</span>
+        </div>
+      </div>
+      <div class="circle-card" onclick="openModal('community')">
+        <div class="circle-emoji">🌿</div>
+        <h4 class="hd">Nourishment</h4>
+        <p>Food, movement, supplements. What feeds you now.</p>
+        <div class="circle-meta">
+          <span class="circle-dot"></span>
+          <span>2,103 sharing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section class="quote"><div class="qmark reveal">&ldquo;</div><p class="qtxt reveal d1">I wish I'd found this place a year ago. For the first time, I don't feel like I'm losing my mind.</p><p class="qattr reveal d2">— Community member, age 47</p></section>
+<!-- Testimonial -->
+<section class="testimonial">
+  <div class="testimonial-inner">
+    <div class="quote-mark">"</div>
+    <blockquote>I've learned more about what's happening in my body from two weeks in Periwink than from a decade of doctor visits. And I finally don't feel like I'm the only one.</blockquote>
+    <div class="testimonial-author">
+      <div class="author-avatar"></div>
+      <div class="author-info">
+        <strong>Sarah M.</strong>
+        <span>Member since January</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section class="cta"><div class="stag reveal">Ready?</div><h2 class="stitle reveal d1">Your experience matters.<br>Share it.</h2><p class="sbody reveal d2">Join thousands of women navigating this transition together. It's free, it's anonymous, and it's waiting for you.</p><div class="cta-btns reveal d3"><a href="https://periwink-production-a893.up.railway.app" class="btn btn-fill">Get started — it's free</a></div></section>
+<!-- Builders -->
+<section class="builders" id="builders">
+  <div class="section-inner">
+    <div class="builders-grid">
+      <div class="builders-content">
+        <h2 class="hd">Help us build something that matters.</h2>
+        <p>Periwink isn't just a product—it's a collaborative movement. We're looking for practitioners, researchers, creators, and community builders who want to shape what this becomes.</p>
+        <div class="role-tags">
+          <span class="role-tag">Healthcare Practitioners</span>
+          <span class="role-tag">Researchers</span>
+          <span class="role-tag">Content Creators</span>
+          <span class="role-tag">Community Builders</span>
+          <span class="role-tag">Brand Partners</span>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('founding')">Apply as a Founding Member</button>
+      </div>
+      <div class="builders-image"></div>
+    </div>
+  </div>
+</section>
 
-<footer><div class="flogo">periwink</div><div class="flinks"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div></footer>
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-inner">
+    <h2 class="hd">Ready to find your <em>wiser way forward?</em></h2>
+    <p>Join thousands of women learning, growing, and navigating change together. It's free to join, and you'll be part of building something meaningful.</p>
+    <div class="cta-btns">
+      <button class="btn btn-primary" onclick="openModal('community')">Join Early Access</button>
+      <button class="btn btn-ghost" onclick="openModal('founding')">Become a Founding Member</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">periwink</div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Community Modal -->
+<div class="modal-overlay" id="communityModal" onclick="closeModalOnOverlay(event, 'communityModal')">
+  <div class="modal" id="communityModalContent">
+    <button class="modal-close" onclick="closeModal('communityModal')">×</button>
+    <div class="modal-header">
+      <h3 class="hd">Join the Community</h3>
+      <p>You're taking the first step. We'll be in touch soon.</p>
+    </div>
+    <div class="modal-body">
+      <form id="communityForm" onsubmit="submitCommunityForm(event)">
+        <div class="form-group">
+          <label>Your name <span>*</span></label>
+          <input type="text" name="name" required placeholder="How should we address you?">
+        </div>
+        <div class="form-group">
+          <label>Email <span>*</span></label>
+          <input type="email" name="email" required placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Choose a pseudonym <span>*</span></label>
+          <input type="text" name="pseudonym" required placeholder="Your community name">
+          <small>This is how you'll appear to others. You can stay as anonymous as you'd like.</small>
+        </div>
+        <button type="submit" class="form-submit">Join Periwink</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Founding Modal -->
+<div class="modal-overlay" id="foundingModal" onclick="closeModalOnOverlay(event, 'foundingModal')">
+  <div class="modal" id="foundingModalContent">
+    <button class="modal-close" onclick="closeModal('foundingModal')">×</button>
+    <div class="modal-header">
+      <h3 class="hd">Become a Founding Member</h3>
+      <p>Help shape what Periwink becomes.</p>
+    </div>
+    <div class="modal-body">
+      <div class="steps">
+        <span class="step-dot active" id="step1Dot"></span>
+        <span class="step-dot" id="step2Dot"></span>
+      </div>
+      <form id="foundingForm">
+        <div id="foundingStep1">
+          <div class="form-group">
+            <label>Your name <span>*</span></label>
+            <input type="text" name="name" required placeholder="Full name">
+          </div>
+          <div class="form-group">
+            <label>Email <span>*</span></label>
+            <input type="email" name="email" required placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>What role interests you? <span>*</span></label>
+            <div class="role-grid">
+              <div class="role-option" onclick="selectRole(this, 'practitioner')">Healthcare Practitioner</div>
+              <div class="role-option" onclick="selectRole(this, 'researcher')">Researcher</div>
+              <div class="role-option" onclick="selectRole(this, 'creator')">Content Creator</div>
+              <div class="role-option" onclick="selectRole(this, 'builder')">Community Builder</div>
+            </div>
+            <input type="hidden" name="role" id="roleInput">
+          </div>
+          <button type="button" class="form-submit" onclick="goToStep2()">Continue</button>
+        </div>
+        <div id="foundingStep2" style="display: none;">
+          <div class="form-group">
+            <label>Tell us about yourself <span>*</span></label>
+            <textarea name="bio" required placeholder="What draws you to Periwink? What experience or expertise would you bring?"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Website or LinkedIn (optional)</label>
+            <input type="url" name="url" placeholder="https://...">
+          </div>
+          <button type="button" class="form-submit" onclick="submitFoundingForm()">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal" onclick="closeModalOnOverlay(event, 'successModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('successModal')">×</button>
+    <div class="success-state">
+      <div class="success-icon">✓</div>
+      <h4 class="hd" id="successTitle">You're in!</h4>
+      <p id="successMessage">Check your email for next steps. We're so glad you're here.</p>
+    </div>
+  </div>
 </div>
 
 <script>
-const nav=document.getElementById('nav');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60),{passive:true});
-const reveals=document.querySelectorAll('.reveal');const rObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');rObs.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -30px 0px'});reveals.forEach(el=>rObs.observe(el));
-(function(){const paths=document.querySelectorAll('.draw-path');const maxO=Math.max(...Array.from(paths).map(p=>parseInt(p.dataset.order)||1));paths.forEach(p=>{let l;if(p.tagName==='circle'){l=2*Math.PI*parseFloat(p.getAttribute('r')||2)}else{l=p.getTotalLength()}p.style.strokeDasharray=l;p.style.strokeDashoffset=l;p.dataset.len=l});function upd(){const dH=document.documentElement.scrollHeight-window.innerHeight;const prog=dH>0?window.scrollY/dH:0;paths.forEach(p=>{const o=parseInt(p.dataset.order)||1,s=(o-1)/maxO*.92,e=s+(1/maxO)*.92+.08,pp=Math.max(0,Math.min(1,(prog-s)/(e-s))),l=parseFloat(p.dataset.len);p.style.strokeDashoffset=l*(1-pp)})}window.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd,{passive:true});upd()})();
+// Nav scroll effect
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Modal functions
+function openModal(type) {
+  if (type === 'community') {
+    document.getElementById('communityModal').classList.add('active');
+  } else if (type === 'founding') {
+    document.getElementById('foundingModal').classList.add('active');
+    // Reset to step 1
+    document.getElementById('foundingStep1').style.display = 'block';
+    document.getElementById('foundingStep2').style.display = 'none';
+    document.getElementById('step1Dot').classList.add('active');
+    document.getElementById('step2Dot').classList.remove('active');
+  }
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function closeModalOnOverlay(event, modalId) {
+  if (event.target.classList.contains('modal-overlay')) {
+    closeModal(modalId);
+  }
+}
+
+// Escape key closes modals
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+      modal.classList.remove('active');
+    });
+    document.body.style.overflow = '';
+  }
+});
+
+// Community form
+function submitCommunityForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    pseudonym: form.pseudonym.value
+  };
+  console.log('Community signup:', data);
+  
+  // Show success
+  closeModal('communityModal');
+  document.getElementById('successTitle').textContent = "You're in!";
+  document.getElementById('successMessage').textContent = "Check your email for next steps. We're so glad you're here.";
+  document.getElementById('successModal').classList.add('active');
+  form.reset();
+}
+
+// Founding form
+let selectedRole = '';
+
+function selectRole(el, role) {
+  document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedRole = role;
+  document.getElementById('roleInput').value = role;
+}
+
+function goToStep2() {
+  const form = document.getElementById('foundingForm');
+  if (!form.name.value || !form.email.value || !selectedRole) {
+    alert('Please fill in all required fields and select a role.');
+    return;
+  }
+  document.getElementById('foundingStep1').style.display = 'none';
+  document.getElementById('foundingStep2').style.display = 'block';
+  document.getElementById('step1Dot').classList.remove('active');
+  document.getElementById('step2Dot').classList.add('active');
+}
+
+function submitFoundingForm() {
+  const form = document.getElementById('foundingForm');
+  if (!form.bio.value) {
+    alert('Please tell us about yourself.');
+    return;
+  }
+  
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    role: selectedRole,
+    bio: form.bio.value,
+    url: form.url.value
+  };
+  console.log('Founding member application:', data);
+  
+  // Show success
+  closeModal('foundingModal');
+  document.getElementById('successTitle').textContent = "Application received!";
+  document.getElementById('successMessage').textContent = "We'll review your application and be in touch within a few days.";
+  document.getElementById('successModal').classList.add('active');
+  form.reset();
+  selectedRole = '';
+  document.querySelectorAll('.role-option').forEach(opt => opt.classList.remove('selected'));
+}
 </script>
+
 </body>
 </html>
