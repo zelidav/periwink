@@ -63,11 +63,11 @@ img{max-width:100%;display:block}
   text-align:center;padding:80px 32px;position:relative;overflow:hidden;
   background:var(--ink);
 }
-.resonance::before{
-  content:'';position:absolute;top:50%;left:50%;width:500px;height:500px;
-  transform:translate(-50%,-50%);border-radius:50%;
-  background:radial-gradient(circle,rgba(110,90,126,0.15),transparent 70%);
-  animation:breathe 8s ease-in-out infinite;pointer-events:none;
+.resonance-bg{
+  position:absolute;inset:0;
+  background:url('waves.png') center/cover no-repeat;
+  opacity:.08;pointer-events:none;
+  animation:breathe 8s ease-in-out infinite;
 }
 
 .resonance-logo{
@@ -142,7 +142,12 @@ img{max-width:100%;display:block}
 .recognition-section{
   padding:120px 32px;text-align:center;
   background:linear-gradient(180deg,var(--ink) 0%,#2f2640 30%,var(--ivory) 100%);
-  color:var(--ink);
+  color:var(--ink);position:relative;overflow:hidden;
+}
+.recognition-bg{
+  position:absolute;inset:0;
+  background:url('silhouette.png') center/contain no-repeat;
+  opacity:.06;pointer-events:none;
 }
 .recognition-inner{max-width:640px;margin:0 auto}
 .recognition-section h2{
@@ -159,7 +164,12 @@ img{max-width:100%;display:block}
 /* ============================================================
    SECTION 3: REFRAME
    ============================================================ */
-.reframe{padding:100px 32px;background:var(--ivory);text-align:center}
+.reframe{padding:100px 32px;background:var(--ivory);text-align:center;position:relative;overflow:hidden}
+.reframe-bg{
+  position:absolute;inset:0;
+  background:url('feather.png') center/cover no-repeat;
+  opacity:.06;pointer-events:none;
+}
 .reframe-inner{max-width:700px;margin:0 auto}
 .reframe h2{
   font-family:var(--hd);font-size:clamp(30px,5vw,48px);font-weight:300;
@@ -178,7 +188,12 @@ img{max-width:100%;display:block}
 /* ============================================================
    SECTION 4: BELONGING — Community Voices
    ============================================================ */
-.belonging{padding:100px 32px;background:var(--ivory2)}
+.belonging{padding:100px 32px;background:var(--ivory2);position:relative;overflow:hidden}
+.belonging-bg{
+  position:absolute;inset:0;
+  background:url('floral.png') center/cover no-repeat;
+  opacity:.04;pointer-events:none;
+}
 .belonging-inner{max-width:1100px;margin:0 auto}
 .belonging .section-hd{margin-bottom:40px}
 .belonging .section-label{
@@ -408,6 +423,7 @@ img{max-width:100%;display:block}
      SECTION 1: RESONANCE — The Opening
      ============================================================ -->
 <section class="resonance">
+  <div class="resonance-bg"></div>
   <div class="resonance-logo">periwink</div>
 
   <div class="recognition" id="recognition-rotator">
@@ -445,6 +461,7 @@ img{max-width:100%;display:block}
      SECTION 2: RECOGNITION
      ============================================================ -->
 <section class="recognition-section">
+  <div class="recognition-bg"></div>
   <div class="recognition-inner reveal">
     <h2>You're not imagining it.</h2>
     <p class="body-text">
@@ -465,6 +482,7 @@ img{max-width:100%;display:block}
      SECTION 3: REFRAME
      ============================================================ -->
 <section class="reframe">
+  <div class="reframe-bg"></div>
   <div class="reframe-inner reveal">
     <h2>You are not breaking down.<br>You are <em>becoming.</em></h2>
     <div class="reframe-phrases">
@@ -483,6 +501,7 @@ img{max-width:100%;display:block}
      SECTION 4: BELONGING — Community Voices
      ============================================================ -->
 <section class="belonging">
+  <div class="belonging-bg"></div>
   <div class="belonging-inner">
     <div class="section-hd reveal">
       <p class="section-label">Voices from the community</p>
