@@ -7,318 +7,368 @@
 <meta name="description" content="A calm, intelligent community for women navigating perimenopause and menopause.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;
-  background:#F7F3EE;color:#2B2433;-webkit-font-smoothing:antialiased;line-height:1.6;
-}
+body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#F7F3EE;color:#2B2433;-webkit-font-smoothing:antialiased;line-height:1.65}
 ::selection{background:rgba(215,204,255,.3)}
 .hd{font-family:'Cormorant Garamond',Georgia,serif}
-a{color:inherit}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:30;padding:16px 24px;transition:all .3s}
+.nav.scrolled{background:rgba(247,243,238,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 16px rgba(110,90,126,.06)}
+.nav-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:#6E5A7E;text-decoration:none;font-weight:400;letter-spacing:.5px}
+.nav-btns{display:flex;gap:8px}
+.nav-btn{padding:8px 18px;border-radius:999px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:400;cursor:pointer;transition:all .2s;border:none}
+.nav-join{background:#6E5A7E;color:#fff}
+.nav-join:hover{background:#5a4869}
+.nav-found{background:none;color:#6E5A7E;border:1px solid #B7A8C9}
+.nav-found:hover{border-color:#6E5A7E}
 
 /* HERO */
-.hero{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:80px 24px;position:relative;overflow:hidden;
-  background:linear-gradient(180deg,#E8E3EA 0%,#F7F3EE 100%);
-}
-.hero-bg{
-  position:absolute;inset:0;background:url('silhouette.png') center/contain no-repeat;
-  opacity:.07;pointer-events:none;
-}
-.hero-content{position:relative;z-index:1;max-width:600px}
-.hero h1{
-  font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,56px);
-  font-weight:300;line-height:1.15;margin-bottom:16px;
-}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;background:linear-gradient(180deg,#E8E3EA 0%,#F7F3EE 100%)}
+.hero-bg{position:absolute;inset:0;background:url('silhouette.png') center/contain no-repeat;opacity:.06;pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:620px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5.5vw,54px);font-weight:300;line-height:1.15;margin-bottom:20px}
 .hero h1 em{font-weight:400;color:#6E5A7E}
-.hero p{font-size:17px;color:#6B6575;margin-bottom:32px;line-height:1.7}
-.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn{
-  padding:14px 32px;border-radius:999px;font-size:15px;font-weight:400;
-  font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .2s;
-  text-decoration:none;display:inline-block;
-}
+.hero-sub{font-size:17px;color:#6B6575;line-height:1.75;margin-bottom:12px}
+.hero-whisper{font-size:15px;color:#C99AA5;font-style:italic;margin-bottom:36px}
+
+/* INLINE SIGNUP */
+.hero-signup{max-width:440px;margin:0 auto 20px;display:flex;gap:0;background:#fff;border-radius:999px;padding:5px;border:1px solid #D0C5DD;box-shadow:0 4px 18px rgba(110,90,126,.08);transition:all .25s}
+.hero-signup:focus-within{border-color:#B7A8C9;box-shadow:0 4px 24px rgba(110,90,126,.14)}
+.hero-signup input{flex:1;min-width:0;border:none;outline:none;padding:12px 18px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:300;background:transparent;color:#2B2433;border-radius:999px}
+.hero-signup input::placeholder{color:#9B94A3}
+.hero-signup button{padding:12px 24px;border-radius:999px;border:none;background:#6E5A7E;color:#fff;font-size:14px;font-weight:400;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:background .2s}
+.hero-signup button:hover{background:#5a4869}
+.hero-signup button:disabled{opacity:.5}
+.hero-msg{font-size:13px;min-height:18px;text-align:center}
+.hero-msg.ok{color:#3d7a40}
+.hero-msg.err{color:#9e3a3a}
+.hero-or{font-size:13px;color:#9B94A3;margin-bottom:8px}
+.hero-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{padding:12px 28px;border-radius:999px;font-size:14px;font-weight:400;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-block}
 .btn:hover{transform:translateY(-1px)}
-.btn-primary{background:#6E5A7E;color:#fff;box-shadow:0 4px 18px rgba(110,90,126,.25)}
-.btn-primary:hover{background:#5a4869}
 .btn-outline{background:none;color:#6E5A7E;border:1.5px solid #B7A8C9}
 .btn-outline:hover{border-color:#6E5A7E}
+.btn-ghost{background:none;color:#6B6575;border:1.5px solid #DDD7CE}
+.btn-ghost:hover{color:#2B2433;border-color:#9B94A3}
 
-/* MODAL */
-.overlay{
-  position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;
-  padding:24px;background:rgba(43,36,51,.5);backdrop-filter:blur(8px);
-  opacity:0;pointer-events:none;transition:opacity .2s;
-}
-.overlay.open{opacity:1;pointer-events:all}
-.modal{
-  background:#fff;border-radius:20px;max-width:420px;width:100%;
-  max-height:90vh;overflow-y:auto;position:relative;
-  transform:translateY(10px);transition:transform .3s;
-}
-.overlay.open .modal{transform:translateY(0)}
-.modal-close{
-  position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  background:#F7F3EE;color:#9B94A3;border:none;cursor:pointer;
-}
-.modal-head{padding:36px 32px 16px;text-align:center;border-bottom:1px solid #DDD7CE}
-.modal-head h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:4px}
-.modal-head p{font-size:14px;color:#9B94A3}
-.modal-body{padding:24px 32px 32px}
-.field{margin-bottom:18px}
-.field label{display:block;font-size:13px;font-weight:400;margin-bottom:5px}
+/* STORY */
+.story{padding:80px 24px;background:#F7F3EE}
+.story-inner{max-width:640px;margin:0 auto;text-align:center}
+.story h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,34px);font-weight:300;line-height:1.3;margin-bottom:24px}
+.story h2 em{font-weight:400;color:#6E5A7E}
+.story p{font-size:16px;color:#6B6575;line-height:1.8;margin-bottom:16px}
+.story-phrase{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:#6E5A7E;margin:32px 0 0;line-height:1.5}
+
+/* VOICES */
+.voices{padding:80px 24px;background:#F2EDE6}
+.voices-inner{max-width:960px;margin:0 auto}
+.voices h2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,30px);font-weight:300;margin-bottom:8px;text-align:center}
+.voices-sub{font-size:15px;color:#9B94A3;text-align:center;margin-bottom:32px}
+.voices-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.voice-card{padding:24px;border-radius:16px;background:#FDFBF8;border:1px solid #DDD7CE}
+.voice-card p{font-size:14px;line-height:1.7;color:#6B6575;font-style:italic;margin-bottom:12px}
+.voice-name{font-size:13px;font-weight:400;color:#2B2433}
+.voice-room{font-size:12px;color:#9B94A3}
+
+/* SIGNUP SECTIONS */
+.signup-section{padding:80px 24px;background:#F7F3EE}
+.signup-section.alt{background:#F2EDE6}
+.signup-inner{max-width:480px;margin:0 auto}
+.signup-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:300;text-align:center;margin-bottom:8px}
+.signup-inner .sub{font-size:15px;color:#9B94A3;text-align:center;margin-bottom:28px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:400;margin-bottom:4px}
 .field label .req{color:#C99AA5}
-.field input,.field textarea,.field select{
-  width:100%;padding:12px 14px;border-radius:8px;font-size:15px;
-  font-family:'DM Sans',sans-serif;font-weight:300;
-  border:1px solid #DDD7CE;outline:none;transition:border-color .2s;
-  color:#2B2433;background:#fff;
-}
-.field input:focus,.field textarea:focus,.field select:focus{
-  border-color:#B7A8C9;box-shadow:0 0 0 3px rgba(183,168,201,.12);
-}
+.field input,.field textarea,.field select{width:100%;padding:12px 14px;border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:300;border:1px solid #DDD7CE;outline:none;transition:border-color .2s;color:#2B2433;background:#fff}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#B7A8C9;box-shadow:0 0 0 3px rgba(183,168,201,.12)}
 .field textarea{min-height:80px;resize:vertical}
 .field .hint{font-size:12px;color:#9B94A3;margin-top:3px}
-.error-msg{
-  padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px;
-  background:#FDF2F2;color:#8B3A3A;border:1px solid #F5D0D0;display:none;
-}
-.submit-btn{
-  width:100%;padding:13px;border-radius:8px;font-size:15px;font-weight:400;
-  font-family:'DM Sans',sans-serif;background:#6E5A7E;color:#fff;
-  border:none;cursor:pointer;transition:background .2s;
-}
+.error-msg{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:14px;background:#FDF2F2;color:#8B3A3A;border:1px solid #F5D0D0;display:none}
+.submit-btn{width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:400;font-family:'DM Sans',sans-serif;background:#6E5A7E;color:#fff;border:none;cursor:pointer;transition:background .2s}
 .submit-btn:hover{background:#5a4869}
 .submit-btn:disabled{opacity:.5;cursor:not-allowed}
+.success-box{text-align:center;padding:32px 0;display:none}
+.success-check{width:48px;height:48px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(124,176,127,.15);color:#3d7a40}
+.success-box h4{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;margin-bottom:6px}
+.success-box p{font-size:14px;color:#6B6575}
 
-/* SUCCESS */
-.success{text-align:center;padding:40px 32px}
-.success-check{
-  width:52px;height:52px;border-radius:50%;margin:0 auto 16px;
-  display:flex;align-items:center;justify-content:center;font-size:22px;
-  background:rgba(124,176,127,.15);color:#3d7a40;
-}
-.success h4{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:8px}
-.success p{font-size:14px;color:#6B6575;margin-bottom:24px}
+/* FINAL CTA */
+.final{padding:100px 24px;text-align:center;background:linear-gradient(180deg,#F7F3EE,#E8E3EA)}
+.final h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:300;margin-bottom:12px;line-height:1.25}
+.final h2 em{font-weight:400;color:#6E5A7E}
+.final p{font-size:16px;color:#6B6575;max-width:460px;margin:0 auto 28px;line-height:1.7}
+.final-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-/* FOOTER */
 .footer{padding:32px 24px;text-align:center;font-size:12px;color:#9B94A3}
 
-@media(max-width:500px){
-  .hero-btns{flex-direction:column;align-items:center}
-  .btn{width:100%;max-width:280px;text-align:center}
-  .modal-head{padding:28px 20px 12px}
-  .modal-body{padding:20px}
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:600px){
+  .voices-grid{grid-template-columns:1fr}
+  .hero-signup{flex-direction:column;border-radius:14px;padding:6px}
+  .hero-signup input{text-align:center}
+  .hero-signup button{width:100%;border-radius:10px}
+  .hero-links{flex-direction:column;align-items:center}
+  .final-btns{flex-direction:column;align-items:center}
+  .nav-found{display:none}
 }
 </style>
 </head>
 <body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">periwink</a>
+    <div class="nav-btns">
+      <button class="nav-btn nav-found" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Founding Member</button>
+      <button class="nav-btn nav-join" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Join</button>
+    </div>
+  </div>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
     <h1 class="hd">You're not alone<br>in this. <em>None of us are.</em></h1>
-    <p>A calm, intelligent community for women navigating perimenopause and menopause. Growth, wisdom, and shared experience&nbsp;&mdash; together.</p>
-    <div class="hero-btns">
-      <button class="btn btn-primary" onclick="openModal('community')">Join the Community</button>
-      <button class="btn btn-outline" onclick="openModal('founding')">Become a Founding Member</button>
+    <p class="hero-sub">A calm, intelligent community for women navigating perimenopause and menopause. Where women find each other, share what they're noticing, and feel held.</p>
+    <p class="hero-whisper">More truth. Deeper alignment. More you.</p>
+
+    <form class="hero-signup" id="hero-form" onsubmit="submitQuick(event)">
+      <input type="email" required placeholder="Your email — join early access" autocomplete="email">
+      <button type="submit">Join</button>
+    </form>
+    <p class="hero-msg" id="hero-msg"></p>
+
+    <p class="hero-or">or</p>
+    <div class="hero-links">
+      <button class="btn btn-outline" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Full Community Signup</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
     </div>
   </div>
 </section>
 
-<!-- COMMUNITY SIGNUP MODAL -->
-<div class="overlay" id="modal-community">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('community')">&times;</button>
-    <div id="community-form-view">
-      <div class="modal-head">
-        <h3 class="hd">Join the Community</h3>
-        <p>You're taking the first step. We're glad you're here.</p>
+<!-- STORY -->
+<section class="story reveal">
+  <div class="story-inner">
+    <h2 class="hd">You are not breaking down.<br>You are <em>becoming.</em></h2>
+    <p>What is falling away is not you — it's what no longer fits. The body is not betraying you. It is asking for a new relationship with self.</p>
+    <p>Women in this life phase are often left to navigate profound change alone, misnamed, and unsupported. What is happening is not only physical — it is emotional, relational, and identity-level.</p>
+    <p>Change is easier, wiser, and more healing when it is shared. Better outcomes happen through connection, learning, and community.</p>
+    <p class="story-phrase">From symptoms to sovereignty.<br>A shared path of becoming.</p>
+  </div>
+</section>
+
+<!-- VOICES -->
+<section class="voices reveal">
+  <div class="voices-inner">
+    <h2 class="hd">Women who understand</h2>
+    <p class="voices-sub">Real voices from women navigating this together.</p>
+    <div class="voices-grid">
+      <div class="voice-card">
+        <p>"I was mid-presentation and my face went full crimson. Instead of dying inside, I said 'power surge' and kept going. Three women messaged me after."</p>
+        <div class="voice-name">MoonlitSage</div>
+        <div class="voice-room">Hot Flashes & Night Sweats</div>
       </div>
-      <div class="modal-body">
-        <div id="community-error" class="error-msg"></div>
-        <form id="community-form" onsubmit="submitCommunity(event)">
-          <div class="field">
-            <label>Your name <span class="req">*</span></label>
-            <input name="name" required placeholder="How you'd like to be addressed">
-          </div>
-          <div class="field">
-            <label>Email <span class="req">*</span></label>
-            <input name="email" type="email" required placeholder="you@example.com">
-          </div>
-          <div class="field">
-            <label>Choose a pseudonym <span class="req">*</span></label>
-            <input name="pseudonym" required placeholder="Your identity in the community">
-            <p class="hint">This is how you'll appear to others. You can stay as anonymous as you'd like.</p>
-          </div>
-          <button class="submit-btn" type="submit">Join Periwink</button>
-        </form>
+      <div class="voice-card">
+        <p>"Three months on estradiol patches. The brain fog lifted first — like someone cleaned a window I didn't know was dirty. Then the sleep came back. I cried from relief."</p>
+        <div class="voice-name">SteadyRain</div>
+        <div class="voice-room">HRT & Hormone Therapy</div>
+      </div>
+      <div class="voice-card">
+        <p>"4:17am again. I've memorized the pattern of light on my ceiling. My husband sleeps like he's being paid for it. I started keeping a journal by the bed."</p>
+        <div class="voice-name">NightOwl3am</div>
+        <div class="voice-room">Sleep & Fatigue</div>
+      </div>
+      <div class="voice-card">
+        <p>"I'm not the same person I was two years ago. And I don't want to go back. That's the part no one warned me about — that sometimes what falls away is a relief."</p>
+        <div class="voice-name">TidalGrace</div>
+        <div class="voice-room">Relationships & Intimacy</div>
       </div>
     </div>
-    <div id="community-success" class="success" style="display:none">
+  </div>
+</section>
+
+<!-- COMMUNITY SIGNUP -->
+<section class="signup-section" id="community-section">
+  <div class="signup-inner reveal">
+    <h2 class="hd">Join the Community</h2>
+    <p class="sub">You're taking the first step. We're glad you're here.</p>
+    <div id="community-error" class="error-msg"></div>
+    <form id="community-form" onsubmit="submitCommunity(event)">
+      <div class="field">
+        <label>Your name <span class="req">*</span></label>
+        <input name="name" required placeholder="How you'd like to be addressed">
+      </div>
+      <div class="field">
+        <label>Email <span class="req">*</span></label>
+        <input name="email" type="email" required placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label>Choose a pseudonym <span class="req">*</span></label>
+        <input name="pseudonym" required placeholder="Your identity in the community">
+        <p class="hint">This is how you'll appear to others. Stay as anonymous as you'd like.</p>
+      </div>
+      <button class="submit-btn" type="submit">Join Periwink</button>
+    </form>
+    <div id="community-success" class="success-box">
       <div class="success-check">&#10003;</div>
       <h4 class="hd">You're in.</h4>
       <p>We'll be in touch soon. Thank you for being here.</p>
-      <button class="btn btn-primary" style="font-size:14px;padding:10px 24px" onclick="closeModal('community')">Close</button>
     </div>
   </div>
-</div>
+</section>
 
-<!-- FOUNDING MEMBER MODAL -->
-<div class="overlay" id="modal-founding">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('founding')">&times;</button>
-    <div id="founding-form-view">
-      <div class="modal-head">
-        <h3 class="hd">Become a Founding Member</h3>
-        <p>Help shape what Periwink becomes.</p>
+<!-- FOUNDING MEMBER SIGNUP -->
+<section class="signup-section alt" id="founding-section">
+  <div class="signup-inner reveal">
+    <h2 class="hd">Become a Founding Member</h2>
+    <p class="sub">Help shape what Periwink becomes.</p>
+    <div id="founding-error" class="error-msg"></div>
+    <form id="founding-form" onsubmit="submitFounding(event)">
+      <div class="field">
+        <label>Your name <span class="req">*</span></label>
+        <input name="name" required placeholder="Full name">
       </div>
-      <div class="modal-body">
-        <div id="founding-error" class="error-msg"></div>
-        <form id="founding-form" onsubmit="submitFounding(event)">
-          <div class="field">
-            <label>Your name <span class="req">*</span></label>
-            <input name="name" required placeholder="Full name">
-          </div>
-          <div class="field">
-            <label>Email <span class="req">*</span></label>
-            <input name="email" type="email" required placeholder="you@example.com">
-          </div>
-          <div class="field">
-            <label>What role interests you? <span class="req">*</span></label>
-            <select name="roleType" required>
-              <option value="">Select a role...</option>
-              <option value="PRACTITIONER">Healthcare Practitioner</option>
-              <option value="RESEARCHER">Researcher</option>
-              <option value="CONTENT_CREATOR">Content Creator</option>
-              <option value="COMMUNITY_BUILDER">Community Builder</option>
-              <option value="BRAND_PARTNER">Brand Partner</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Tell us about yourself</label>
-            <textarea name="bio" placeholder="What draws you to Periwink? What experience or expertise would you bring?"></textarea>
-          </div>
-          <div class="field">
-            <label>Website or LinkedIn</label>
-            <input name="website" type="url" placeholder="https://...">
-          </div>
-          <button class="submit-btn" type="submit">Submit Application</button>
-        </form>
+      <div class="field">
+        <label>Email <span class="req">*</span></label>
+        <input name="email" type="email" required placeholder="you@example.com">
       </div>
-    </div>
-    <div id="founding-success" class="success" style="display:none">
+      <div class="field">
+        <label>What role interests you? <span class="req">*</span></label>
+        <select name="roleType" required>
+          <option value="">Select a role...</option>
+          <option value="PRACTITIONER">Healthcare Practitioner</option>
+          <option value="RESEARCHER">Researcher</option>
+          <option value="CONTENT_CREATOR">Content Creator</option>
+          <option value="COMMUNITY_BUILDER">Community Builder</option>
+          <option value="BRAND_PARTNER">Brand Partner</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tell us about yourself</label>
+        <textarea name="bio" placeholder="What draws you to Periwink? What would you bring?"></textarea>
+      </div>
+      <div class="field">
+        <label>Website or LinkedIn</label>
+        <input name="website" type="url" placeholder="https://...">
+      </div>
+      <button class="submit-btn" type="submit">Submit Application</button>
+    </form>
+    <div id="founding-success" class="success-box">
       <div class="success-check">&#10003;</div>
       <h4 class="hd">Application received.</h4>
       <p>We'll review and be in touch within a few days. Thank you for wanting to build with us.</p>
-      <button class="btn btn-primary" style="font-size:14px;padding:10px 24px" onclick="closeModal('founding')">Close</button>
     </div>
   </div>
-</div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final reveal">
+  <h2 class="hd">A wiser way forward — <em>together.</em></h2>
+  <p>You don't have to figure this out by yourself. There are women here who understand — because they're feeling it too.</p>
+  <div class="final-btns">
+    <button class="btn btn-outline" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})" style="background:#6E5A7E;color:#fff;border:none;box-shadow:0 4px 18px rgba(110,90,126,.25)">Join the Community</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
+  </div>
+</section>
 
 <footer class="footer">&copy; 2025 Periwink. All rights reserved.</footer>
 
 <script>
 var API = 'https://periwink-production-a893.up.railway.app';
 
-function openModal(name) {
-  document.getElementById('modal-' + name).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(name) {
-  document.getElementById('modal-' + name).classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.querySelectorAll('.overlay').forEach(function(o) {
-  o.addEventListener('click', function(e) {
-    if (e.target === o) { o.classList.remove('open'); document.body.style.overflow = ''; }
+// Nav scroll
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Scroll reveal
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
   });
-});
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.overlay.open').forEach(function(o) {
-      o.classList.remove('open'); document.body.style.overflow = '';
-    });
-  }
-});
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
-function showError(id, msg) {
-  var el = document.getElementById(id);
-  el.textContent = msg; el.style.display = 'block';
-}
-function hideError(id) {
-  document.getElementById(id).style.display = 'none';
-}
-
-function submitCommunity(e) {
+// Quick email signup
+function submitQuick(e) {
   e.preventDefault();
-  hideError('community-error');
+  var form = document.getElementById('hero-form');
+  var msg = document.getElementById('hero-msg');
+  var input = form.querySelector('input');
+  var btn = form.querySelector('button');
+  msg.textContent = ''; msg.className = 'hero-msg';
+  btn.disabled = true; btn.textContent = 'Joining...';
+  fetch(API + '/api/signup', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: input.value.trim() }),
+  })
+  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+  .then(function(res) {
+    if (res.ok) { msg.textContent = "You're in! We'll be in touch."; msg.className = 'hero-msg ok'; input.value = ''; }
+    else { msg.textContent = res.data.error || 'Something went wrong.'; msg.className = 'hero-msg err'; }
+  })
+  .catch(function() { msg.textContent = 'Network error.'; msg.className = 'hero-msg err'; })
+  .finally(function() { btn.disabled = false; btn.textContent = 'Join'; });
+}
+
+function showErr(id, msg) { var el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; }
+function hideErr(id) { document.getElementById(id).style.display = 'none'; }
+
+// Community signup
+function submitCommunity(e) {
+  e.preventDefault(); hideErr('community-error');
   var form = document.getElementById('community-form');
   var btn = form.querySelector('.submit-btn');
   btn.disabled = true; btn.textContent = 'Joining...';
-
-  var data = {
-    name: form.name.value.trim(),
-    email: form.email.value.trim(),
-    pseudonym: form.pseudonym.value.trim(),
-  };
-
   fetch(API + '/api/signup/community', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      pseudonym: form.pseudonym.value.trim(),
+    }),
   })
   .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
   .then(function(res) {
-    if (res.ok) {
-      document.getElementById('community-form-view').style.display = 'none';
-      document.getElementById('community-success').style.display = 'block';
-      form.reset();
-    } else {
-      showError('community-error', res.data.error || 'Something went wrong.');
-    }
+    if (res.ok) { form.style.display = 'none'; document.getElementById('community-success').style.display = 'block'; }
+    else { showErr('community-error', res.data.error || 'Something went wrong.'); }
   })
-  .catch(function() { showError('community-error', 'Network error. Please try again.'); })
+  .catch(function() { showErr('community-error', 'Network error. Please try again.'); })
   .finally(function() { btn.disabled = false; btn.textContent = 'Join Periwink'; });
 }
 
+// Founding signup
 function submitFounding(e) {
-  e.preventDefault();
-  hideError('founding-error');
+  e.preventDefault(); hideErr('founding-error');
   var form = document.getElementById('founding-form');
   var btn = form.querySelector('.submit-btn');
   btn.disabled = true; btn.textContent = 'Submitting...';
-
-  var data = {
-    name: form.name.value.trim(),
-    email: form.email.value.trim(),
-    roleType: form.roleType.value,
-    bio: form.bio.value.trim(),
-    website: form.website.value.trim() || null,
-  };
-
   fetch(API + '/api/signup/founding', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      roleType: form.roleType.value,
+      bio: form.bio.value.trim(),
+      website: form.website.value.trim() || null,
+    }),
   })
   .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
   .then(function(res) {
-    if (res.ok) {
-      document.getElementById('founding-form-view').style.display = 'none';
-      document.getElementById('founding-success').style.display = 'block';
-      form.reset();
-    } else {
-      showError('founding-error', res.data.error || 'Something went wrong.');
-    }
+    if (res.ok) { form.style.display = 'none'; document.getElementById('founding-success').style.display = 'block'; }
+    else { showErr('founding-error', res.data.error || 'Something went wrong.'); }
   })
-  .catch(function() { showError('founding-error', 'Network error. Please try again.'); })
+  .catch(function() { showErr('founding-error', 'Network error. Please try again.'); })
   .finally(function() { btn.disabled = false; btn.textContent = 'Submit Application'; });
 }
 </script>
