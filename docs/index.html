@@ -3,50 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Periwink — A Wiser Way Forward</title>
+<title>Periwink — You're Not Alone in This</title>
 <meta name="description" content="A calm, intelligent community for women navigating perimenopause and menopause. Track symptoms, share experiences, and contribute to citizen science.">
-<meta property="og:title" content="Periwink — A Wiser Way Forward">
+<meta property="og:title" content="Periwink — You're Not Alone in This">
 <meta property="og:description" content="Growth, wisdom, and shared experience for women navigating change together.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
 :root {
-  --periwinkle: #8B7AA8;
-  --deep: #6E5A7E;
-  --soft: #A799BE;
-  --light: #C4B8D6;
-  --mist: #E8E1F0;
-  --whisper: #F5F2F9;
-  --blush: #F8F4FC;
-  --cream: #FFFCF9;
-  --warm: #FEFDFB;
-  --rose: #E8C4C4;
-  --sage: #D4DED0;
-  --ink: #2D2438;
-  --ink2: #5C4E6A;
-  --ink3: #8B7D98;
+  --plum: #6E5A7E;
+  --plum-dk: #5a4869;
+  --plum-lt: #8B7AA8;
+  --lavender: #B7A8C9;
+  --lavender-lt: #D0C5DD;
+  --rose: #C99AA5;
+  --rose-lt: #D4B0B9;
+  --ivory: #F7F3EE;
+  --ivory2: #F2EDE6;
+  --ivory3: #EBE5DC;
+  --mist: #E8E3EA;
+  --glow: #D7CCFF;
+  --ink: #2B2433;
+  --t2: #6B6575;
+  --t3: #9B94A3;
+  --bdr: #DDD7CE;
+  --card: #FDFBF8;
+  --card-h: #FAF7F2;
+  --white: #FFFDF9;
+  --hd: 'Cormorant Garamond', Georgia, serif;
+  --bd: 'DM Sans', -apple-system, sans-serif;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 400;
-  background: var(--cream);
+  font-family: var(--bd);
+  font-weight: 300;
+  background: var(--ivory);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
-  line-height: 1.6;
+  line-height: 1.65;
   overflow-x: hidden;
 }
+::selection { background: rgba(215, 204, 255, 0.3); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bdr); border-radius: 3px; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
 
-::selection { background: rgba(196, 184, 214, 0.35); }
-.hd { font-family: 'Playfair Display', Georgia, serif; font-weight: 400; }
-
-/* Animations */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(28px); }
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes fadeIn {
@@ -54,500 +72,664 @@ body {
   to { opacity: 1; }
 }
 @keyframes pulse {
-  0%, 100% { opacity: 0.5; }
+  0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
 }
 @keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.55; }
-  50% { transform: scale(1.04); opacity: 0.75; }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
-
-.anim { animation: fadeInUp 0.8s ease-out forwards; }
-.d1 { animation-delay: .1s; opacity: 0; }
-.d2 { animation-delay: .2s; opacity: 0; }
-.d3 { animation-delay: .3s; opacity: 0; }
-.d4 { animation-delay: .4s; opacity: 0; }
-.d5 { animation-delay: .5s; opacity: 0; }
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
 
 /* Scroll reveal */
 .reveal {
-  opacity: 0;
-  transform: translateY(24px);
+  opacity: 0; transform: translateY(20px);
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
-.reveal.vis {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal.vis { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: .08s; }
+.d2 { transition-delay: .16s; }
+.d3 { transition-delay: .24s; }
+.d4 { transition-delay: .32s; }
 
-.highlight {
-  background: linear-gradient(180deg, transparent 60%, rgba(196, 184, 214, 0.4) 60%);
-  padding: 0 4px;
-}
+/* Entry animations */
+.anim { animation: fadeUp 0.8s ease-out both; }
+.ad1 { animation-delay: .1s; }
+.ad2 { animation-delay: .2s; }
+.ad3 { animation-delay: .3s; }
+.ad4 { animation-delay: .4s; }
+.ad5 { animation-delay: .5s; }
+.ad6 { animation-delay: .6s; }
 
-/* Nav */
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 40;
-  padding: 20px 0;
-  transition: all 0.3s ease;
+  padding: 24px 0; transition: all 0.35s ease;
 }
 .nav.scrolled {
-  padding: 12px 0;
-  background: rgba(255, 252, 249, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 2px 30px rgba(110, 90, 126, 0.08);
+  padding: 14px 0;
+  background: rgba(247, 243, 238, 0.92);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 20px rgba(110, 90, 126, 0.07);
 }
 .nav-inner {
-  max-width: 1152px; margin: 0 auto; padding: 0 24px;
+  max-width: 1100px; margin: 0 auto; padding: 0 32px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.nav-logo { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--deep); text-decoration: none; }
-.nav-links { display: flex; align-items: center; gap: 32px; }
-.nav-link { font-size: 14px; color: var(--ink2); text-decoration: none; transition: opacity 0.2s; }
-.nav-link:hover { opacity: 0.7; }
-
-/* Buttons */
+.nav-logo {
+  font-family: var(--hd); font-size: 26px; font-weight: 400;
+  color: var(--plum); text-decoration: none; letter-spacing: 0.5px;
+}
+.nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-link {
+  font-size: 13px; font-weight: 400; color: var(--t2);
+  text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s;
+}
+.nav-link:hover { color: var(--plum); }
 .btn {
-  display: inline-block; padding: 16px 32px; border-radius: 999px;
-  font-size: 16px; font-weight: 500; font-family: inherit;
-  cursor: pointer; border: none; transition: all 0.2s ease;
-  text-decoration: none; text-align: center;
+  display: inline-block; border: none; cursor: pointer;
+  font-family: var(--bd); font-weight: 400; text-decoration: none;
+  transition: all 0.2s ease; text-align: center;
 }
-.btn:hover { transform: translateY(-2px); }
-.btn-primary { background: var(--deep); color: #fff; box-shadow: 0 6px 28px rgba(110, 90, 126, 0.35); }
-.btn-outline { background: #fff; color: var(--deep); border: 2px solid var(--deep); }
-.btn-ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink3); }
-.btn-sm { padding: 12px 24px; font-size: 14px; }
-.btn-nav { padding: 12px 24px; font-size: 14px; box-shadow: 0 4px 20px rgba(110, 90, 126, 0.3); }
-
-/* Sections */
-.section { padding: 96px 24px; }
-.container { max-width: 1152px; margin: 0 auto; }
-.text-center { text-align: center; }
-
-.section-label {
-  font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--periwinkle); margin-bottom: 16px;
+.btn:hover { transform: translateY(-1px); }
+.btn-plum {
+  background: var(--plum); color: #fff; padding: 12px 28px;
+  border-radius: 999px; font-size: 14px;
+  box-shadow: 0 4px 18px rgba(110, 90, 126, 0.25);
 }
-.section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 40px); margin-bottom: 20px; line-height: 1.25; }
-.section-desc { font-size: 16px; color: var(--ink2); max-width: 560px; margin: 0 auto; }
+.btn-plum:hover { background: var(--plum-dk); box-shadow: 0 6px 24px rgba(110, 90, 126, 0.3); }
+.btn-outline {
+  background: transparent; color: var(--plum); padding: 12px 28px;
+  border-radius: 999px; font-size: 14px; border: 1.5px solid var(--lavender);
+}
+.btn-outline:hover { border-color: var(--plum); }
+.btn-ghost {
+  background: transparent; color: var(--t2); padding: 12px 28px;
+  border-radius: 999px; font-size: 14px; border: 1.5px solid var(--bdr);
+}
+.btn-ghost:hover { color: var(--ink); border-color: var(--t3); }
 
-/* Hero */
+/* ============================================================
+   HERO
+   ============================================================ */
 .hero {
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 128px 24px 80px; position: relative; overflow: hidden;
-  background: linear-gradient(180deg, var(--blush) 0%, var(--cream) 100%);
-}
-.hero-bg {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  pointer-events: none; animation: breathe 6s ease-in-out infinite;
-}
-.hero-content { position: relative; z-index: 1; max-width: 720px; }
-
-.badge {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 10px 20px; border-radius: 999px; font-size: 14px; font-weight: 500;
-  background: rgba(255,255,255,0.9); border: 1px solid var(--light);
-  color: var(--deep); margin-bottom: 32px;
-}
-.badge-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #7CB07F; animation: pulse 2s ease-in-out infinite;
+  text-align: center; padding: 140px 32px 100px; position: relative; overflow: hidden;
+  background: linear-gradient(180deg, var(--mist) 0%, var(--ivory) 60%, var(--ivory2) 100%);
 }
 
-.hero-title {
-  font-family: 'Playfair Display', serif; font-weight: 400;
-  font-size: clamp(40px, 6vw, 68px); line-height: 1.15; margin-bottom: 24px;
+/* SVG figure background */
+.hero-figure {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 500px; height: 700px; pointer-events: none; opacity: 0.18;
 }
-.hero-title em { color: var(--deep); font-style: italic; }
-.hero-sub { font-size: clamp(16px, 2vw, 20px); color: var(--ink2); max-width: 600px; margin: 0 auto 16px; line-height: 1.7; }
-.hero-whisper { font-size: 16px; color: var(--ink3); font-style: italic; margin-bottom: 40px; }
+.hero-figure path {
+  fill: none; stroke: var(--lavender); stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+}
 
-.hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+/* Ambient glow */
+.hero::before {
+  content: ''; position: absolute; top: -200px; right: -100px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(215,204,255,0.08), transparent);
+  pointer-events: none; animation: breathe 8s ease-in-out infinite;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -150px; left: -80px;
+  width: 450px; height: 450px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,154,165,0.06), transparent);
+  pointer-events: none;
+}
 
-/* Hero signup form */
+.hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+.hero-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 400;
+  background: rgba(255,253,249,0.85); border: 1px solid var(--lavender-lt);
+  color: var(--plum); margin-bottom: 32px; letter-spacing: 0.3px;
+}
+.hero-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #7CB07F; animation: pulse 2.5s ease-in-out infinite;
+}
+
+.hero h1 {
+  font-family: var(--hd); font-weight: 300;
+  font-size: clamp(38px, 5.5vw, 62px); line-height: 1.15;
+  margin-bottom: 20px; color: var(--ink);
+}
+.hero h1 em { font-weight: 400; color: var(--plum); }
+
+.hero-sub {
+  font-size: clamp(15px, 1.8vw, 18px); color: var(--t2);
+  max-width: 520px; margin: 0 auto 12px; line-height: 1.7;
+}
+.hero-whisper {
+  font-size: 15px; color: var(--rose); font-style: italic;
+  margin-bottom: 36px; letter-spacing: 0.2px;
+}
+
+/* Hero email form */
 .hero-form {
-  max-width: 460px; margin: 0 auto 12px; display: flex; gap: 0;
-  background: #fff; border-radius: 999px; padding: 6px;
-  border: 1px solid var(--light);
-  box-shadow: 0 4px 24px rgba(110, 90, 126, 0.12);
-  transition: box-shadow 0.2s;
+  max-width: 440px; margin: 0 auto 10px;
+  display: flex; gap: 0;
+  background: var(--white); border-radius: 999px; padding: 5px;
+  border: 1px solid var(--lavender-lt);
+  box-shadow: 0 4px 20px rgba(110, 90, 126, 0.1);
+  transition: all 0.25s;
 }
 .hero-form:focus-within {
-  box-shadow: 0 4px 32px rgba(110, 90, 126, 0.2);
-  border-color: var(--soft);
+  border-color: var(--lavender);
+  box-shadow: 0 4px 28px rgba(110, 90, 126, 0.16);
 }
 .hero-form input {
-  flex: 1; border: none; outline: none; padding: 14px 20px;
-  font-size: 16px; font-family: inherit; background: transparent;
-  color: var(--ink); border-radius: 999px; min-width: 0;
+  flex: 1; min-width: 0; border: none; outline: none;
+  padding: 13px 18px; font-size: 15px; font-family: var(--bd);
+  font-weight: 300; background: transparent; color: var(--ink);
+  border-radius: 999px;
 }
-.hero-form input::placeholder { color: var(--ink3); }
+.hero-form input::placeholder { color: var(--t3); }
 .hero-form button {
-  padding: 14px 28px; border-radius: 999px; border: none;
-  background: var(--deep); color: #fff; font-size: 15px; font-weight: 500;
-  font-family: inherit; cursor: pointer; white-space: nowrap;
-  transition: background 0.2s;
+  padding: 13px 26px; border-radius: 999px; border: none;
+  background: var(--plum); color: #fff; font-size: 14px; font-weight: 400;
+  font-family: var(--bd); cursor: pointer; white-space: nowrap;
+  transition: background 0.2s; letter-spacing: 0.2px;
 }
-.hero-form button:hover { background: #5a4869; }
-.hero-form button:disabled { opacity: 0.6; cursor: not-allowed; }
-.hero-form-msg {
-  font-size: 14px; margin-top: 8px; min-height: 20px; text-align: center;
-}
-.hero-form-msg.error { color: #991B1B; }
-.hero-form-msg.success { color: #166534; }
+.hero-form button:hover { background: var(--plum-dk); }
+.hero-form button:disabled { opacity: 0.5; cursor: not-allowed; }
+.hero-msg { font-size: 13px; min-height: 18px; text-align: center; margin-bottom: 4px; }
+.hero-msg.ok { color: #3d7a40; }
+.hero-msg.err { color: #9e3a3a; }
+
+.hero-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
 
 .social-proof {
-  display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 48px;
+  display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 40px;
 }
 .avatars { display: flex; }
-.avatar {
-  width: 40px; height: 40px; border-radius: 50%; border: 2px solid #fff;
-  margin-left: -12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+.av {
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--ivory);
+  margin-left: -10px; box-shadow: 0 1px 6px rgba(0,0,0,0.08);
 }
-.avatar:first-child { margin-left: 0; }
-.social-proof p { font-size: 14px; color: var(--ink3); }
-.social-proof strong { color: var(--ink2); }
+.av:first-child { margin-left: 0; }
+.social-proof p { font-size: 13px; color: var(--t3); }
+.social-proof strong { color: var(--t2); font-weight: 500; }
 
 .scroll-hint {
-  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
 }
-.scroll-hint span { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--ink3); }
-.scroll-line { width: 1px; height: 40px; background: linear-gradient(var(--periwinkle), transparent); }
+.scroll-hint span { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--t3); }
+.scroll-line { width: 1px; height: 36px; background: linear-gradient(var(--lavender), transparent); }
 
-/* Grid layouts */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+/* ============================================================
+   STORY — Narrative Arc
+   ============================================================ */
+.story { padding: 100px 32px; background: var(--ivory2); }
+.story-inner { max-width: 900px; margin: 0 auto; }
+.story-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px;
+}
+.story-card {
+  padding: 36px; border-radius: 20px; background: var(--card);
+  border: 1px solid var(--bdr); position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.story-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(110,90,126,0.06); }
+.story-num {
+  position: absolute; top: -12px; left: 28px;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 500; color: #fff;
+  background: var(--plum);
+}
+.story-card h3 {
+  font-family: var(--hd); font-size: 22px; font-weight: 400;
+  margin-bottom: 12px; color: var(--ink); line-height: 1.3;
+}
+.story-card p {
+  font-size: 14px; color: var(--t2); line-height: 1.75;
+}
 
-/* Image placeholders with SVG */
-.img-box {
+/* ============================================================
+   FEATURES — 4-card grid
+   ============================================================ */
+.features {
+  padding: 100px 32px;
+  background: linear-gradient(180deg, var(--ivory) 0%, var(--mist) 50%, var(--ivory) 100%);
+}
+.features-inner { max-width: 1000px; margin: 0 auto; }
+.section-label {
+  font-size: 11px; font-weight: 500; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--plum-lt); margin-bottom: 14px;
+}
+.section-title {
+  font-family: var(--hd); font-size: clamp(26px, 3.5vw, 38px);
+  font-weight: 300; margin-bottom: 16px; line-height: 1.25;
+}
+.section-desc { font-size: 15px; color: var(--t2); max-width: 500px; }
+.section-header { text-align: center; margin-bottom: 56px; }
+.section-header .section-desc { margin: 0 auto; }
+
+.features-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+.feature-card {
+  padding: 36px; border-radius: 20px; background: var(--card);
+  border: 1px solid var(--bdr);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(110,90,126,0.06); }
+.feature-icon {
+  width: 48px; height: 48px; border-radius: 14px; margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; background: var(--mist);
+}
+.feature-card h3 {
+  font-family: var(--hd); font-size: 22px; font-weight: 400;
+  margin-bottom: 10px; color: var(--ink);
+}
+.feature-card p { font-size: 14px; color: var(--t2); line-height: 1.75; }
+
+/* ============================================================
+   ROOMS — Horizontal scroll pills
+   ============================================================ */
+.rooms { padding: 100px 32px; background: var(--ivory); }
+.rooms-inner { max-width: 1100px; margin: 0 auto; }
+.rooms-scroll {
+  display: flex; gap: 16px; overflow-x: auto; padding: 8px 0 20px;
+  -ms-overflow-style: none; scrollbar-width: none;
+}
+.rooms-scroll::-webkit-scrollbar { display: none; }
+.room-pill {
+  flex-shrink: 0; display: flex; align-items: center; gap: 12px;
+  padding: 16px 24px; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--bdr);
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.room-pill:hover { border-color: var(--lavender); background: var(--card-h); transform: translateY(-1px); }
+.room-emoji { font-size: 20px; }
+.room-info { text-align: left; }
+.room-name { font-size: 14px; font-weight: 400; color: var(--ink); display: block; }
+.room-count { font-size: 12px; color: var(--t3); display: flex; align-items: center; gap: 5px; }
+.room-dot { width: 5px; height: 5px; border-radius: 50%; background: #7CB07F; }
+
+/* ============================================================
+   QUOTE / TESTIMONIAL
+   ============================================================ */
+.quote-section {
+  padding: 100px 32px; text-align: center;
+  background: var(--plum); position: relative; overflow: hidden;
+}
+.quote-section::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, rgba(215,204,255,0.08), transparent);
+  pointer-events: none;
+}
+.quote-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 1; }
+.quote-mark {
+  font-family: var(--hd); font-size: 80px; line-height: 1;
+  color: #fff; opacity: 0.15;
+}
+.quote-text {
+  font-family: var(--hd); font-size: clamp(20px, 2.8vw, 26px);
+  font-weight: 300; font-style: italic; color: #fff;
+  line-height: 1.6; margin: -20px 0 32px;
+}
+.quote-author { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.quote-av {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--lavender), var(--rose));
+}
+.quote-name { color: #fff; font-weight: 400; font-size: 15px; }
+.quote-since { color: rgba(255,255,255,0.5); font-size: 13px; }
+
+/* ============================================================
+   BUILDERS / FOUNDING MEMBERS
+   ============================================================ */
+.builders { padding: 100px 32px; background: var(--ivory2); }
+.builders-inner {
+  max-width: 1000px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+}
+.builders-visual {
   aspect-ratio: 4/3; border-radius: 24px; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--mist), rgba(215,204,255,0.15));
 }
-
-/* Feature cards */
-.feature-card {
-  padding: 32px; border-radius: 24px; background: #fff;
-  border: 1px solid var(--mist); box-shadow: 0 4px 24px rgba(110, 90, 126, 0.06);
-  transition: transform 0.2s ease;
-}
-.feature-card:hover { transform: translateY(-4px); }
-.feature-icon { font-size: 28px; margin-bottom: 20px; display: block; }
-.feature-title { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 12px; }
-.feature-desc { font-size: 14px; color: var(--ink2); line-height: 1.7; }
-
-/* Circle cards */
-.circle-card {
-  text-align: left; padding: 28px; border-radius: 24px;
-  background: linear-gradient(165deg, #fff 0%, var(--blush) 100%);
-  border: 1px solid var(--mist); box-shadow: 0 2px 16px rgba(110, 90, 126, 0.04);
-  cursor: pointer; transition: all 0.2s ease;
-}
-.circle-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(110, 90, 126, 0.1); }
-.circle-emoji { font-size: 36px; margin-bottom: 16px; display: block; }
-.circle-name { font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 8px; }
-.circle-desc { font-size: 14px; color: var(--ink3); margin-bottom: 16px; }
-.circle-members { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--deep); }
-.circle-dot { width: 8px; height: 8px; border-radius: 50%; background: #7CB07F; }
-
-/* Quote section */
-.quote-section {
-  padding: 96px 24px; text-align: center; background: var(--deep);
-}
-.quote-mark { font-family: 'Playfair Display', serif; font-size: 72px; opacity: 0.2; color: #fff; line-height: 1; }
-.quote-text {
-  font-family: 'Playfair Display', serif; font-size: clamp(20px, 3vw, 28px);
-  font-style: italic; color: #fff; line-height: 1.6; max-width: 720px;
-  margin: -16px auto 32px;
-}
-.quote-author { display: flex; align-items: center; justify-content: center; gap: 16px; }
-.quote-avatar {
-  width: 48px; height: 48px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--light), var(--rose));
-}
-.quote-name { color: #fff; font-weight: 500; }
-.quote-since { font-size: 14px; color: rgba(255,255,255,0.6); }
-
-/* Role pills */
-.role-pills { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 32px; }
+.role-pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 28px; }
 .role-pill {
-  padding: 10px 20px; border-radius: 999px; font-size: 14px; font-weight: 500;
-  background: var(--blush); border: 1px solid var(--mist); color: var(--deep);
+  padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 400;
+  background: var(--ivory); border: 1px solid var(--bdr); color: var(--plum);
 }
 
-/* Footer */
-.footer {
-  padding: 48px 24px; background: var(--ink);
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.cta-final {
+  padding: 120px 32px; text-align: center;
+  background: linear-gradient(180deg, var(--ivory) 0%, var(--mist) 100%);
 }
+.cta-final h2 {
+  font-family: var(--hd); font-size: clamp(30px, 4.5vw, 46px);
+  font-weight: 300; margin-bottom: 16px; line-height: 1.2;
+}
+.cta-final h2 em { font-weight: 400; color: var(--plum); }
+.cta-final p { font-size: 16px; color: var(--t2); max-width: 480px; margin: 0 auto 36px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer { padding: 40px 32px; background: var(--ink); }
 .footer-inner {
-  max-width: 1152px; margin: 0 auto;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
+  max-width: 1100px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
 }
-.footer-logo { font-family: 'Playfair Display', serif; font-size: 20px; color: #fff; }
-.footer-copy { font-size: 14px; color: rgba(255,255,255,0.35); }
-.footer-links { display: flex; gap: 32px; }
-.footer-link { font-size: 14px; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+.footer-logo { font-family: var(--hd); font-size: 20px; color: #fff; font-weight: 300; }
+.footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-links { display: flex; gap: 24px; }
+.footer-link { font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
 .footer-link:hover { color: #fff; }
 
-/* Modal */
+/* ============================================================
+   MODAL
+   ============================================================ */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 50;
   display: flex; align-items: center; justify-content: center; padding: 24px;
-  background: rgba(45, 36, 56, 0.6); backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  animation: fadeIn 0.2s ease;
-  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  background: rgba(43, 36, 51, 0.55); backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
 }
 .modal-overlay.open { opacity: 1; pointer-events: all; }
 .modal {
-  background: #fff; border-radius: 24px; max-width: 448px; width: 100%;
+  background: #fff; border-radius: 24px; max-width: 440px; width: 100%;
   max-height: 90vh; overflow-y: auto; position: relative;
-  animation: modalIn 0.3s ease-out;
+  transform: translateY(12px) scale(0.97); transition: transform 0.3s ease;
 }
-.modal-close {
-  position: absolute; top: 20px; right: 20px;
-  width: 36px; height: 36px; border-radius: 50%;
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+.modal-x {
+  position: absolute; top: 18px; right: 18px;
+  width: 32px; height: 32px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; background: var(--whisper); color: var(--ink3);
+  font-size: 18px; background: var(--ivory); color: var(--t3);
   border: none; cursor: pointer; transition: background 0.2s;
 }
-.modal-close:hover { background: var(--mist); }
-.modal-header {
-  padding: 48px 40px 24px; text-align: center;
-  border-bottom: 1px solid var(--mist);
+.modal-x:hover { background: var(--mist); }
+.modal-hd { padding: 40px 36px 20px; text-align: center; border-bottom: 1px solid var(--bdr); }
+.modal-title { font-family: var(--hd); font-size: 26px; font-weight: 400; margin-bottom: 6px; }
+.modal-sub { color: var(--t3); font-size: 14px; }
+.modal-body { padding: 28px 36px 36px; }
+.fg { margin-bottom: 20px; }
+.fl { display: block; font-size: 13px; font-weight: 400; margin-bottom: 6px; color: var(--ink); }
+.fl .req { color: var(--rose); }
+.fi, .ft {
+  width: 100%; padding: 13px 16px; border-radius: 10px;
+  font-size: 15px; font-family: var(--bd); font-weight: 300;
+  border: 1px solid var(--bdr); outline: none; transition: all 0.2s;
+  color: var(--ink); background: #fff;
 }
-.modal-title { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
-.modal-subtitle { color: var(--ink3); font-size: 15px; }
-.modal-body { padding: 32px 40px 40px; }
-
-/* Forms */
-.form-group { margin-bottom: 24px; }
-.form-label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
-.form-label .req { color: var(--periwinkle); }
-.form-input, .form-textarea {
-  width: 100%; padding: 16px 20px; border-radius: 12px;
-  font-size: 16px; font-family: inherit; border: 1px solid var(--mist);
-  outline: none; transition: all 0.2s;
+.fi:focus, .ft:focus { border-color: var(--lavender); box-shadow: 0 0 0 3px rgba(183,168,201,0.12); }
+.ft { min-height: 88px; resize: vertical; }
+.fhint { font-size: 12px; color: var(--t3); margin-top: 4px; }
+.ferr {
+  padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px;
+  background: #FDF2F2; color: #8B3A3A; border: 1px solid #F5D0D0;
 }
-.form-input:focus, .form-textarea:focus {
-  border-color: var(--soft);
-  box-shadow: 0 0 0 3px rgba(139, 122, 168, 0.12);
+.fbtn {
+  width: 100%; padding: 14px; border-radius: 10px;
+  font-size: 15px; font-weight: 400; font-family: var(--bd);
+  background: var(--plum); color: #fff; border: none; cursor: pointer;
+  transition: background 0.2s;
 }
-.form-textarea { min-height: 100px; resize: vertical; }
-.form-hint { font-size: 13px; color: var(--ink3); margin-top: 6px; }
-
-.form-error {
-  padding: 12px 16px; border-radius: 12px; font-size: 14px; margin-bottom: 24px;
-  background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA;
+.fbtn:hover { background: var(--plum-dk); }
+.fbtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.fbtn-back { background: var(--ivory); color: var(--ink); }
+.fbtn-back:hover { background: var(--ivory2); }
+.fbtns { display: flex; gap: 10px; }
+.fbtns .fbtn:last-child { flex: 2; }
+.fbtns .fbtn:first-child { flex: 1; }
+.steps { display: flex; justify-content: center; gap: 10px; margin-bottom: 24px; }
+.sdot { width: 10px; height: 10px; border-radius: 50%; background: var(--bdr); transition: all 0.3s; }
+.sdot.on { background: var(--plum); transform: scale(1.15); }
+.sdot.done { background: var(--plum); }
+.rgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rbtn {
+  padding: 13px; border-radius: 10px; font-size: 13px; font-weight: 400;
+  text-align: center; cursor: pointer; border: 1.5px solid var(--bdr);
+  background: #fff; color: var(--ink); font-family: var(--bd); transition: all 0.2s;
 }
-
-.form-btn {
-  width: 100%; padding: 16px; border-radius: 12px;
-  font-size: 16px; font-weight: 500; font-family: inherit;
-  background: var(--deep); color: #fff; border: none; cursor: pointer;
-  transition: opacity 0.2s;
-}
-.form-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.form-btn-back {
-  background: var(--whisper); color: var(--ink);
-}
-
-.form-btns { display: flex; gap: 12px; }
-.form-btns .form-btn:last-child { flex: 2; }
-.form-btns .form-btn:first-child { flex: 1; }
-
-/* Step dots */
-.steps { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; }
-.step-dot {
-  width: 12px; height: 12px; border-radius: 50%; background: var(--mist);
-  transition: all 0.3s;
-}
-.step-dot.active { background: var(--deep); transform: scale(1.2); }
-.step-dot.done { background: var(--deep); }
-
-/* Role grid */
-.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.role-btn {
-  padding: 16px; border-radius: 12px; font-size: 14px; font-weight: 500;
-  text-align: center; cursor: pointer; border: 2px solid var(--mist);
-  background: #fff; color: var(--ink); font-family: inherit; transition: all 0.2s;
-}
-.role-btn.selected { border-color: var(--deep); background: var(--blush); }
-
-/* Success modal */
+.rbtn.sel { border-color: var(--plum); background: var(--mist); }
 .success-icon {
-  width: 64px; height: 64px; border-radius: 50%; background: var(--sage);
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 20px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 28px; margin: 0 auto 24px; color: var(--ink);
+  font-size: 24px; background: rgba(124,176,127,0.15); color: #3d7a40;
 }
 
-/* Responsive */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 900px) {
-  .grid-2 { grid-template-columns: 1fr; gap: 40px; }
-  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .story-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .builders-inner { grid-template-columns: 1fr; }
+  .builders-visual { display: none; }
   .nav-link { display: none; }
 }
 @media (max-width: 600px) {
-  .grid-3 { grid-template-columns: 1fr; }
-  .hero-form { flex-direction: column; border-radius: 20px; padding: 8px; }
+  .hero { padding: 120px 20px 80px; }
+  .hero-form { flex-direction: column; border-radius: 16px; padding: 6px; }
   .hero-form input { text-align: center; }
-  .hero-form button { width: 100%; }
-  .hero-ctas { flex-direction: column; align-items: center; }
-  .hero-ctas .btn { width: 100%; max-width: 320px; }
+  .hero-form button { width: 100%; border-radius: 12px; }
+  .hero-links { flex-direction: column; align-items: center; }
+  .hero-links .btn { width: 100%; max-width: 280px; }
   .social-proof { flex-direction: column; gap: 8px; }
+  .section-header { text-align: left; }
+  .section-header .section-desc { margin: 0; }
   .footer-inner { flex-direction: column; text-align: center; }
-  .modal-header { padding: 40px 24px 20px; }
-  .modal-body { padding: 24px; }
+  .modal-hd { padding: 32px 24px 16px; }
+  .modal-body { padding: 20px 24px 28px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Nav -->
+<!-- ============================================================
+     NAV
+     ============================================================ -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">periwink</a>
-    <div class="nav-links">
-      <a href="#about" class="nav-link">Our Story</a>
-      <a href="#community" class="nav-link">Community</a>
+    <div class="nav-right">
+      <a href="#story" class="nav-link">Our Story</a>
+      <a href="#rooms" class="nav-link">Community</a>
       <a href="#builders" class="nav-link">Contribute</a>
-      <button class="btn btn-primary btn-nav" onclick="scrollToSignup()">Join Early</button>
+      <button class="btn btn-plum" style="padding:10px 22px;font-size:13px" onclick="scrollToSignup()">Join Early</button>
     </div>
   </div>
 </nav>
 
-<!-- Hero -->
+<!-- ============================================================
+     HERO
+     ============================================================ -->
 <section class="hero">
-  <div class="hero-bg">
-    <svg width="600" height="600" viewBox="0 0 600 600" fill="none" style="max-width:90%;height:auto;">
-      <circle cx="300" cy="300" r="200" fill="#E8E1F0" opacity=".12"/>
-      <circle cx="340" cy="260" r="150" fill="#F5F2F9" opacity=".2"/>
-      <g transform="translate(300,280)">
-        <ellipse cx="0" cy="-60" rx="28" ry="55" fill="#C4B8D6" opacity=".25"/>
-        <ellipse cx="0" cy="-60" rx="28" ry="55" fill="#C4B8D6" opacity=".28" transform="rotate(72)"/>
-        <ellipse cx="0" cy="-60" rx="28" ry="55" fill="#C4B8D6" opacity=".31" transform="rotate(144)"/>
-        <ellipse cx="0" cy="-60" rx="28" ry="55" fill="#C4B8D6" opacity=".34" transform="rotate(216)"/>
-        <ellipse cx="0" cy="-60" rx="28" ry="55" fill="#C4B8D6" opacity=".37" transform="rotate(288)"/>
-        <circle cx="0" cy="0" r="15" fill="#A799BE" opacity=".4"/>
-        <circle cx="0" cy="0" r="8" fill="#8B7AA8" opacity=".3"/>
-      </g>
-      <path d="M100 400 Q200 350 300 380 Q400 410 500 360" stroke="#C4B8D6" stroke-width="1.5" fill="none" opacity=".3"/>
-      <path d="M80 430 Q180 380 280 410 Q380 440 480 390" stroke="#E8E1F0" stroke-width="1" fill="none" opacity=".25"/>
-      <circle cx="150" cy="180" r="4" fill="#E8C4C4" opacity=".3"/>
-      <circle cx="450" cy="200" r="3" fill="#E8C4C4" opacity=".25"/>
-      <circle cx="200" cy="450" r="3.5" fill="#A799BE" opacity=".2"/>
-      <circle cx="420" cy="420" r="2.5" fill="#D4DED0" opacity=".3"/>
-    </svg>
-  </div>
+  <!-- SVG figure — draws on scroll -->
+  <svg class="hero-figure" id="hero-svg" viewBox="0 0 400 600" fill="none">
+    <!-- Flowing feminine silhouette — abstract, minimal -->
+    <path data-order="1" d="M200 80 Q210 120 205 160 Q198 200 200 240" stroke-dasharray="200" stroke-dashoffset="200"/>
+    <path data-order="2" d="M200 240 Q195 280 190 320 Q185 360 195 400 Q200 430 198 460" stroke-dasharray="260" stroke-dashoffset="260"/>
+    <!-- Hair flowing -->
+    <path data-order="1" d="M200 80 Q180 60 160 75 Q140 95 150 130 Q155 150 165 160" stroke-dasharray="150" stroke-dashoffset="150"/>
+    <path data-order="1" d="M200 80 Q220 55 245 70 Q260 90 255 125 Q250 145 240 155" stroke-dasharray="150" stroke-dashoffset="150"/>
+    <!-- Shoulders -->
+    <path data-order="2" d="M200 240 Q170 245 140 265 Q120 280 115 310" stroke-dasharray="160" stroke-dashoffset="160"/>
+    <path data-order="2" d="M200 240 Q230 245 260 265 Q280 280 285 310" stroke-dasharray="160" stroke-dashoffset="160"/>
+    <!-- Arms flowing outward -->
+    <path data-order="3" d="M140 265 Q120 290 95 310 Q75 325 60 340" stroke-dasharray="140" stroke-dashoffset="140"/>
+    <path data-order="3" d="M260 265 Q280 290 305 310 Q325 325 340 340" stroke-dasharray="140" stroke-dashoffset="140"/>
+    <!-- Flowing dress/skirt -->
+    <path data-order="3" d="M190 320 Q175 380 155 440 Q140 480 130 520" stroke-dasharray="240" stroke-dashoffset="240"/>
+    <path data-order="3" d="M210 320 Q225 380 245 440 Q260 480 270 520" stroke-dasharray="240" stroke-dashoffset="240"/>
+    <!-- Organic elements — petals floating -->
+    <path data-order="4" d="M80 180 Q90 160 110 165 Q100 185 80 180Z" stroke-dasharray="80" stroke-dashoffset="80" fill="none"/>
+    <path data-order="4" d="M310 200 Q325 185 340 195 Q325 210 310 200Z" stroke-dasharray="80" stroke-dashoffset="80" fill="none"/>
+    <path data-order="5" d="M70 400 Q85 385 100 395 Q85 410 70 400Z" stroke-dasharray="80" stroke-dashoffset="80" fill="none"/>
+    <path data-order="5" d="M320 420 Q335 405 350 415 Q335 430 320 420Z" stroke-dasharray="80" stroke-dashoffset="80" fill="none"/>
+    <!-- Small periwinkle flower at heart -->
+    <path data-order="4" d="M200 190 Q195 175 200 165 Q205 175 200 190Z" stroke-dasharray="60" stroke-dashoffset="60"/>
+    <path data-order="4" d="M200 190 Q188 185 183 178 Q192 180 200 190Z" stroke-dasharray="40" stroke-dashoffset="40"/>
+    <path data-order="4" d="M200 190 Q212 185 217 178 Q208 180 200 190Z" stroke-dasharray="40" stroke-dashoffset="40"/>
+  </svg>
+
   <div class="hero-content">
-    <div class="badge anim"><span class="badge-dot"></span>Building something meaningful</div>
-    <h1 class="hero-title anim d1">A wiser way forward &mdash; <em>together.</em></h1>
-    <p class="hero-sub anim d2">Growth, wisdom, and shared experience &mdash; for the women you are becoming.</p>
-    <p class="hero-whisper anim d3">More truth. Deeper alignment. More you.</p>
-    <div class="anim d4">
-      <form class="hero-form" id="hero-signup-form" onsubmit="submitHeroSignup(event)">
+    <div class="hero-label anim"><span class="hero-dot"></span>Building something meaningful</div>
+
+    <h1 class="anim ad1">You're not alone<br>in this. <em>None of us are.</em></h1>
+
+    <p class="hero-sub anim ad2">
+      Periwink is where women navigating perimenopause and menopause find each other,
+      share what they're noticing, and feel held.
+    </p>
+
+    <p class="hero-whisper anim ad3">More truth. Deeper alignment. More you.</p>
+
+    <div class="anim ad4">
+      <form class="hero-form" id="hero-form" onsubmit="submitHero(event)">
         <input type="email" name="email" required placeholder="Enter your email" autocomplete="email">
         <button type="submit">Join Early</button>
       </form>
-      <p class="hero-form-msg" id="hero-form-msg"></p>
+      <p class="hero-msg" id="hero-msg"></p>
     </div>
-    <div class="hero-ctas anim d4" style="margin-top:8px">
-      <a href="#community" class="btn btn-outline btn-sm" style="text-decoration:none">Explore Circles</a>
-      <button class="btn btn-ghost btn-sm" onclick="openModal('founding')">Become a Founding Member</button>
+
+    <div class="hero-links anim ad5">
+      <a href="#rooms" class="btn btn-outline" style="padding:10px 22px;font-size:13px">Explore Circles</a>
+      <button class="btn btn-ghost" style="padding:10px 22px;font-size:13px" onclick="openModal('founding')">Become a Founding Member</button>
     </div>
-    <div class="social-proof anim d5">
+
+    <div class="social-proof anim ad6">
       <div class="avatars">
-        <div class="avatar" style="background:linear-gradient(135deg,#C4B8D6,#E8E1F0)"></div>
-        <div class="avatar" style="background:linear-gradient(135deg,#D4DED0,#E8E1F0)"></div>
-        <div class="avatar" style="background:linear-gradient(135deg,#E8C4C4,#E8E1F0)"></div>
-        <div class="avatar" style="background:linear-gradient(135deg,#E8E1F0,#F5F2F9)"></div>
+        <div class="av" style="background:linear-gradient(135deg,var(--lavender),var(--mist))"></div>
+        <div class="av" style="background:linear-gradient(135deg,#D4DED0,var(--mist))"></div>
+        <div class="av" style="background:linear-gradient(135deg,var(--rose-lt),var(--mist))"></div>
+        <div class="av" style="background:linear-gradient(135deg,var(--mist),var(--lavender-lt))"></div>
       </div>
       <p>Join <strong>2,400+ women</strong> finding their way forward</p>
     </div>
   </div>
-  <div class="scroll-hint anim d5">
-    <span>Learn more</span>
+
+  <div class="scroll-hint anim ad6">
+    <span>Discover</span>
     <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- About -->
-<section id="about" class="section" style="background:var(--warm)">
-  <div class="container">
-    <div class="grid-2">
-      <div class="reveal img-box" style="background:linear-gradient(135deg,var(--mist),var(--blush))">
-        <svg width="400" height="320" viewBox="0 0 500 400" fill="none" style="width:85%;height:auto">
-          <path d="M250 380 Q248 300 252 220 Q254 160 250 100" stroke="#C4B8D6" stroke-width="2" fill="none" opacity=".6"/>
-          <path d="M250 280 Q200 260 160 220" stroke="#C4B8D6" stroke-width="1.5" fill="none" opacity=".5"/>
-          <path d="M160 220 Q140 200 150 170 Q165 185 170 210 Q175 195 160 220Z" fill="#E8E1F0" opacity=".7"/>
-          <path d="M252 240 Q300 220 340 190" stroke="#C4B8D6" stroke-width="1.5" fill="none" opacity=".5"/>
-          <path d="M340 190 Q360 170 350 140 Q335 160 330 180 Q325 165 340 190Z" fill="#E8E1F0" opacity=".6"/>
-          <ellipse cx="250" cy="90" rx="30" ry="25" fill="#C4B8D6" opacity=".3"/>
-          <ellipse cx="240" cy="80" rx="20" ry="18" fill="#A799BE" opacity=".25"/>
-          <ellipse cx="260" cy="85" rx="22" ry="20" fill="#E8E1F0" opacity=".35"/>
-          <circle cx="250" cy="88" r="8" fill="#8B7AA8" opacity=".2"/>
-          <path d="M250 320 Q230 310 220 290" stroke="#C4B8D6" stroke-width="1" fill="none" opacity=".4"/>
-          <path d="M220 290 Q210 275 218 262 Q225 272 228 285 Q230 274 220 290Z" fill="#E8E1F0" opacity=".5"/>
-          <path d="M252 340 Q275 330 290 312" stroke="#C4B8D6" stroke-width="1" fill="none" opacity=".4"/>
-          <path d="M290 312 Q305 298 298 282 Q288 295 285 308 Q280 296 290 312Z" fill="#E8E1F0" opacity=".5"/>
-          <circle cx="180" cy="170" r="3" fill="#E8C4C4" opacity=".4"/>
-          <circle cx="320" cy="150" r="2.5" fill="#E8C4C4" opacity=".3"/>
-          <circle cx="200" cy="120" r="2" fill="#A799BE" opacity=".35"/>
-          <circle cx="300" cy="110" r="2" fill="#A799BE" opacity=".3"/>
-        </svg>
+<!-- ============================================================
+     STORY — Narrative Arc
+     ============================================================ -->
+<section id="story" class="story">
+  <div class="story-inner">
+    <div class="section-header reveal">
+      <p class="section-label">Our story</p>
+      <h2 class="section-title">She thought she was the only one.</h2>
+      <p class="section-desc">Every woman's journey through this chapter begins with a quiet moment of recognition.</p>
+    </div>
+
+    <div class="story-grid">
+      <div class="story-card reveal d1">
+        <div class="story-num">1</div>
+        <h3>She's navigating something no one talks about.</h3>
+        <p>The hot flashes at 3am. The brain fog in meetings. The sudden anxiety that has no name. She Googles symptoms alone at midnight, wondering if this is just her.</p>
       </div>
-      <div class="reveal" style="transition-delay:.15s">
-        <h2 class="section-title">This isn't about managing symptoms. It's about <span class="highlight">becoming who you're meant to be.</span></h2>
-        <p style="color:var(--ink2);line-height:1.8;margin-bottom:20px">
-          There's a reason so many women feel unseen during this chapter. The conversations that matter most are rarely had. The questions that keep you up at night feel too personal to ask.
-        </p>
-        <p style="color:var(--ink2);line-height:1.8">
-          Periwink changes that. We're building a space where <span class="highlight">wisdom is shared</span>, where lived experience matters as much as expertise, and where you're never navigating alone.
-        </p>
+      <div class="story-card reveal d2">
+        <div class="story-num">2</div>
+        <h3>She starts to wonder: is anyone else feeling this?</h3>
+        <p>The doctor visits feel rushed. Friends change the subject. The wellness industry offers solutions but not understanding. She doesn't need another product. She needs to feel <em>seen</em>.</p>
+      </div>
+      <div class="story-card reveal d3">
+        <div class="story-num">3</div>
+        <h3>She finds a place that finally gets it.</h3>
+        <p>A space where "me too" isn't a hashtag &mdash; it's a lifeline. Where women share what's actually working. Where tracking her symptoms reveals patterns she never noticed. Where she can be anonymous or known, on her terms.</p>
+      </div>
+      <div class="story-card reveal d4">
+        <div class="story-num">4</div>
+        <h3>She found her people.</h3>
+        <p>And together, they're not just getting through it &mdash; they're redefining what this chapter means. More wisdom. More honesty. More of the conversations that should have been happening all along.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Features -->
-<section class="section" style="background:linear-gradient(180deg,var(--warm) 0%,var(--blush) 100%)">
-  <div class="container">
-    <div class="text-center reveal" style="max-width:560px;margin:0 auto 64px">
+<!-- ============================================================
+     FEATURES — 4-card grid
+     ============================================================ -->
+<section class="features">
+  <div class="features-inner">
+    <div class="section-header reveal">
       <p class="section-label">What we're building</p>
-      <h2 class="section-title">Better outcomes through connection</h2>
-      <p class="section-desc">A thoughtful platform where learning happens together, and support feels like belonging.</p>
+      <h2 class="section-title">Four pillars of a different kind of community</h2>
+      <p class="section-desc">Every feature exists because a woman like you said she needed it.</p>
     </div>
-    <div class="grid-3" id="features-grid"></div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal d1">
+        <div class="feature-icon">💬</div>
+        <h3>Community Rooms</h3>
+        <p>Topic-based circles for the conversations that matter most. Post under your pseudonym or go fully anonymous. Threaded discussions where lived experience is valued as much as expertise.</p>
+      </div>
+      <div class="feature-card reveal d2">
+        <div class="feature-icon">📖</div>
+        <h3>Symptom Tracker</h3>
+        <p>Daily logging across 25 symptoms &mdash; vasomotor, sleep, mood, physical, and more. Rate severity, note patterns, and finally see the shape of what your body has been telling you.</p>
+      </div>
+      <div class="feature-card reveal d3">
+        <div class="feature-icon">🔬</div>
+        <h3>Citizen Science</h3>
+        <p>Opt in to contribute your anonymous data to community insights. See what symptoms are most common, which treatments are helping, and discover correlations no one is studying yet.</p>
+      </div>
+      <div class="feature-card reveal d4">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacy First</h3>
+        <p>Pseudonyms by default. Full anonymity per-post. Granular consent controls over every piece of data. Your story is yours &mdash; you decide who sees what, always.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- Community Circles -->
-<section id="community" class="section" style="background:var(--cream)">
-  <div class="container">
-    <div class="text-center reveal" style="max-width:560px;margin:0 auto 64px">
+<!-- ============================================================
+     ROOMS — Horizontal scrolling pills
+     ============================================================ -->
+<section id="rooms" class="rooms">
+  <div class="rooms-inner">
+    <div class="section-header reveal" style="text-align:left;margin-bottom:32px">
       <p class="section-label">Active circles</p>
       <h2 class="section-title">Find your people</h2>
-      <p class="section-desc">Every circle is a safe space for honest conversation. Real women sharing real experiences.</p>
     </div>
-    <div class="grid-3" id="circles-grid"></div>
+    <div class="rooms-scroll reveal" id="rooms-scroll"></div>
   </div>
 </section>
 
-<!-- Testimonial -->
-<section class="quote-section reveal">
-  <div style="max-width:720px;margin:0 auto">
+<!-- ============================================================
+     TESTIMONIAL
+     ============================================================ -->
+<section class="quote-section">
+  <div class="quote-inner reveal">
     <div class="quote-mark">&ldquo;</div>
     <blockquote class="quote-text">
-      I've learned more about what's happening in my body from two weeks in Periwink than from a decade of doctor visits. And I finally don't feel like I'm the only one.
+      I've learned more about what's happening in my body from two weeks in Periwink
+      than from a decade of doctor visits. And I finally don't feel like I'm the only one.
     </blockquote>
     <div class="quote-author">
-      <div class="quote-avatar"></div>
+      <div class="quote-av"></div>
       <div style="text-align:left">
         <div class="quote-name">Sarah M.</div>
         <div class="quote-since">Member since January</div>
@@ -556,59 +738,61 @@ body {
   </div>
 </section>
 
-<!-- Builders -->
-<section id="builders" class="section" style="background:var(--warm)">
-  <div class="container">
-    <div class="grid-2">
-      <div class="reveal">
-        <h2 class="section-title">Help us build something that matters.</h2>
-        <p style="color:var(--ink2);line-height:1.8;margin-bottom:24px">
-          Periwink isn't just a product &mdash; it's a collaborative movement. We're looking for practitioners, researchers, creators, and community builders who want to shape what this becomes.
-        </p>
-        <div class="role-pills">
-          <span class="role-pill">Healthcare Practitioners</span>
-          <span class="role-pill">Researchers</span>
-          <span class="role-pill">Content Creators</span>
-          <span class="role-pill">Community Builders</span>
-          <span class="role-pill">Brand Partners</span>
-        </div>
-        <button class="btn btn-primary" onclick="openModal('founding')">Apply as a Founding Member</button>
+<!-- ============================================================
+     BUILDERS
+     ============================================================ -->
+<section id="builders" class="builders">
+  <div class="builders-inner">
+    <div class="reveal">
+      <p class="section-label">Shape what this becomes</p>
+      <h2 class="section-title">Help us build something that matters.</h2>
+      <p style="color:var(--t2);line-height:1.8;margin-bottom:8px">
+        Periwink isn't just a product &mdash; it's a collaborative movement.
+        We're looking for practitioners, researchers, creators, and community builders
+        who want to shape what this becomes.
+      </p>
+      <div class="role-pills">
+        <span class="role-pill">Healthcare Practitioners</span>
+        <span class="role-pill">Researchers</span>
+        <span class="role-pill">Content Creators</span>
+        <span class="role-pill">Community Builders</span>
+        <span class="role-pill">Brand Partners</span>
       </div>
-      <div class="reveal img-box" style="background:linear-gradient(135deg,var(--mist),var(--blush));transition-delay:.15s">
-        <svg width="400" height="320" viewBox="0 0 500 400" fill="none" style="width:85%;height:auto">
-          <path d="M0 200 Q80 160 160 200 Q240 240 320 200 Q400 160 500 200" stroke="#C4B8D6" stroke-width="2" fill="none" opacity=".5"/>
-          <path d="M0 230 Q80 190 160 230 Q240 270 320 230 Q400 190 500 230" stroke="#E8E1F0" stroke-width="1.5" fill="none" opacity=".4"/>
-          <path d="M0 260 Q80 220 160 260 Q240 300 320 260 Q400 220 500 260" stroke="#C4B8D6" stroke-width="1" fill="none" opacity=".3"/>
-          <circle cx="100" cy="150" r="40" fill="#E8E1F0" opacity=".2"/>
-          <circle cx="380" cy="130" r="55" fill="#E8E1F0" opacity=".15"/>
-          <circle cx="250" cy="280" r="35" fill="#E8C4C4" opacity=".12"/>
-          <ellipse cx="200" cy="100" rx="25" ry="18" fill="#C4B8D6" opacity=".15"/>
-          <ellipse cx="350" cy="300" rx="30" ry="20" fill="#A799BE" opacity=".1"/>
-          <circle cx="80" cy="100" r="3" fill="#8B7AA8" opacity=".25"/>
-          <circle cx="420" cy="90" r="2.5" fill="#8B7AA8" opacity=".2"/>
-          <circle cx="300" cy="340" r="3" fill="#E8C4C4" opacity=".3"/>
-          <circle cx="150" cy="320" r="2" fill="#A799BE" opacity=".25"/>
-        </svg>
-      </div>
+      <button class="btn btn-plum" onclick="openModal('founding')">Apply as a Founding Member</button>
+    </div>
+    <div class="builders-visual reveal d2">
+      <svg width="360" height="280" viewBox="0 0 500 400" fill="none" style="width:85%;height:auto">
+        <path d="M0 200 Q80 160 160 200 Q240 240 320 200 Q400 160 500 200" stroke="var(--lavender)" stroke-width="1.5" fill="none" opacity=".45"/>
+        <path d="M0 230 Q80 190 160 230 Q240 270 320 230 Q400 190 500 230" stroke="var(--lavender-lt)" stroke-width="1" fill="none" opacity=".35"/>
+        <path d="M0 260 Q80 220 160 260 Q240 300 320 260 Q400 220 500 260" stroke="var(--lavender)" stroke-width=".8" fill="none" opacity=".25"/>
+        <circle cx="100" cy="150" r="40" fill="var(--mist)" opacity=".2"/>
+        <circle cx="380" cy="130" r="50" fill="var(--mist)" opacity=".15"/>
+        <circle cx="250" cy="290" r="30" fill="var(--rose-lt)" opacity=".12"/>
+        <circle cx="80" cy="100" r="3" fill="var(--plum-lt)" opacity=".2"/>
+        <circle cx="420" cy="90" r="2.5" fill="var(--plum-lt)" opacity=".18"/>
+        <circle cx="300" cy="340" r="2.5" fill="var(--rose)" opacity=".2"/>
+      </svg>
     </div>
   </div>
 </section>
 
-<!-- Final CTA -->
-<section class="section reveal" style="background:linear-gradient(180deg,var(--cream) 0%,var(--blush) 100%);text-align:center">
-  <div style="max-width:640px;margin:0 auto">
-    <h2 class="section-title" style="font-size:clamp(32px,5vw,48px)">Ready to find your <em style="color:var(--deep)">wiser way forward?</em></h2>
-    <p style="font-size:18px;color:var(--ink2);margin-bottom:40px">
-      Join thousands of women learning, growing, and navigating change together. Be part of building something meaningful.
-    </p>
-    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-primary" onclick="scrollToSignup()">Join Early Access</button>
+<!-- ============================================================
+     FINAL CTA
+     ============================================================ -->
+<section class="cta-final">
+  <div class="reveal">
+    <h2>Ready for a <em>wiser way forward?</em></h2>
+    <p>Join thousands of women learning, growing, and navigating this chapter together. You don't have to carry this alone.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-plum" onclick="scrollToSignup()">Join Early Access</button>
       <button class="btn btn-ghost" onclick="openModal('founding')">Become a Founding Member</button>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
 <footer class="footer">
   <div class="footer-inner">
     <span class="footer-logo">periwink</span>
@@ -621,431 +805,247 @@ body {
   </div>
 </footer>
 
-<!-- ============================================================ -->
-<!-- MODALS                                                        -->
-<!-- ============================================================ -->
-
-<!-- Community Modal -->
-<div class="modal-overlay" id="modal-community">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('community')">&times;</button>
-    <div class="modal-header">
-      <h3 class="modal-title hd">Join the Community</h3>
-      <p class="modal-subtitle">You're taking the first step. We'll be in touch soon.</p>
-    </div>
-    <div class="modal-body">
-      <div id="community-error" class="form-error" style="display:none"></div>
-      <form id="community-form" onsubmit="submitCommunity(event)">
-        <div class="form-group">
-          <label class="form-label">Your name <span class="req">*</span></label>
-          <input class="form-input" name="name" required placeholder="How you'd like to be addressed">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email <span class="req">*</span></label>
-          <input class="form-input" name="email" type="email" required placeholder="you@example.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Choose a pseudonym <span class="req">*</span></label>
-          <input class="form-input" name="pseudonym" required placeholder="Your identity in the community">
-          <p class="form-hint">This is how you'll appear to others. You can stay as anonymous as you'd like.</p>
-        </div>
-        <button class="form-btn" type="submit">Join Periwink</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Founding Modal -->
+<!-- ============================================================
+     FOUNDING MEMBER MODAL
+     ============================================================ -->
 <div class="modal-overlay" id="modal-founding">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal('founding')">&times;</button>
-    <div class="modal-header">
-      <h3 class="modal-title hd">Become a Founding Member</h3>
-      <p class="modal-subtitle">Help shape what Periwink becomes.</p>
+    <button class="modal-x" onclick="closeModal('founding')">&times;</button>
+    <div class="modal-hd">
+      <h3 class="modal-title">Become a Founding Member</h3>
+      <p class="modal-sub">Help shape what Periwink becomes.</p>
     </div>
     <div class="modal-body">
-      <div class="steps" id="founding-steps">
-        <div class="step-dot active"></div>
-        <div class="step-dot"></div>
-        <div class="step-dot"></div>
+      <div class="steps" id="f-steps">
+        <div class="sdot on"></div><div class="sdot"></div><div class="sdot"></div>
       </div>
-      <div id="founding-error" class="form-error" style="display:none"></div>
-
-      <!-- Step 1 -->
-      <div id="founding-step-1">
-        <div class="form-group">
-          <label class="form-label">Your name <span class="req">*</span></label>
-          <input class="form-input" id="f-name" required placeholder="Full name">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email <span class="req">*</span></label>
-          <input class="form-input" id="f-email" type="email" required placeholder="you@example.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label">What role interests you? <span class="req">*</span></label>
-          <div class="role-grid" id="role-grid"></div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Organization</label>
-          <input class="form-input" id="f-org" placeholder="Your company or practice (optional)">
-        </div>
-        <button class="form-btn" type="button" onclick="foundingNext(2)">Continue</button>
+      <div id="f-err" class="ferr" style="display:none"></div>
+      <div id="fs1">
+        <div class="fg"><label class="fl">Your name <span class="req">*</span></label><input class="fi" id="fn" placeholder="Full name"></div>
+        <div class="fg"><label class="fl">Email <span class="req">*</span></label><input class="fi" id="fe" type="email" placeholder="you@example.com"></div>
+        <div class="fg"><label class="fl">What role interests you? <span class="req">*</span></label><div class="rgrid" id="rgrid"></div></div>
+        <div class="fg"><label class="fl">Organization</label><input class="fi" id="fo" placeholder="Your company or practice (optional)"></div>
+        <button class="fbtn" type="button" onclick="fStep(2)">Continue</button>
       </div>
-
-      <!-- Step 2 -->
-      <div id="founding-step-2" style="display:none">
-        <div class="form-group">
-          <label class="form-label">What draws you to Periwink? <span class="req">*</span></label>
-          <textarea class="form-textarea" id="f-draws" placeholder="What resonates with you about what we're building?"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">What do you hope to offer this community? <span class="req">*</span></label>
-          <textarea class="form-textarea" id="f-offer" placeholder="Your expertise, perspective, or contribution..."></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">How do you approach supporting women in your current work? <span class="req">*</span></label>
-          <textarea class="form-textarea" id="f-approach" placeholder="Tell us about your current approach..."></textarea>
-        </div>
-        <div class="form-btns">
-          <button class="form-btn form-btn-back" type="button" onclick="foundingNext(1)">Back</button>
-          <button class="form-btn" type="button" onclick="foundingNext(3)">Continue</button>
-        </div>
+      <div id="fs2" style="display:none">
+        <div class="fg"><label class="fl">What draws you to Periwink? <span class="req">*</span></label><textarea class="ft" id="fd" placeholder="What resonates with you about what we're building?"></textarea></div>
+        <div class="fg"><label class="fl">What do you hope to offer this community? <span class="req">*</span></label><textarea class="ft" id="fof" placeholder="Your expertise, perspective, or contribution..."></textarea></div>
+        <div class="fg"><label class="fl">How do you support women in your current work? <span class="req">*</span></label><textarea class="ft" id="fa" placeholder="Tell us about your approach..."></textarea></div>
+        <div class="fbtns"><button class="fbtn fbtn-back" type="button" onclick="fStep(1)">Back</button><button class="fbtn" type="button" onclick="fStep(3)">Continue</button></div>
       </div>
-
-      <!-- Step 3 -->
-      <div id="founding-step-3" style="display:none">
-        <div class="form-group">
-          <label class="form-label">What does "holding space" mean to you? <span class="req">*</span></label>
-          <textarea class="form-textarea" id="f-holding" placeholder="In your own words..."></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Anything you'd want to build, create, or contribute?</label>
-          <textarea class="form-textarea" id="f-build" placeholder="Ideas, content, features... (optional)"></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Website or LinkedIn</label>
-          <input class="form-input" id="f-website" type="url" placeholder="https://...">
-        </div>
-        <div class="form-btns">
-          <button class="form-btn form-btn-back" type="button" onclick="foundingNext(2)">Back</button>
-          <button class="form-btn" type="button" id="founding-submit-btn" onclick="submitFounding()">Submit Application</button>
-        </div>
+      <div id="fs3" style="display:none">
+        <div class="fg"><label class="fl">What does "holding space" mean to you? <span class="req">*</span></label><textarea class="ft" id="fh" placeholder="In your own words..."></textarea></div>
+        <div class="fg"><label class="fl">Anything you'd want to build or contribute?</label><textarea class="ft" id="fb" placeholder="Ideas, content, features... (optional)"></textarea></div>
+        <div class="fg"><label class="fl">Website or LinkedIn</label><input class="fi" id="fw" type="url" placeholder="https://..."></div>
+        <div class="fbtns"><button class="fbtn fbtn-back" type="button" onclick="fStep(2)">Back</button><button class="fbtn" type="button" id="f-submit" onclick="submitFounding()">Submit Application</button></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Success Modal -->
+<!-- SUCCESS MODAL -->
 <div class="modal-overlay" id="modal-success">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal('success')">&times;</button>
-    <div style="padding:48px;text-align:center">
+    <button class="modal-x" onclick="closeModal('success')">&times;</button>
+    <div style="padding:44px 36px;text-align:center">
       <div class="success-icon">&#10003;</div>
-      <h4 class="hd" id="success-title" style="font-size:24px;margin-bottom:12px"></h4>
-      <p id="success-message" style="color:var(--ink2);margin-bottom:32px"></p>
-      <button class="btn btn-primary btn-sm" onclick="closeModal('success')">Close</button>
+      <h4 class="modal-title" id="suc-title" style="font-size:22px;margin-bottom:8px"></h4>
+      <p id="suc-msg" style="color:var(--t2);font-size:14px;margin-bottom:28px"></p>
+      <button class="btn btn-plum" style="padding:10px 24px;font-size:13px" onclick="closeModal('success')">Close</button>
     </div>
   </div>
 </div>
 
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
 <script>
-// --- API base URL (Railway production) ---
 var API = 'https://periwink-production-a893.up.railway.app';
 
-// --- Scroll to hero signup ---
+// --- Nav ---
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// --- Scroll reveal ---
+var rObs = new IntersectionObserver(function(es) {
+  es.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('vis'); rObs.unobserve(e.target); }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { rObs.observe(el); });
+
+// --- SVG line drawing on scroll ---
+(function() {
+  var svg = document.getElementById('hero-svg');
+  var paths = svg.querySelectorAll('path');
+  var maxOrder = 0;
+  paths.forEach(function(p) { var o = parseInt(p.getAttribute('data-order') || '1'); if (o > maxOrder) maxOrder = o; });
+
+  function drawOnScroll() {
+    var scrollY = window.scrollY;
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    var progress = Math.min(scrollY / (docH * 0.35), 1); // complete drawing in first 35% of scroll
+
+    paths.forEach(function(p) {
+      var order = parseInt(p.getAttribute('data-order') || '1');
+      var dashLen = parseFloat(p.getAttribute('stroke-dasharray'));
+      // Stagger by order
+      var start = (order - 1) / (maxOrder + 1);
+      var end = (order + 0.5) / (maxOrder + 1);
+      var localProgress = Math.max(0, Math.min(1, (progress - start) / (end - start)));
+      p.style.strokeDashoffset = dashLen * (1 - localProgress);
+    });
+  }
+
+  window.addEventListener('scroll', drawOnScroll, { passive: true });
+  drawOnScroll();
+})();
+
+// --- Rooms ---
+var rooms = [
+  { emoji: '\uD83D\uDD25', name: 'Hot Flashes & Night Sweats', count: '2,847' },
+  { emoji: '\uD83C\uDF19', name: 'Sleep & Fatigue', count: '3,201' },
+  { emoji: '\uD83E\uDDE0', name: 'Mind & Mood', count: '2,956' },
+  { emoji: '\uD83D\uDC8A', name: 'HRT & Hormone Therapy', count: '4,102' },
+  { emoji: '\uD83D\uDC9C', name: 'Relationships & Intimacy', count: '1,890' },
+  { emoji: '\uD83C\uDF3F', name: 'Supplements & Nutrition', count: '2,103' },
+  { emoji: '\uD83E\uDD8B', name: 'Body Changes', count: '1,645' },
+  { emoji: '\uD83D\uDCBC', name: 'Work & Career', count: '1,320' },
+];
+var rs = document.getElementById('rooms-scroll');
+rooms.forEach(function(r) {
+  var d = document.createElement('div');
+  d.className = 'room-pill';
+  d.onclick = function() { scrollToSignup(); };
+  d.innerHTML = '<span class="room-emoji">' + r.emoji + '</span><div class="room-info"><span class="room-name">' + r.name + '</span><span class="room-count"><span class="room-dot"></span>' + r.count + ' sharing</span></div>';
+  rs.appendChild(d);
+});
+
+// --- Scroll to signup ---
 function scrollToSignup() {
-  var form = document.getElementById('hero-signup-form');
-  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  setTimeout(function() { form.querySelector('input').focus(); }, 600);
+  var f = document.getElementById('hero-form');
+  f.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() { f.querySelector('input').focus(); }, 600);
 }
 
 // --- Hero email signup ---
-function submitHeroSignup(e) {
+function submitHero(e) {
   e.preventDefault();
-  var form = document.getElementById('hero-signup-form');
-  var msg = document.getElementById('hero-form-msg');
+  var form = document.getElementById('hero-form');
+  var msg = document.getElementById('hero-msg');
   var input = form.querySelector('input');
   var btn = form.querySelector('button');
-  var email = input.value.trim();
-
-  msg.textContent = '';
-  msg.className = 'hero-form-msg';
-  btn.disabled = true;
-  btn.textContent = 'Joining...';
+  msg.textContent = ''; msg.className = 'hero-msg';
+  btn.disabled = true; btn.textContent = 'Joining...';
 
   fetch(API + '/api/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email }),
+    body: JSON.stringify({ email: input.value.trim() }),
   })
   .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
   .then(function(res) {
     if (res.ok) {
       msg.textContent = "You're in! We'll be in touch soon.";
-      msg.className = 'hero-form-msg success';
-      input.value = '';
+      msg.className = 'hero-msg ok'; input.value = '';
     } else {
       msg.textContent = res.data.error || 'Something went wrong.';
-      msg.className = 'hero-form-msg error';
+      msg.className = 'hero-msg err';
     }
   })
-  .catch(function() {
-    msg.textContent = 'Network error. Please try again.';
-    msg.className = 'hero-form-msg error';
-  })
-  .finally(function() {
-    btn.disabled = false;
-    btn.textContent = 'Join Early';
-  });
+  .catch(function() { msg.textContent = 'Network error. Please try again.'; msg.className = 'hero-msg err'; })
+  .finally(function() { btn.disabled = false; btn.textContent = 'Join Early'; });
 }
 
-// --- Nav scroll ---
-window.addEventListener('scroll', function() {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+// --- Modal ---
+function openModal(n) { document.getElementById('modal-' + n).classList.add('open'); document.body.style.overflow = 'hidden'; if (n === 'founding') { curStep = 1; showStep(1); } }
+function closeModal(n) { document.getElementById('modal-' + n).classList.remove('open'); document.body.style.overflow = ''; }
+document.querySelectorAll('.modal-overlay').forEach(function(o) {
+  o.addEventListener('click', function(e) { if (e.target === o) { o.classList.remove('open'); document.body.style.overflow = ''; } });
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(function(o) { o.classList.remove('open'); document.body.style.overflow = ''; });
 });
 
-// --- Scroll reveal ---
-var rObs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (e.isIntersecting) {
-      e.target.classList.add('vis');
-      rObs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+function showErr(msg) { var el = document.getElementById('f-err'); el.textContent = msg; el.style.display = 'block'; }
+function hideErr() { document.getElementById('f-err').style.display = 'none'; }
 
-document.querySelectorAll('.reveal').forEach(function(el) { rObs.observe(el); });
-
-// --- Render features ---
-var features = [
-  { icon: '\uD83D\uDCAC', title: 'Shared Circles', desc: 'Intimate spaces for real conversations. Topics that matter, with women who truly understand.' },
-  { icon: '\u2728', title: 'Collective Wisdom', desc: 'Learn what actually works from women who\'ve been there. Real insights from lived experience.' },
-  { icon: '\uD83D\uDCD6', title: 'Your Story, Tracked', desc: 'Notice patterns in your experience. Understand your body better. Share on your terms.' },
-  { icon: '\uD83E\uDD1D', title: 'Always Supported', desc: 'Feeling understood isn\'t optional \u2014 it\'s essential. Every interaction helps you feel seen.' },
-  { icon: '\uD83D\uDD12', title: 'Truly Private', desc: 'Your story is yours. Pseudonymous by default, with full control over what you share.' },
-  { icon: '\uD83C\uDF31', title: 'Always Growing', desc: 'Periwink evolves with the community. Your voice shapes what we build next.' },
-];
-
-var fg = document.getElementById('features-grid');
-features.forEach(function(f, i) {
-  var d = document.createElement('div');
-  d.className = 'feature-card reveal';
-  d.style.transitionDelay = (i * 0.08) + 's';
-  d.innerHTML = '<span class="feature-icon">' + f.icon + '</span><h3 class="feature-title">' + f.title + '</h3><p class="feature-desc">' + f.desc + '</p>';
-  fg.appendChild(d);
-  rObs.observe(d);
-});
-
-// --- Render circles ---
-var circles = [
-  { emoji: '\uD83D\uDD25', name: 'Bodies in Flux', desc: 'Hot flashes, night sweats, and everything your body is doing differently.', members: '2,847' },
-  { emoji: '\uD83C\uDF19', name: 'Sleep & Energy', desc: 'Finding rest when your body forgot how. Real strategies that work.', members: '3,201' },
-  { emoji: '\uD83E\uDDE0', name: 'Mind & Mood', desc: 'The emotional journey \u2014 anxiety, clarity, fog, and breakthroughs.', members: '2,956' },
-  { emoji: '\uD83D\uDC8A', name: 'Treatment Paths', desc: 'HRT, alternatives, and everything in between. What\'s working for whom.', members: '4,102' },
-  { emoji: '\uD83D\uDC9C', name: 'Identity & Relationships', desc: 'Who you\'re becoming. How your relationships are evolving.', members: '1,890' },
-  { emoji: '\uD83C\uDF3F', name: 'Nourishment', desc: 'Food, movement, supplements. What feeds you now.', members: '2,103' },
-];
-
-var cg = document.getElementById('circles-grid');
-circles.forEach(function(c, i) {
-  var d = document.createElement('div');
-  d.className = 'circle-card reveal';
-  d.style.transitionDelay = (i * 0.06) + 's';
-  d.onclick = function() { scrollToSignup(); };
-  d.innerHTML = '<span class="circle-emoji">' + c.emoji + '</span><h4 class="circle-name">' + c.name + '</h4><p class="circle-desc">' + c.desc + '</p><div class="circle-members"><span class="circle-dot"></span>' + c.members + ' sharing</div>';
-  cg.appendChild(d);
-  rObs.observe(d);
-});
-
-// --- Roles ---
+// --- Founding member roles ---
 var roles = [
-  { value: 'PRACTITIONER', label: 'Healthcare Practitioner' },
-  { value: 'RESEARCHER', label: 'Researcher' },
-  { value: 'CONTENT_CREATOR', label: 'Content Creator' },
-  { value: 'COMMUNITY_BUILDER', label: 'Community Builder' },
-  { value: 'BRAND_PARTNER', label: 'Brand Partner' },
+  { v: 'PRACTITIONER', l: 'Healthcare Practitioner' },
+  { v: 'RESEARCHER', l: 'Researcher' },
+  { v: 'CONTENT_CREATOR', l: 'Content Creator' },
+  { v: 'COMMUNITY_BUILDER', l: 'Community Builder' },
+  { v: 'BRAND_PARTNER', l: 'Brand Partner' },
 ];
-var selectedRole = '';
-var rg = document.getElementById('role-grid');
+var selRole = '';
+var rg = document.getElementById('rgrid');
 roles.forEach(function(r) {
   var b = document.createElement('button');
-  b.type = 'button';
-  b.className = 'role-btn';
-  b.textContent = r.label;
+  b.type = 'button'; b.className = 'rbtn'; b.textContent = r.l;
   b.onclick = function() {
-    selectedRole = r.value;
-    document.querySelectorAll('.role-btn').forEach(function(btn) { btn.classList.remove('selected'); });
-    b.classList.add('selected');
+    selRole = r.v;
+    document.querySelectorAll('.rbtn').forEach(function(x) { x.classList.remove('sel'); });
+    b.classList.add('sel');
   };
   rg.appendChild(b);
 });
 
-// --- Modal helpers ---
-function openModal(name) {
-  hideError(name === 'founding' ? 'founding' : 'community');
-  document.getElementById('modal-' + name).classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (name === 'founding') { foundingStep = 1; showFoundingStep(1); }
+// --- Founding steps ---
+var curStep = 1;
+function showStep(s) {
+  for (var i = 1; i <= 3; i++) document.getElementById('fs' + i).style.display = i === s ? 'block' : 'none';
+  var dots = document.querySelectorAll('#f-steps .sdot');
+  dots.forEach(function(d, idx) { d.className = 'sdot' + (idx + 1 === s ? ' on' : '') + (idx + 1 < s ? ' done' : ''); });
 }
-function closeModal(name) {
-  document.getElementById('modal-' + name).classList.remove('open');
-  document.body.style.overflow = '';
-}
-// Close on backdrop click
-document.querySelectorAll('.modal-overlay').forEach(function(ov) {
-  ov.addEventListener('click', function(e) {
-    if (e.target === ov) {
-      ov.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  });
-});
-// Close on Escape
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.open').forEach(function(ov) {
-      ov.classList.remove('open');
-    });
-    document.body.style.overflow = '';
+function fStep(s) {
+  hideErr();
+  if (s === 2 && curStep === 1) {
+    if (!document.getElementById('fn').value.trim() || !document.getElementById('fe').value.trim() || !selRole) { showErr('Please fill in name, email, and select a role.'); return; }
   }
-});
-
-function showError(section, msg) {
-  var el = document.getElementById(section + '-error');
-  el.textContent = msg;
-  el.style.display = 'block';
-}
-function hideError(section) {
-  var el = document.getElementById(section + '-error');
-  if (el) { el.style.display = 'none'; }
-}
-
-// --- Community signup ---
-function submitCommunity(e) {
-  e.preventDefault();
-  hideError('community');
-  var form = document.getElementById('community-form');
-  var data = {
-    name: form.name.value.trim(),
-    email: form.email.value.trim(),
-    pseudonym: form.pseudonym.value.trim(),
-  };
-  var btn = form.querySelector('.form-btn');
-  btn.disabled = true;
-  btn.textContent = 'Joining...';
-
-  fetch(API + '/api/signup/community', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
-  .then(function(res) {
-    if (res.ok) {
-      closeModal('community');
-      form.reset();
-      showSuccess("You're in.", "Check your email \u2014 we'll be in touch soon. We're glad you're here.");
-    } else {
-      showError('community', res.data.error || 'Something went wrong.');
-    }
-  })
-  .catch(function() {
-    showError('community', 'Network error. Please try again.');
-  })
-  .finally(function() {
-    btn.disabled = false;
-    btn.textContent = 'Join Periwink';
-  });
-}
-
-// --- Founding member ---
-var foundingStep = 1;
-
-function showFoundingStep(step) {
-  for (var i = 1; i <= 3; i++) {
-    document.getElementById('founding-step-' + i).style.display = i === step ? 'block' : 'none';
+  if (s === 3 && curStep === 2) {
+    if (!document.getElementById('fd').value.trim() || !document.getElementById('fof').value.trim() || !document.getElementById('fa').value.trim()) { showErr('Please answer all required questions.'); return; }
   }
-  var dots = document.querySelectorAll('#founding-steps .step-dot');
-  dots.forEach(function(d, idx) {
-    d.className = 'step-dot' + (idx + 1 === step ? ' active' : '') + (idx + 1 < step ? ' done' : '');
-  });
-}
-
-function foundingNext(step) {
-  hideError('founding');
-  if (step === 2 && foundingStep === 1) {
-    if (!document.getElementById('f-name').value.trim() || !document.getElementById('f-email').value.trim() || !selectedRole) {
-      showError('founding', 'Please fill in your name, email, and select a role.');
-      return;
-    }
-  }
-  if (step === 3 && foundingStep === 2) {
-    if (!document.getElementById('f-draws').value.trim() || !document.getElementById('f-offer').value.trim() || !document.getElementById('f-approach').value.trim()) {
-      showError('founding', 'Please answer all required questions.');
-      return;
-    }
-  }
-  foundingStep = step;
-  showFoundingStep(step);
+  curStep = s; showStep(s);
 }
 
 function submitFounding() {
-  hideError('founding');
-  if (!document.getElementById('f-holding').value.trim()) {
-    showError('founding', 'Please answer the required question.');
-    return;
-  }
+  hideErr();
+  if (!document.getElementById('fh').value.trim()) { showErr('Please answer the required question.'); return; }
+  var btn = document.getElementById('f-submit');
+  btn.disabled = true; btn.textContent = 'Submitting...';
 
   var data = {
-    name: document.getElementById('f-name').value.trim(),
-    email: document.getElementById('f-email').value.trim(),
-    roleType: selectedRole,
-    whatDrawsYou: document.getElementById('f-draws').value.trim(),
-    whatYouOffer: document.getElementById('f-offer').value.trim(),
-    currentApproach: document.getElementById('f-approach').value.trim(),
-    holdingSpace: document.getElementById('f-holding').value.trim(),
-    wantToBuild: document.getElementById('f-build').value.trim() || null,
-    organization: document.getElementById('f-org').value.trim() || null,
-    website: document.getElementById('f-website').value.trim() || null,
+    name: document.getElementById('fn').value.trim(),
+    email: document.getElementById('fe').value.trim(),
+    roleType: selRole,
+    whatDrawsYou: document.getElementById('fd').value.trim(),
+    whatYouOffer: document.getElementById('fof').value.trim(),
+    currentApproach: document.getElementById('fa').value.trim(),
+    holdingSpace: document.getElementById('fh').value.trim(),
+    wantToBuild: document.getElementById('fb').value.trim() || null,
+    organization: document.getElementById('fo').value.trim() || null,
+    website: document.getElementById('fw').value.trim() || null,
   };
 
-  var btn = document.getElementById('founding-submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'Submitting...';
-
   fetch(API + '/api/signup/founding', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
   .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
   .then(function(res) {
     if (res.ok) {
       closeModal('founding');
-      // Reset form
-      ['f-name','f-email','f-org','f-draws','f-offer','f-approach','f-holding','f-build','f-website'].forEach(function(id) {
-        document.getElementById(id).value = '';
-      });
-      selectedRole = '';
-      document.querySelectorAll('.role-btn').forEach(function(b) { b.classList.remove('selected'); });
-      showSuccess('Application received.', "We'll review and be in touch within a few days. Thank you for wanting to build with us.");
-    } else {
-      showError('founding', res.data.error || 'Something went wrong.');
-    }
+      ['fn','fe','fo','fd','fof','fa','fh','fb','fw'].forEach(function(id) { document.getElementById(id).value = ''; });
+      selRole = ''; document.querySelectorAll('.rbtn').forEach(function(b) { b.classList.remove('sel'); });
+      document.getElementById('suc-title').textContent = 'Application received.';
+      document.getElementById('suc-msg').textContent = "We'll review and be in touch within a few days. Thank you for wanting to build with us.";
+      openModal('success');
+    } else { showErr(res.data.error || 'Something went wrong.'); }
   })
-  .catch(function() {
-    showError('founding', 'Network error. Please try again.');
-  })
-  .finally(function() {
-    btn.disabled = false;
-    btn.textContent = 'Submit Application';
-  });
-}
-
-function showSuccess(title, message) {
-  document.getElementById('success-title').textContent = title;
-  document.getElementById('success-message').textContent = message;
-  openModal('success');
+  .catch(function() { showErr('Network error. Please try again.'); })
+  .finally(function() { btn.disabled = false; btn.textContent = 'Submit Application'; });
 }
 </script>
 </body>
