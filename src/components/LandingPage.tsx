@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-// ─── Design Tokens ───
+// — Design Tokens —
 const colors = {
   // Primary palette
   periwinkle: "#8B7AA8",
@@ -12,40 +12,31 @@ const colors = {
   periwinkleMist: "#E8E1F0",
   periwinkleWhisper: "#F5F2F9",
   lavenderBlush: "#F8F4FC",
-  
+
   // Warm neutrals
   cream: "#FFFCF9",
   warmWhite: "#FEFDFB",
   blush: "#F2E4E6",
   roseSoft: "#E8C4C4",
   sageSoft: "#D4DED0",
-  
+
   // Text
   ink: "#2D2438",
   inkSoft: "#5C4E6A",
   inkMuted: "#8B7D98",
 };
 
-// ─── Keyframes (CSS-in-JS) ───
-const keyframes = `
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.8; }
-  }
-`;
+// — Reusable Components —
 
-// ─── Modal Component ───
-interface ModalProps {
+function Modal({
+  isOpen,
+  onClose,
+  children,
+}: {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-}
-
-function Modal({ isOpen, onClose, children }: ModalProps) {
+}) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -90,334 +81,98 @@ function Modal({ isOpen, onClose, children }: ModalProps) {
   );
 }
 
-// ─── Community Signup Modal Content ───
-function CommunitySignupForm({ onSuccess }: { onSuccess: () => void }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", pseudonym: "" });
+// — Main Landing Page —
 
-  const handleSubmit = async (e: React.FormEvent) => {
+export default function LandingPage() {
+  const [communityModalOpen, setCommunityModalOpen] = useState(false);
+  const [foundingModalOpen, setFoundingModalOpen] = useState(false);
+  const [foundingStep, setFoundingStep] = useState(1);
+  const [successModal, setSuccessModal] = useState<{
+    open: boolean;
+    title: string;
+    message: string;
+  }>({ open: false, title: "", message: "" });
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Form states
+  const [communityForm, setCommunityForm] = useState({
+    name: "",
+    email: "",
+    pseudonym: "",
+  });
+  const [foundingForm, setFoundingForm] = useState({
+    name: "",
+    email: "",
+    role: "",
+    bio: "",
+    url: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleCommunitySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
       const res = await fetch("/api/signup/community", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(communityForm),
       });
-      if (res.ok) onSuccess();
-      else alert("Something went wrong. Please try again.");
-    } catch {
-      onSuccess(); // Show success for demo
-    } finally {
-      setIsSubmitting(false);
+      if (res.ok) {
+        setCommunityModalOpen(false);
+        setCommunityForm({ name: "", email: "", pseudonym: "" });
+        setSuccessModal({
+          open: true,
+          title: "You're in.",
+          message: "Check your email—we'll be in touch soon. We're glad you're here.",
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
+    setIsSubmitting(false);
   };
 
-  return (
-    <div>
-      <div className="px-10 pt-10 pb-6 text-center border-b" style={{ borderColor: colors.periwinkleMist }}>
-        <h3 className="text-2xl font-normal mb-2" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
-          Join the Community
-        </h3>
-        <p className="text-sm" style={{ color: colors.inkMuted }}>
-          You're taking the first step. We'll be in touch soon.
-        </p>
-      </div>
-      <form onSubmit={handleSubmit} className="p-10 pt-8">
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-2" style={{ color: colors.ink }}>
-            Your name <span style={{ color: colors.periwinkle }}>*</span>
-          </label>
-          <input
-            type="text"
-            required
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            placeholder="How should we address you?"
-            className="w-full px-4 py-3 rounded-xl border text-sm transition-all focus:outline-none"
-            style={{ borderColor: colors.periwinkleMist, color: colors.ink }}
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-2" style={{ color: colors.ink }}>
-            Email <span style={{ color: colors.periwinkle }}>*</span>
-          </label>
-          <input
-            type="email"
-            required
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            placeholder="your@email.com"
-            className="w-full px-4 py-3 rounded-xl border text-sm transition-all focus:outline-none"
-            style={{ borderColor: colors.periwinkleMist, color: colors.ink }}
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-sm font-medium mb-2" style={{ color: colors.ink }}>
-            Choose a pseudonym <span style={{ color: colors.periwinkle }}>*</span>
-          </label>
-          <input
-            type="text"
-            required
-            value={formData.pseudonym}
-            onChange={(e) => setFormData({ ...formData, pseudonym: e.target.value })}
-            placeholder="Your community name"
-            className="w-full px-4 py-3 rounded-xl border text-sm transition-all focus:outline-none"
-            style={{ borderColor: colors.periwinkleMist, color: colors.ink }}
-          />
-          <p className="text-xs mt-2" style={{ color: colors.inkMuted }}>
-            This is how you'll appear to others. You can stay as anonymous as you'd like.
-          </p>
-        </div>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full py-4 rounded-xl text-white font-medium transition-all disabled:opacity-60"
-          style={{ background: colors.periwinkleDeep }}
-        >
-          {isSubmitting ? "Joining..." : "Join Periwink"}
-        </button>
-      </form>
-    </div>
-  );
-}
-
-// ─── Founding Member Modal Content ───
-function FoundingMemberForm({ onSuccess }: { onSuccess: () => void }) {
-  const [step, setStep] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    roleType: "",
-    bio: "",
-    url: "",
-  });
-
-  const roles = [
-    { value: "practitioner", label: "Healthcare Practitioner" },
-    { value: "researcher", label: "Researcher" },
-    { value: "creator", label: "Content Creator" },
-    { value: "builder", label: "Community Builder" },
-  ];
-
-  const handleSubmit = async () => {
-    if (!formData.bio) {
-      alert("Please tell us about yourself.");
-      return;
-    }
+  const handleFoundingSubmit = async () => {
     setIsSubmitting(true);
     try {
       const res = await fetch("/api/signup/founding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(foundingForm),
       });
-      if (res.ok) onSuccess();
-      else alert("Something went wrong. Please try again.");
-    } catch {
-      onSuccess(); // Show success for demo
-    } finally {
-      setIsSubmitting(false);
+      if (res.ok) {
+        setFoundingModalOpen(false);
+        setFoundingStep(1);
+        setFoundingForm({ name: "", email: "", role: "", bio: "", url: "" });
+        setSuccessModal({
+          open: true,
+          title: "Application received.",
+          message: "We'll review and be in touch within a few days. Thank you for wanting to build with us.",
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
+    setIsSubmitting(false);
   };
 
-  const goToStep2 = () => {
-    if (!formData.name || !formData.email || !formData.roleType) {
-      alert("Please fill in all required fields and select a role.");
-      return;
-    }
-    setStep(2);
-  };
-
-  return (
-    <div>
-      <div className="px-10 pt-10 pb-6 text-center border-b" style={{ borderColor: colors.periwinkleMist }}>
-        <h3 className="text-2xl font-normal mb-2" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
-          Become a Founding Member
-        </h3>
-        <p className="text-sm" style={{ color: colors.inkMuted }}>
-          Help shape what Periwink becomes.
-        </p>
-      </div>
-      <div className="p-10 pt-8">
-        {/* Step indicator */}
-        <div className="flex justify-center gap-3 mb-6">
-          <span
-            className="w-2.5 h-2.5 rounded-full transition-all"
-            style={{
-              background: step === 1 ? colors.periwinkleDeep : colors.periwinkleMist,
-              transform: step === 1 ? "scale(1.2)" : "scale(1)",
-            }}
-          />
-          <span
-            className="w-2.5 h-2.5 rounded-full transition-all"
-            style={{
-              background: step === 2 ? colors.periwinkleDeep : colors.periwinkleMist,
-              transform: step === 2 ? "scale(1.2)" : "scale(1)",
-            }}
-          />
-        </div>
-
-        {step === 1 ? (
-          <>
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2" style={{ color: colors.ink }}>
-                Your name <span style={{ color: colors.periwinkle }}>*</span>
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Full name"
-                className="w-full px-4 py-3 rounded-xl border text-sm transition-all focus:outline-none"
-                style={{ borderColor: colors.periwinkleMist, color: colors.ink }}
-              />
-            </div>
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2" style={{ color: colors.ink }}>
-                Email <span style={{ color: colors.periwinkle }}>*</span>
-              </label>
-              <input
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="your@email.com"
-                className="w-full px-4 py-3 rounded-xl border text-sm transition-all focus:outline-none"
-                style={{ borderColor: colors.periwinkleMist, color: colors.ink }}
-              />
-            </div>
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2" style={{ color: colors.ink }}>
-                What role interests you? <span style={{ color: colors.periwinkle }}>*</span>
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                {roles.map((role) => (
-                  <button
-                    key={role.value}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, roleType: role.value })}
-                    className="p-4 rounded-xl border-2 text-center text-sm font-medium transition-all"
-                    style={{
-                      borderColor: formData.roleType === role.value ? colors.periwinkleDeep : colors.periwinkleMist,
-                      background: formData.roleType === role.value ? colors.lavenderBlush : "white",
-                      color: colors.ink,
-                    }}
-                  >
-                    {role.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={goToStep2}
-              className="w-full py-4 rounded-xl text-white font-medium transition-all"
-              style={{ background: colors.periwinkleDeep }}
-            >
-              Continue
-            </button>
-          </>
-        ) : (
-          <>
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2" style={{ color: colors.ink }}>
-                Tell us about yourself <span style={{ color: colors.periwinkle }}>*</span>
-              </label>
-              <textarea
-                required
-                value={formData.bio}
-                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                placeholder="What draws you to Periwink? What experience or expertise would you bring?"
-                className="w-full px-4 py-3 rounded-xl border text-sm transition-all focus:outline-none min-h-[120px] resize-y"
-                style={{ borderColor: colors.periwinkleMist, color: colors.ink }}
-              />
-            </div>
-            <div className="mb-6">
-              <label className="block text-sm font-medium mb-2" style={{ color: colors.ink }}>
-                Website or LinkedIn (optional)
-              </label>
-              <input
-                type="url"
-                value={formData.url}
-                onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                placeholder="https://..."
-                className="w-full px-4 py-3 rounded-xl border text-sm transition-all focus:outline-none"
-                style={{ borderColor: colors.periwinkleMist, color: colors.ink }}
-              />
-            </div>
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="w-full py-4 rounded-xl text-white font-medium transition-all disabled:opacity-60"
-              style={{ background: colors.periwinkleDeep }}
-            >
-              {isSubmitting ? "Submitting..." : "Submit Application"}
-            </button>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ─── Success Message ───
-function SuccessMessage({ title, message }: { title: string; message: string }) {
-  return (
-    <div className="p-10 text-center">
-      <div
-        className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-5"
-        style={{ background: colors.sageSoft }}
-      >
-        ✓
-      </div>
-      <h4 className="text-2xl font-normal mb-3" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
-        {title}
-      </h4>
-      <p style={{ color: colors.inkSoft }}>{message}</p>
-    </div>
-  );
-}
-
-// ─── Main Landing Page Component ───
-export default function LandingPage() {
-  const [showCommunityModal, setShowCommunityModal] = useState(false);
-  const [showFoundingModal, setShowFoundingModal] = useState(false);
-  const [communitySuccess, setCommunitySuccess] = useState(false);
-  const [foundingSuccess, setFoundingSuccess] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const closeCommunityModal = () => {
-    setShowCommunityModal(false);
-    setTimeout(() => setCommunitySuccess(false), 300);
-  };
-
-  const closeFoundingModal = () => {
-    setShowFoundingModal(false);
-    setTimeout(() => setFoundingSuccess(false), 300);
-  };
-
-  // Circle data
   const circles = [
-    { emoji: "🔥", title: "Bodies in Flux", desc: "Hot flashes, night sweats, and everything your body is doing differently.", members: "2,847" },
-    { emoji: "🌙", title: "Sleep & Energy", desc: "Finding rest when your body forgot how. Real strategies that work.", members: "3,201" },
-    { emoji: "🧠", title: "Mind & Mood", desc: "The emotional journey—anxiety, clarity, fog, and breakthroughs.", members: "2,956" },
-    { emoji: "💊", title: "Treatment Paths", desc: "HRT, alternatives, and everything in between. What's working for whom.", members: "4,102" },
-    { emoji: "💜", title: "Identity & Relationships", desc: "Who you're becoming. How your relationships are evolving.", members: "1,890" },
-    { emoji: "🌿", title: "Nourishment", desc: "Food, movement, supplements. What feeds you now.", members: "2,103" },
+    { emoji: "🔥", name: "Bodies in Flux", desc: "Hot flashes, night sweats, and everything your body is doing differently.", members: "2,847" },
+    { emoji: "🌙", name: "Sleep & Energy", desc: "Finding rest when your body forgot how. Real strategies that work.", members: "3,201" },
+    { emoji: "🧠", name: "Mind & Mood", desc: "The emotional journey—anxiety, clarity, fog, and breakthroughs.", members: "2,956" },
+    { emoji: "💊", name: "Treatment Paths", desc: "HRT, alternatives, and everything in between. What's working for whom.", members: "4,102" },
+    { emoji: "💜", name: "Identity & Relationships", desc: "Who you're becoming. How your relationships are evolving.", members: "1,890" },
+    { emoji: "🌿", name: "Nourishment", desc: "Food, movement, supplements. What feeds you now.", members: "2,103" },
   ];
 
-  // Pillar data
-  const pillars = [
+  const features = [
     { icon: "💬", title: "Shared Circles", desc: "Intimate spaces for real conversations. Topics that matter, with women who truly understand." },
     { icon: "✨", title: "Collective Wisdom", desc: "Learn what actually works from women who've been there. Real insights from lived experience." },
     { icon: "📖", title: "Your Story, Tracked", desc: "Notice patterns in your experience. Understand your body better. Share on your terms." },
@@ -426,32 +181,92 @@ export default function LandingPage() {
     { icon: "🌱", title: "Always Growing", desc: "Periwink evolves with the community. Your voice shapes what we build next." },
   ];
 
+  const roles = [
+    "Healthcare Practitioner",
+    "Researcher",
+    "Content Creator",
+    "Community Builder",
+  ];
+
   return (
     <>
-      <style>{keyframes}</style>
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+          font-family: 'Outfit', -apple-system, sans-serif;
+          background: ${colors.cream};
+          color: ${colors.ink};
+          -webkit-font-smoothing: antialiased;
+        }
+        
+        .font-display { font-family: 'Playfair Display', Georgia, serif; }
+        
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
+        .delay-5 { animation-delay: 0.5s; opacity: 0; }
+        
+        .highlight {
+          background: linear-gradient(180deg, transparent 60%, rgba(196, 184, 214, 0.4) 60%);
+          padding: 0 4px;
+        }
+      `}</style>
 
       {/* Navigation */}
       <nav
-        className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          padding: scrolled ? "14px 0" : "20px 0",
-          background: scrolled ? "rgba(255, 252, 249, 0.95)" : "transparent",
-          backdropFilter: scrolled ? "blur(20px)" : "none",
-          boxShadow: scrolled ? "0 2px 30px rgba(110, 90, 126, 0.08)" : "none",
+          padding: isScrolled ? "12px 0" : "20px 0",
+          background: isScrolled ? "rgba(255, 252, 249, 0.95)" : "transparent",
+          backdropFilter: isScrolled ? "blur(20px)" : "none",
+          boxShadow: isScrolled ? "0 2px 30px rgba(110, 90, 126, 0.08)" : "none",
         }}
       >
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-          <a href="#" className="text-2xl font-normal" style={{ fontFamily: "'Playfair Display', serif", color: colors.periwinkleDeep }}>
+          <a href="#" className="font-display text-2xl" style={{ color: colors.periwinkleDeep }}>
             periwink
           </a>
           <div className="flex items-center gap-8">
-            <a href="#about" className="text-sm hidden md:block" style={{ color: colors.inkSoft }}>Our Story</a>
-            <a href="#community" className="text-sm hidden md:block" style={{ color: colors.inkSoft }}>Community</a>
-            <a href="#builders" className="text-sm hidden md:block" style={{ color: colors.inkSoft }}>Contribute</a>
+            <a href="#about" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: colors.inkSoft }}>
+              Our Story
+            </a>
+            <a href="#community" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: colors.inkSoft }}>
+              Community
+            </a>
+            <a href="#builders" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: colors.inkSoft }}>
+              Contribute
+            </a>
             <button
-              onClick={() => setShowCommunityModal(true)}
-              className="px-6 py-3 rounded-full text-sm font-medium text-white transition-all hover:-translate-y-0.5"
-              style={{ background: colors.periwinkleDeep, boxShadow: "0 4px 20px rgba(110, 90, 126, 0.3)" }}
+              onClick={() => setCommunityModalOpen(true)}
+              className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5"
+              style={{
+                background: colors.periwinkleDeep,
+                color: "#fff",
+                boxShadow: "0 4px 20px rgba(110, 90, 126, 0.3)",
+              }}
             >
               Join Early
             </button>
@@ -461,140 +276,184 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section
-        className="min-h-screen flex items-center justify-center text-center relative overflow-hidden"
-        style={{ padding: "120px 24px 80px", background: `linear-gradient(180deg, ${colors.lavenderBlush} 0%, ${colors.cream} 100%)` }}
+        className="min-h-screen flex items-center justify-center text-center px-6 pt-32 pb-20 relative overflow-hidden"
+        style={{
+          background: `linear-gradient(180deg, ${colors.lavenderBlush} 0%, ${colors.cream} 100%)`,
+        }}
       >
-        <div className="relative z-10 max-w-2xl mx-auto">
+        {/* Background image - feminine figure */}
+        <div 
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `url('/brand/figure.png')`,
+            backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+        
+        <div className="max-w-3xl relative z-10">
           {/* Badge */}
           <div
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium mb-7"
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full text-sm font-medium mb-8 animate-fade-in-up"
             style={{
-              background: "rgba(255, 255, 255, 0.9)",
+              background: "rgba(255,255,255,0.9)",
               border: `1px solid ${colors.periwinkleLight}`,
               color: colors.periwinkleDeep,
-              animation: "fadeInUp 0.8s ease-out 0.2s both",
             }}
           >
-            <span className="w-2 h-2 rounded-full" style={{ background: "#7CB07F", animation: "pulse 2s ease-in-out infinite" }} />
+            <span
+              className="w-2 h-2 rounded-full"
+              style={{ background: "#7CB07F", animation: "pulse 2s ease-in-out infinite" }}
+            />
             Building something meaningful
           </div>
 
-          {/* Headline */}
+          {/* Main Headline */}
           <h1
-            className="text-4xl md:text-6xl font-normal leading-tight mb-6"
-            style={{ fontFamily: "'Playfair Display', serif", color: colors.ink, animation: "fadeInUp 0.8s ease-out 0.4s both" }}
+            className="font-display text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 animate-fade-in-up delay-1"
+            style={{ fontWeight: 400 }}
           >
-            A wiser way forward—<em style={{ color: colors.periwinkleDeep }}>together.</em>
+            A wiser way forward—
+            <em style={{ color: colors.periwinkleDeep }}>together.</em>
           </h1>
 
-          {/* Subtitle */}
+          {/* Subheadline */}
           <p
-            className="text-lg leading-relaxed mb-9 max-w-xl mx-auto"
-            style={{ color: colors.inkSoft, animation: "fadeInUp 0.8s ease-out 0.6s both" }}
+            className="text-lg md:text-xl mb-4 animate-fade-in-up delay-2"
+            style={{ color: colors.inkSoft, maxWidth: "600px", margin: "0 auto", lineHeight: 1.7 }}
           >
-            Growth, wisdom, and shared experience—for the women you are becoming. Where real conversations lead to real understanding.
+            Growth, wisdom, and shared experience—for the women you are becoming.
+          </p>
+          
+          {/* Secondary line */}
+          <p
+            className="text-base mb-10 animate-fade-in-up delay-3"
+            style={{ color: colors.inkMuted, fontStyle: "italic" }}
+          >
+            More truth. Deeper alignment. More you.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center" style={{ animation: "fadeInUp 0.8s ease-out 0.8s both" }}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-4">
             <button
-              onClick={() => setShowCommunityModal(true)}
-              className="px-9 py-4 rounded-full text-base font-medium text-white transition-all hover:-translate-y-0.5"
-              style={{ background: colors.periwinkleDeep, boxShadow: "0 4px 20px rgba(110, 90, 126, 0.3)" }}
+              onClick={() => setCommunityModalOpen(true)}
+              className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5"
+              style={{
+                background: colors.periwinkleDeep,
+                color: "#fff",
+                boxShadow: "0 6px 28px rgba(110, 90, 126, 0.35)",
+              }}
             >
               Join the Community
             </button>
             <button
-              onClick={() => setShowFoundingModal(true)}
-              className="px-9 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5"
-              style={{ background: "#fff", color: colors.periwinkleDeep, border: `2px solid ${colors.periwinkleDeep}` }}
+              onClick={() => setFoundingModalOpen(true)}
+              className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5"
+              style={{
+                background: "#fff",
+                color: colors.periwinkleDeep,
+                border: `2px solid ${colors.periwinkleDeep}`,
+              }}
             >
               Become a Founding Member
             </button>
           </div>
 
           {/* Social proof */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12" style={{ animation: "fadeInUp 0.8s ease-out 1s both" }}>
-            <div className="flex">
-              {[0, 1, 2].map((i) => (
+          <div className="flex items-center justify-center gap-4 mt-12 animate-fade-in-up delay-5">
+            <div className="flex -space-x-3">
+              {[colors.periwinkleLight, colors.sageSoft, colors.roseSoft].map((bg, i) => (
                 <div
                   key={i}
-                  className="w-9 h-9 rounded-full border-2 border-white"
-                  style={{
-                    marginLeft: i > 0 ? "-10px" : 0,
-                    background: i === 0 ? `linear-gradient(135deg, ${colors.periwinkleLight}, ${colors.roseSoft})` :
-                               i === 1 ? `linear-gradient(135deg, ${colors.sageSoft}, ${colors.periwinkleLight})` :
-                               `linear-gradient(135deg, ${colors.roseSoft}, ${colors.blush})`,
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                  }}
+                  className="w-10 h-10 rounded-full border-2 border-white"
+                  style={{ background: `linear-gradient(135deg, ${bg}, ${colors.periwinkleMist})`, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
                 />
               ))}
             </div>
             <p className="text-sm" style={{ color: colors.inkMuted }}>
-              Join <strong style={{ color: colors.inkSoft, fontWeight: 500 }}>2,400+ women</strong> finding their way forward
+              Join <strong style={{ color: colors.inkSoft }}>2,400+ women</strong> finding their way forward
             </p>
           </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 animate-fade-in delay-5">
+          <span className="text-xs tracking-widest uppercase" style={{ color: colors.inkMuted }}>
+            Learn more
+          </span>
+          <div className="w-px h-10" style={{ background: `linear-gradient(${colors.periwinkle}, transparent)` }} />
         </div>
       </section>
 
       {/* Why Section */}
       <section id="about" className="py-24 px-6" style={{ background: colors.warmWhite }}>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="aspect-[4/3] rounded-3xl overflow-hidden bg-gradient-to-br from-periwinkle-mist to-lavender-blush" style={{ background: `linear-gradient(135deg, ${colors.periwinkleMist}, ${colors.lavenderBlush})` }} />
+            {/* Image placeholder */}
+            <div
+              className="aspect-[4/3] rounded-3xl"
+              style={{
+                background: `linear-gradient(135deg, ${colors.periwinkleMist}, ${colors.lavenderBlush})`,
+                backgroundImage: `url('/brand/botanical.png')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            
             <div>
-              <h2 className="text-3xl md:text-4xl font-normal leading-snug mb-6" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
+              <h2 className="font-display text-3xl md:text-4xl leading-tight mb-6">
                 This isn't about managing symptoms. It's about{" "}
-                <span style={{ background: `linear-gradient(180deg, transparent 60%, rgba(196, 184, 214, 0.35) 60%)`, padding: "0 2px" }}>
-                  becoming who you're meant to be.
-                </span>
+                <span className="highlight">becoming who you're meant to be.</span>
               </h2>
-              <p className="text-base leading-relaxed mb-4" style={{ color: colors.inkSoft }}>
+              <p className="text-base mb-5" style={{ color: colors.inkSoft, lineHeight: 1.8 }}>
                 There's a reason so many women feel unseen during this chapter. The conversations that matter most are rarely had. The questions that keep you up at night feel too personal to ask.
               </p>
-              <p className="text-base leading-relaxed" style={{ color: colors.inkSoft }}>
-                Periwink changes that. We're building a space where{" "}
-                <span style={{ background: `linear-gradient(180deg, transparent 60%, rgba(196, 184, 214, 0.35) 60%)`, padding: "0 2px" }}>
-                  wisdom is shared
-                </span>
-                , where lived experience matters as much as expertise, and where you're never navigating alone.
+              <p className="text-base" style={{ color: colors.inkSoft, lineHeight: 1.8 }}>
+                Periwink changes that. We're building a space where <span className="highlight">wisdom is shared</span>, where lived experience matters as much as expertise, and where you're never navigating alone.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pillars Section */}
-      <section className="py-24 px-6" style={{ background: `linear-gradient(180deg, ${colors.warmWhite} 0%, ${colors.lavenderBlush} 100%)` }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center max-w-xl mx-auto mb-16">
-            <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: colors.periwinkle }}>What we're building</p>
-            <h2 className="text-3xl md:text-4xl font-normal leading-snug mb-4" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
+      {/* Features Section */}
+      <section
+        className="py-24 px-6"
+        style={{ background: `linear-gradient(180deg, ${colors.warmWhite} 0%, ${colors.lavenderBlush} 100%)` }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <p
+              className="text-xs font-semibold tracking-widest uppercase mb-4"
+              style={{ color: colors.periwinkle }}
+            >
+              What we're building
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl mb-5">
               Better outcomes through connection
             </h2>
             <p className="text-base" style={{ color: colors.inkSoft }}>
               A thoughtful platform where learning happens together, and support feels like belonging.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pillars.map((pillar, i) => (
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((feature, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl p-8 border transition-all hover:-translate-y-1.5"
-                style={{ borderColor: colors.periwinkleMist, boxShadow: "0 4px 20px rgba(110, 90, 126, 0)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "0 20px 50px rgba(110, 90, 126, 0.12)")}
-                onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "0 4px 20px rgba(110, 90, 126, 0)")}
+                className="p-8 rounded-3xl transition-all hover:-translate-y-1"
+                style={{
+                  background: "#fff",
+                  border: `1px solid ${colors.periwinkleMist}`,
+                  boxShadow: "0 4px 24px rgba(110, 90, 126, 0.06)",
+                }}
               >
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
-                  style={{ background: colors.lavenderBlush }}
-                >
-                  {pillar.icon}
-                </div>
-                <h3 className="text-xl font-medium mb-3" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
-                  {pillar.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: colors.inkSoft }}>{pillar.desc}</p>
+                <span className="text-3xl mb-5 block">{feature.icon}</span>
+                <h3 className="font-display text-xl mb-3">{feature.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: colors.inkSoft }}>
+                  {feature.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -603,35 +462,46 @@ export default function LandingPage() {
 
       {/* Circles Section */}
       <section id="community" className="py-24 px-6" style={{ background: colors.cream }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center max-w-xl mx-auto mb-16">
-            <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: colors.periwinkle }}>Active circles</p>
-            <h2 className="text-3xl md:text-4xl font-normal leading-snug mb-4" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <p
+              className="text-xs font-semibold tracking-widest uppercase mb-4"
+              style={{ color: colors.periwinkle }}
+            >
+              Active circles
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl mb-5">
               Find your people
             </h2>
             <p className="text-base" style={{ color: colors.inkSoft }}>
               Every circle is a safe space for honest conversation. Real women sharing real experiences.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {circles.map((circle, i) => (
               <button
                 key={i}
-                onClick={() => setShowCommunityModal(true)}
-                className="text-left rounded-2xl p-8 border transition-all hover:-translate-y-1"
+                onClick={() => setCommunityModalOpen(true)}
+                className="text-left p-7 rounded-3xl transition-all hover:-translate-y-1 hover:shadow-lg"
                 style={{
                   background: `linear-gradient(165deg, #fff 0%, ${colors.lavenderBlush} 100%)`,
-                  borderColor: colors.periwinkleMist,
+                  border: `1px solid ${colors.periwinkleMist}`,
                 }}
               >
-                <span className="text-4xl block mb-4">{circle.emoji}</span>
-                <h4 className="text-lg font-medium mb-2" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
-                  {circle.title}
-                </h4>
-                <p className="text-sm mb-4" style={{ color: colors.inkMuted }}>{circle.desc}</p>
+                <span className="text-4xl mb-4 block">{circle.emoji}</span>
+                <h4 className="font-display text-lg mb-2">{circle.name}</h4>
+                <p className="text-sm mb-4" style={{ color: colors.inkMuted }}>
+                  {circle.desc}
+                </p>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full" style={{ background: "#7CB07F" }} />
-                  <span className="text-xs font-medium" style={{ color: colors.periwinkleDeep }}>{circle.members} sharing</span>
+                  <span
+                    className="w-2 h-2 rounded-full"
+                    style={{ background: "#7CB07F" }}
+                  />
+                  <span className="text-sm font-medium" style={{ color: colors.periwinkleDeep }}>
+                    {circle.members} sharing
+                  </span>
                 </div>
               </button>
             ))}
@@ -639,24 +509,28 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonial Section */}
-      <section className="py-24 px-6 relative overflow-hidden" style={{ background: colors.periwinkleDeep }}>
-        <div className="max-w-3xl mx-auto text-center relative z-10">
-          <p
-            className="text-2xl md:text-3xl font-normal italic leading-relaxed text-white mb-8"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+      {/* Testimonial */}
+      <section
+        className="py-24 px-6 text-center"
+        style={{ background: colors.periwinkleDeep }}
+      >
+        <div className="max-w-3xl mx-auto">
+          <span className="font-display text-7xl opacity-20 text-white block mb-0">"</span>
+          <blockquote
+            className="font-display text-2xl md:text-3xl italic text-white leading-relaxed mb-8 -mt-8"
           >
-            <span className="text-5xl block mb-4" style={{ color: "rgba(255,255,255,0.3)" }}>"</span>
             I've learned more about what's happening in my body from two weeks in Periwink than from a decade of doctor visits. And I finally don't feel like I'm the only one.
-          </p>
+          </blockquote>
           <div className="flex items-center justify-center gap-4">
             <div
               className="w-12 h-12 rounded-full"
               style={{ background: `linear-gradient(135deg, ${colors.periwinkleLight}, ${colors.roseSoft})` }}
             />
             <div className="text-left">
-              <p className="text-white font-medium">Sarah M.</p>
-              <p className="text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>Member since January</p>
+              <strong className="text-white block">Sarah M.</strong>
+              <span className="text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
+                Member since January
+              </span>
             </div>
           </div>
         </div>
@@ -664,60 +538,92 @@ export default function LandingPage() {
 
       {/* Builders Section */}
       <section id="builders" className="py-24 px-6" style={{ background: colors.warmWhite }}>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-normal leading-snug mb-6" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
+              <h2 className="font-display text-3xl md:text-4xl leading-tight mb-6">
                 Help us build something that matters.
               </h2>
-              <p className="text-base leading-relaxed mb-6" style={{ color: colors.inkSoft }}>
+              <p className="text-base mb-6" style={{ color: colors.inkSoft, lineHeight: 1.8 }}>
                 Periwink isn't just a product—it's a collaborative movement. We're looking for practitioners, researchers, creators, and community builders who want to shape what this becomes.
               </p>
-              <div className="flex flex-wrap gap-2 mb-8">
-                {["Healthcare Practitioners", "Researchers", "Content Creators", "Community Builders", "Brand Partners"].map((role) => (
-                  <span
-                    key={role}
-                    className="px-5 py-2.5 rounded-full text-sm font-medium"
-                    style={{ background: colors.lavenderBlush, color: colors.periwinkleDeep, border: `1px solid ${colors.periwinkleMist}` }}
-                  >
-                    {role}
-                  </span>
-                ))}
+              <div className="flex flex-wrap gap-3 mb-8">
+                {["Healthcare Practitioners", "Researchers", "Content Creators", "Community Builders", "Brand Partners"].map(
+                  (role) => (
+                    <span
+                      key={role}
+                      className="px-5 py-2.5 rounded-full text-sm font-medium"
+                      style={{
+                        background: colors.lavenderBlush,
+                        border: `1px solid ${colors.periwinkleMist}`,
+                        color: colors.periwinkleDeep,
+                      }}
+                    >
+                      {role}
+                    </span>
+                  )
+                )}
               </div>
               <button
-                onClick={() => setShowFoundingModal(true)}
-                className="px-8 py-4 rounded-full text-base font-medium text-white transition-all hover:-translate-y-0.5"
-                style={{ background: colors.periwinkleDeep, boxShadow: "0 4px 20px rgba(110, 90, 126, 0.3)" }}
+                onClick={() => setFoundingModalOpen(true)}
+                className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5"
+                style={{
+                  background: colors.periwinkleDeep,
+                  color: "#fff",
+                  boxShadow: "0 6px 28px rgba(110, 90, 126, 0.35)",
+                }}
               >
                 Apply as a Founding Member
               </button>
             </div>
-            <div className="aspect-[4/3] rounded-3xl overflow-hidden" style={{ background: `linear-gradient(135deg, ${colors.periwinkleMist}, ${colors.lavenderBlush})` }} />
+            
+            {/* Image placeholder */}
+            <div
+              className="aspect-[4/3] rounded-3xl"
+              style={{
+                background: `linear-gradient(135deg, ${colors.periwinkleMist}, ${colors.lavenderBlush})`,
+                backgroundImage: `url('/brand/waves.png')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-32 px-6 text-center" style={{ background: `linear-gradient(180deg, ${colors.cream} 0%, ${colors.lavenderBlush} 100%)` }}>
+      {/* CTA Section */}
+      <section
+        className="py-28 px-6 text-center"
+        style={{ background: `linear-gradient(180deg, ${colors.cream} 0%, ${colors.lavenderBlush} 100%)` }}
+      >
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-normal leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif", color: colors.ink }}>
-            Ready to find your <em style={{ color: colors.periwinkleDeep }}>wiser way forward?</em>
+          <h2 className="font-display text-4xl md:text-5xl leading-tight mb-5">
+            Ready to find your{" "}
+            <em style={{ color: colors.periwinkleDeep }}>wiser way forward?</em>
           </h2>
-          <p className="text-lg leading-relaxed mb-10" style={{ color: colors.inkSoft }}>
-            Join thousands of women learning, growing, and navigating change together. It's free to join, and you'll be part of building something meaningful.
+          <p className="text-lg mb-10" style={{ color: colors.inkSoft }}>
+            Join thousands of women learning, growing, and navigating change together. Be part of building something meaningful.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={() => setShowCommunityModal(true)}
-              className="px-10 py-5 rounded-full text-base font-medium text-white transition-all hover:-translate-y-0.5"
-              style={{ background: colors.periwinkleDeep, boxShadow: "0 4px 20px rgba(110, 90, 126, 0.3)" }}
+              onClick={() => setCommunityModalOpen(true)}
+              className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5"
+              style={{
+                background: colors.periwinkleDeep,
+                color: "#fff",
+                boxShadow: "0 6px 28px rgba(110, 90, 126, 0.35)",
+              }}
             >
               Join Early Access
             </button>
             <button
-              onClick={() => setShowFoundingModal(true)}
-              className="px-10 py-5 rounded-full text-base font-medium transition-all hover:-translate-y-0.5"
-              style={{ color: colors.ink, border: `2px solid ${colors.inkMuted}` }}
+              onClick={() => setFoundingModalOpen(true)}
+              className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5"
+              style={{
+                background: "transparent",
+                color: colors.ink,
+                border: `2px solid ${colors.inkMuted}`,
+              }}
             >
               Become a Founding Member
             </button>
@@ -728,30 +634,231 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="py-12 px-6" style={{ background: colors.ink }}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <span className="text-xl" style={{ fontFamily: "'Playfair Display', serif", color: "#fff" }}>periwink</span>
+          <span className="font-display text-xl text-white">periwink</span>
           <div className="flex gap-8">
-            <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>Privacy</a>
-            <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>Terms</a>
-            <a href="#" className="text-sm transition-colors hover:text-white" style={{ color: "rgba(255,255,255,0.5)" }}>Contact</a>
+            {["Privacy", "Terms", "Contact"].map((link) => (
+              <a
+                key={link}
+                href="#"
+                className="text-sm transition-colors hover:text-white"
+                style={{ color: "rgba(255,255,255,0.5)" }}
+              >
+                {link}
+              </a>
+            ))}
           </div>
         </div>
       </footer>
 
-      {/* Modals */}
-      <Modal isOpen={showCommunityModal} onClose={closeCommunityModal}>
-        {communitySuccess ? (
-          <SuccessMessage title="You're in!" message="Check your email for next steps. We're so glad you're here." />
-        ) : (
-          <CommunitySignupForm onSuccess={() => setCommunitySuccess(true)} />
-        )}
+      {/* Community Modal */}
+      <Modal isOpen={communityModalOpen} onClose={() => setCommunityModalOpen(false)}>
+        <div className="p-10 pt-12 text-center border-b" style={{ borderColor: colors.periwinkleMist }}>
+          <h3 className="font-display text-3xl mb-2">Join the Community</h3>
+          <p style={{ color: colors.inkMuted }}>You're taking the first step. We'll be in touch soon.</p>
+        </div>
+        <form onSubmit={handleCommunitySubmit} className="p-10">
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-2">
+              Your name <span style={{ color: colors.periwinkle }}>*</span>
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="How you'd like to be addressed"
+              value={communityForm.name}
+              onChange={(e) => setCommunityForm({ ...communityForm, name: e.target.value })}
+              className="w-full px-5 py-4 rounded-xl text-base transition-colors"
+              style={{ border: `1px solid ${colors.periwinkleMist}`, outline: "none" }}
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block text-sm font-medium mb-2">
+              Email <span style={{ color: colors.periwinkle }}>*</span>
+            </label>
+            <input
+              type="email"
+              required
+              placeholder="you@example.com"
+              value={communityForm.email}
+              onChange={(e) => setCommunityForm({ ...communityForm, email: e.target.value })}
+              className="w-full px-5 py-4 rounded-xl text-base transition-colors"
+              style={{ border: `1px solid ${colors.periwinkleMist}`, outline: "none" }}
+            />
+          </div>
+          <div className="mb-8">
+            <label className="block text-sm font-medium mb-2">
+              Choose a pseudonym <span style={{ color: colors.periwinkle }}>*</span>
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Your identity in the community"
+              value={communityForm.pseudonym}
+              onChange={(e) => setCommunityForm({ ...communityForm, pseudonym: e.target.value })}
+              className="w-full px-5 py-4 rounded-xl text-base transition-colors"
+              style={{ border: `1px solid ${colors.periwinkleMist}`, outline: "none" }}
+            />
+            <p className="text-sm mt-2" style={{ color: colors.inkMuted }}>
+              This is how you'll appear to others. You can stay as anonymous as you'd like.
+            </p>
+          </div>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-4 rounded-xl text-base font-medium transition-all disabled:opacity-50"
+            style={{ background: colors.periwinkleDeep, color: "#fff" }}
+          >
+            {isSubmitting ? "Joining..." : "Join Periwink"}
+          </button>
+        </form>
       </Modal>
 
-      <Modal isOpen={showFoundingModal} onClose={closeFoundingModal}>
-        {foundingSuccess ? (
-          <SuccessMessage title="Application received!" message="We'll review your application and be in touch within a few days." />
-        ) : (
-          <FoundingMemberForm onSuccess={() => setFoundingSuccess(true)} />
-        )}
+      {/* Founding Modal */}
+      <Modal
+        isOpen={foundingModalOpen}
+        onClose={() => {
+          setFoundingModalOpen(false);
+          setFoundingStep(1);
+        }}
+      >
+        <div className="p-10 pt-12 text-center border-b" style={{ borderColor: colors.periwinkleMist }}>
+          <h3 className="font-display text-3xl mb-2">Become a Founding Member</h3>
+          <p style={{ color: colors.inkMuted }}>Help shape what Periwink becomes.</p>
+        </div>
+        <div className="p-10">
+          {/* Step indicator */}
+          <div className="flex justify-center gap-3 mb-8">
+            {[1, 2].map((step) => (
+              <div
+                key={step}
+                className="w-3 h-3 rounded-full transition-all"
+                style={{
+                  background: foundingStep === step ? colors.periwinkleDeep : colors.periwinkleMist,
+                  transform: foundingStep === step ? "scale(1.2)" : "scale(1)",
+                }}
+              />
+            ))}
+          </div>
+
+          {foundingStep === 1 ? (
+            <>
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-2">
+                  Your name <span style={{ color: colors.periwinkle }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Full name"
+                  value={foundingForm.name}
+                  onChange={(e) => setFoundingForm({ ...foundingForm, name: e.target.value })}
+                  className="w-full px-5 py-4 rounded-xl text-base"
+                  style={{ border: `1px solid ${colors.periwinkleMist}`, outline: "none" }}
+                />
+              </div>
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-2">
+                  Email <span style={{ color: colors.periwinkle }}>*</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  placeholder="you@example.com"
+                  value={foundingForm.email}
+                  onChange={(e) => setFoundingForm({ ...foundingForm, email: e.target.value })}
+                  className="w-full px-5 py-4 rounded-xl text-base"
+                  style={{ border: `1px solid ${colors.periwinkleMist}`, outline: "none" }}
+                />
+              </div>
+              <div className="mb-8">
+                <label className="block text-sm font-medium mb-3">
+                  What role interests you? <span style={{ color: colors.periwinkle }}>*</span>
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  {roles.map((role) => (
+                    <button
+                      key={role}
+                      type="button"
+                      onClick={() => setFoundingForm({ ...foundingForm, role })}
+                      className="p-4 rounded-xl text-sm font-medium transition-all text-center"
+                      style={{
+                        border: `2px solid ${foundingForm.role === role ? colors.periwinkleDeep : colors.periwinkleMist}`,
+                        background: foundingForm.role === role ? colors.lavenderBlush : "#fff",
+                        color: colors.ink,
+                      }}
+                    >
+                      {role}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  if (foundingForm.name && foundingForm.email && foundingForm.role) {
+                    setFoundingStep(2);
+                  }
+                }}
+                className="w-full py-4 rounded-xl text-base font-medium"
+                style={{ background: colors.periwinkleDeep, color: "#fff" }}
+              >
+                Continue
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="mb-6">
+                <label className="block text-sm font-medium mb-2">
+                  Tell us about yourself <span style={{ color: colors.periwinkle }}>*</span>
+                </label>
+                <textarea
+                  required
+                  placeholder="What draws you to Periwink? What experience or expertise would you bring?"
+                  value={foundingForm.bio}
+                  onChange={(e) => setFoundingForm({ ...foundingForm, bio: e.target.value })}
+                  className="w-full px-5 py-4 rounded-xl text-base min-h-[120px] resize-y"
+                  style={{ border: `1px solid ${colors.periwinkleMist}`, outline: "none" }}
+                />
+              </div>
+              <div className="mb-8">
+                <label className="block text-sm font-medium mb-2">
+                  Website or LinkedIn (optional)
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://..."
+                  value={foundingForm.url}
+                  onChange={(e) => setFoundingForm({ ...foundingForm, url: e.target.value })}
+                  className="w-full px-5 py-4 rounded-xl text-base"
+                  style={{ border: `1px solid ${colors.periwinkleMist}`, outline: "none" }}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={handleFoundingSubmit}
+                disabled={isSubmitting || !foundingForm.bio}
+                className="w-full py-4 rounded-xl text-base font-medium disabled:opacity-50"
+                style={{ background: colors.periwinkleDeep, color: "#fff" }}
+              >
+                {isSubmitting ? "Submitting..." : "Submit Application"}
+              </button>
+            </>
+          )}
+        </div>
+      </Modal>
+
+      {/* Success Modal */}
+      <Modal isOpen={successModal.open} onClose={() => setSuccessModal({ ...successModal, open: false })}>
+        <div className="p-12 text-center">
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mx-auto mb-6"
+            style={{ background: colors.sageSoft }}
+          >
+            ✓
+          </div>
+          <h4 className="font-display text-2xl mb-3">{successModal.title}</h4>
+          <p style={{ color: colors.inkSoft }}>{successModal.message}</p>
+        </div>
       </Modal>
     </>
   );
