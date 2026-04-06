@@ -4,17 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Periwink — You're Not Alone in This</title>
-<meta name="description" content="A calm, intelligent community for women navigating perimenopause and menopause. Track symptoms, share experiences, and contribute to citizen science.">
-<meta property="og:title" content="Periwink — You're Not Alone in This">
-<meta property="og:description" content="Growth, wisdom, and shared experience for women navigating change together.">
+<meta name="description" content="A calm, intelligent community for women navigating perimenopause and menopause. Where women find each other, share what they're noticing, and feel held.">
+<meta property="og:title" content="Periwink — A Wiser Way Forward, Together">
+<meta property="og:description" content="You are not breaking down. You are becoming. Join women navigating change with more wisdom, honesty, and shared understanding.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   DESIGN TOKENS
-   ============================================================ */
 :root {
   --plum: #6E5A7E;
   --plum-dk: #5a4869;
@@ -33,693 +30,519 @@
   --t3: #9B94A3;
   --bdr: #DDD7CE;
   --card: #FDFBF8;
-  --card-h: #FAF7F2;
   --white: #FFFDF9;
   --hd: 'Cormorant Garamond', Georgia, serif;
   --bd: 'DM Sans', -apple-system, sans-serif;
 }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--bd);font-weight:300;background:var(--ink);color:var(--ivory);-webkit-font-smoothing:antialiased;line-height:1.65;overflow-x:hidden}
+::selection{background:rgba(215,204,255,0.3)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px}
+a{color:inherit}
+img{max-width:100%;display:block}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.12}50%{transform:scale(1.03);opacity:.2}}
+@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
 
 /* ============================================================
-   RESET & BASE
+   SECTION 1: RESONANCE — The Opening
    ============================================================ */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: var(--bd);
-  font-weight: 300;
-  background: var(--ivory);
-  color: var(--ink);
-  -webkit-font-smoothing: antialiased;
-  line-height: 1.65;
-  overflow-x: hidden;
+.resonance{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 32px;position:relative;overflow:hidden;
+  background:var(--ink);
 }
-::selection { background: rgba(215, 204, 255, 0.3); }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--bdr); border-radius: 3px; }
-img { max-width: 100%; display: block; }
-a { color: inherit; }
+.resonance::before{
+  content:'';position:absolute;top:50%;left:50%;width:500px;height:500px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(110,90,126,0.15),transparent 70%);
+  animation:breathe 8s ease-in-out infinite;pointer-events:none;
+}
+
+.resonance-logo{
+  font-family:var(--hd);font-size:18px;font-weight:300;letter-spacing:1.5px;
+  color:var(--lavender);opacity:.5;margin-bottom:60px;
+}
+
+/* Rotating recognition statements */
+.recognition{position:relative;height:140px;width:100%;max-width:640px;margin:0 auto 48px}
+.recognition-line{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--hd);font-size:clamp(24px,4vw,36px);font-weight:300;font-style:italic;
+  line-height:1.4;color:var(--ivory);opacity:0;
+  transition:opacity .8s ease,transform .8s ease;
+  transform:translateY(8px);
+}
+.recognition-line.active{opacity:1;transform:translateY(0)}
+
+.resonance-prompt{
+  font-size:14px;color:var(--t3);letter-spacing:.3px;margin-bottom:40px;
+  opacity:0;animation:fadeIn 1s ease 2s forwards;
+}
+
+/* Email form on dark bg */
+.resonance-form{
+  max-width:420px;width:100%;margin:0 auto 16px;display:flex;gap:0;
+  background:rgba(255,255,255,0.06);border-radius:999px;padding:5px;
+  border:1px solid rgba(183,168,201,0.2);
+  transition:all .25s;
+  opacity:0;animation:fadeUp .8s ease 2.5s forwards;
+}
+.resonance-form:focus-within{border-color:rgba(183,168,201,0.4);background:rgba(255,255,255,0.09)}
+.resonance-form input{
+  flex:1;min-width:0;border:none;outline:none;padding:13px 18px;
+  font-size:15px;font-family:var(--bd);font-weight:300;
+  background:transparent;color:var(--ivory);border-radius:999px;
+}
+.resonance-form input::placeholder{color:var(--t3)}
+.resonance-form button{
+  padding:13px 24px;border-radius:999px;border:none;
+  background:var(--plum);color:#fff;font-size:14px;font-weight:400;
+  font-family:var(--bd);cursor:pointer;white-space:nowrap;transition:background .2s;
+}
+.resonance-form button:hover{background:var(--plum-dk)}
+.resonance-form button:disabled{opacity:.5;cursor:not-allowed}
+.resonance-msg{font-size:13px;min-height:18px;text-align:center;margin-bottom:8px}
+.resonance-msg.ok{color:#7CB07F}
+.resonance-msg.err{color:var(--rose)}
+
+.resonance-links{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:4px;
+  opacity:0;animation:fadeUp .8s ease 3s forwards;
+}
+.resonance-links a,.resonance-links button{
+  font-size:13px;color:var(--lavender);text-decoration:none;padding:8px 20px;
+  border-radius:999px;border:1px solid rgba(183,168,201,0.25);background:none;
+  cursor:pointer;font-family:var(--bd);font-weight:300;transition:all .2s;
+}
+.resonance-links a:hover,.resonance-links button:hover{border-color:var(--lavender);color:#fff}
+
+.scroll-cue{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn 1s ease 3.5s forwards;
+}
+.scroll-cue span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--t3)}
+.scroll-cue-line{width:1px;height:32px;background:linear-gradient(var(--lavender),transparent)}
 
 /* ============================================================
-   ANIMATIONS
+   SECTION 2: RECOGNITION — "This understands something real"
    ============================================================ */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.recognition-section{
+  padding:120px 32px;text-align:center;
+  background:linear-gradient(180deg,var(--ink) 0%,#2f2640 30%,var(--ivory) 100%);
+  color:var(--ink);
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.recognition-inner{max-width:640px;margin:0 auto}
+.recognition-section h2{
+  font-family:var(--hd);font-size:clamp(28px,4.5vw,42px);font-weight:300;
+  line-height:1.25;margin-bottom:24px;color:var(--ivory);
 }
-@keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+.recognition-section .body-text{
+  font-size:16px;line-height:1.8;color:var(--lavender-lt);margin-bottom:16px;
 }
-@keyframes breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
-}
-
-/* Scroll reveal */
-.reveal {
-  opacity: 0; transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.reveal.vis { opacity: 1; transform: translateY(0); }
-.d1 { transition-delay: .08s; }
-.d2 { transition-delay: .16s; }
-.d3 { transition-delay: .24s; }
-.d4 { transition-delay: .32s; }
-
-/* Entry animations */
-.anim { animation: fadeUp 0.8s ease-out both; }
-.ad1 { animation-delay: .1s; }
-.ad2 { animation-delay: .2s; }
-.ad3 { animation-delay: .3s; }
-.ad4 { animation-delay: .4s; }
-.ad5 { animation-delay: .5s; }
-.ad6 { animation-delay: .6s; }
-
-/* ============================================================
-   NAVIGATION
-   ============================================================ */
-.nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 40;
-  padding: 24px 0; transition: all 0.35s ease;
-}
-.nav.scrolled {
-  padding: 14px 0;
-  background: rgba(247, 243, 238, 0.92);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 1px 20px rgba(110, 90, 126, 0.07);
-}
-.nav-inner {
-  max-width: 1100px; margin: 0 auto; padding: 0 32px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.nav-logo {
-  font-family: var(--hd); font-size: 26px; font-weight: 400;
-  color: var(--plum); text-decoration: none; letter-spacing: 0.5px;
-}
-.nav-right { display: flex; align-items: center; gap: 28px; }
-.nav-link {
-  font-size: 13px; font-weight: 400; color: var(--t2);
-  text-decoration: none; letter-spacing: 0.3px; transition: color 0.2s;
-}
-.nav-link:hover { color: var(--plum); }
-.btn {
-  display: inline-block; border: none; cursor: pointer;
-  font-family: var(--bd); font-weight: 400; text-decoration: none;
-  transition: all 0.2s ease; text-align: center;
-}
-.btn:hover { transform: translateY(-1px); }
-.btn-plum {
-  background: var(--plum); color: #fff; padding: 12px 28px;
-  border-radius: 999px; font-size: 14px;
-  box-shadow: 0 4px 18px rgba(110, 90, 126, 0.25);
-}
-.btn-plum:hover { background: var(--plum-dk); box-shadow: 0 6px 24px rgba(110, 90, 126, 0.3); }
-.btn-outline {
-  background: transparent; color: var(--plum); padding: 12px 28px;
-  border-radius: 999px; font-size: 14px; border: 1.5px solid var(--lavender);
-}
-.btn-outline:hover { border-color: var(--plum); }
-.btn-ghost {
-  background: transparent; color: var(--t2); padding: 12px 28px;
-  border-radius: 999px; font-size: 14px; border: 1.5px solid var(--bdr);
-}
-.btn-ghost:hover { color: var(--ink); border-color: var(--t3); }
-
-/* ============================================================
-   HERO
-   ============================================================ */
-.hero {
-  min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 140px 32px 100px; position: relative; overflow: hidden;
-  background: linear-gradient(180deg, var(--mist) 0%, var(--ivory) 60%, var(--ivory2) 100%);
-}
-
-/* SVG figure background */
-.hero-figure {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 500px; height: 700px; pointer-events: none; opacity: 0.18;
-}
-.hero-figure path {
-  fill: none; stroke: var(--lavender); stroke-width: 1.5;
-  stroke-linecap: round; stroke-linejoin: round;
-}
-
-/* Ambient glow */
-.hero::before {
-  content: ''; position: absolute; top: -200px; right: -100px;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(215,204,255,0.08), transparent);
-  pointer-events: none; animation: breathe 8s ease-in-out infinite;
-}
-.hero::after {
-  content: ''; position: absolute; bottom: -150px; left: -80px;
-  width: 450px; height: 450px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,154,165,0.06), transparent);
-  pointer-events: none;
-}
-
-.hero-content { position: relative; z-index: 1; max-width: 680px; }
-
-.hero-label {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 400;
-  background: rgba(255,253,249,0.85); border: 1px solid var(--lavender-lt);
-  color: var(--plum); margin-bottom: 32px; letter-spacing: 0.3px;
-}
-.hero-dot {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: #7CB07F; animation: pulse 2.5s ease-in-out infinite;
-}
-
-.hero h1 {
-  font-family: var(--hd); font-weight: 300;
-  font-size: clamp(38px, 5.5vw, 62px); line-height: 1.15;
-  margin-bottom: 20px; color: var(--ink);
-}
-.hero h1 em { font-weight: 400; color: var(--plum); }
-
-.hero-sub {
-  font-size: clamp(15px, 1.8vw, 18px); color: var(--t2);
-  max-width: 520px; margin: 0 auto 12px; line-height: 1.7;
-}
-.hero-whisper {
-  font-size: 15px; color: var(--rose); font-style: italic;
-  margin-bottom: 36px; letter-spacing: 0.2px;
-}
-
-/* Hero email form */
-.hero-form {
-  max-width: 440px; margin: 0 auto 10px;
-  display: flex; gap: 0;
-  background: var(--white); border-radius: 999px; padding: 5px;
-  border: 1px solid var(--lavender-lt);
-  box-shadow: 0 4px 20px rgba(110, 90, 126, 0.1);
-  transition: all 0.25s;
-}
-.hero-form:focus-within {
-  border-color: var(--lavender);
-  box-shadow: 0 4px 28px rgba(110, 90, 126, 0.16);
-}
-.hero-form input {
-  flex: 1; min-width: 0; border: none; outline: none;
-  padding: 13px 18px; font-size: 15px; font-family: var(--bd);
-  font-weight: 300; background: transparent; color: var(--ink);
-  border-radius: 999px;
-}
-.hero-form input::placeholder { color: var(--t3); }
-.hero-form button {
-  padding: 13px 26px; border-radius: 999px; border: none;
-  background: var(--plum); color: #fff; font-size: 14px; font-weight: 400;
-  font-family: var(--bd); cursor: pointer; white-space: nowrap;
-  transition: background 0.2s; letter-spacing: 0.2px;
-}
-.hero-form button:hover { background: var(--plum-dk); }
-.hero-form button:disabled { opacity: 0.5; cursor: not-allowed; }
-.hero-msg { font-size: 13px; min-height: 18px; text-align: center; margin-bottom: 4px; }
-.hero-msg.ok { color: #3d7a40; }
-.hero-msg.err { color: #9e3a3a; }
-
-.hero-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
-
-.social-proof {
-  display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 40px;
-}
-.avatars { display: flex; }
-.av {
-  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--ivory);
-  margin-left: -10px; box-shadow: 0 1px 6px rgba(0,0,0,0.08);
-}
-.av:first-child { margin-left: 0; }
-.social-proof p { font-size: 13px; color: var(--t3); }
-.social-proof strong { color: var(--t2); font-weight: 500; }
-
-.scroll-hint {
-  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-}
-.scroll-hint span { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--t3); }
-.scroll-line { width: 1px; height: 36px; background: linear-gradient(var(--lavender), transparent); }
-
-/* ============================================================
-   STORY — Narrative Arc
-   ============================================================ */
-.story { padding: 100px 32px; background: var(--ivory2); }
-.story-inner { max-width: 900px; margin: 0 auto; }
-.story-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px;
-}
-.story-card {
-  padding: 36px; border-radius: 20px; background: var(--card);
-  border: 1px solid var(--bdr); position: relative;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.story-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(110,90,126,0.06); }
-.story-num {
-  position: absolute; top: -12px; left: 28px;
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 500; color: #fff;
-  background: var(--plum);
-}
-.story-card h3 {
-  font-family: var(--hd); font-size: 22px; font-weight: 400;
-  margin-bottom: 12px; color: var(--ink); line-height: 1.3;
-}
-.story-card p {
-  font-size: 14px; color: var(--t2); line-height: 1.75;
+.recognition-section .shift-text{
+  font-size:16px;line-height:1.8;color:var(--t2);margin-bottom:0;
 }
 
 /* ============================================================
-   FEATURES — 4-card grid
+   SECTION 3: REFRAME
    ============================================================ */
-.features {
-  padding: 100px 32px;
-  background: linear-gradient(180deg, var(--ivory) 0%, var(--mist) 50%, var(--ivory) 100%);
+.reframe{padding:100px 32px;background:var(--ivory);text-align:center}
+.reframe-inner{max-width:700px;margin:0 auto}
+.reframe h2{
+  font-family:var(--hd);font-size:clamp(30px,5vw,48px);font-weight:300;
+  line-height:1.2;color:var(--ink);margin-bottom:28px;
 }
-.features-inner { max-width: 1000px; margin: 0 auto; }
-.section-label {
-  font-size: 11px; font-weight: 500; letter-spacing: 2.5px;
-  text-transform: uppercase; color: var(--plum-lt); margin-bottom: 14px;
+.reframe h2 em{font-weight:400;color:var(--plum)}
+.reframe-phrases{
+  display:flex;flex-direction:column;gap:16px;margin-bottom:40px;
 }
-.section-title {
-  font-family: var(--hd); font-size: clamp(26px, 3.5vw, 38px);
-  font-weight: 300; margin-bottom: 16px; line-height: 1.25;
+.reframe-phrase{
+  font-family:var(--hd);font-size:clamp(16px,2vw,20px);font-weight:300;
+  color:var(--t2);line-height:1.5;font-style:italic;
 }
-.section-desc { font-size: 15px; color: var(--t2); max-width: 500px; }
-.section-header { text-align: center; margin-bottom: 56px; }
-.section-header .section-desc { margin: 0 auto; }
-
-.features-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-}
-.feature-card {
-  padding: 36px; border-radius: 20px; background: var(--card);
-  border: 1px solid var(--bdr);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(110,90,126,0.06); }
-.feature-icon {
-  width: 48px; height: 48px; border-radius: 14px; margin-bottom: 20px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; background: var(--mist);
-}
-.feature-card h3 {
-  font-family: var(--hd); font-size: 22px; font-weight: 400;
-  margin-bottom: 10px; color: var(--ink);
-}
-.feature-card p { font-size: 14px; color: var(--t2); line-height: 1.75; }
+.reframe-phrase strong{color:var(--plum);font-weight:400;font-style:normal}
 
 /* ============================================================
-   ROOMS — Horizontal scroll pills
+   SECTION 4: BELONGING — Community Voices
    ============================================================ */
-.rooms { padding: 100px 32px; background: var(--ivory); }
-.rooms-inner { max-width: 1100px; margin: 0 auto; }
-.rooms-scroll {
-  display: flex; gap: 16px; overflow-x: auto; padding: 8px 0 20px;
-  -ms-overflow-style: none; scrollbar-width: none;
+.belonging{padding:100px 32px;background:var(--ivory2)}
+.belonging-inner{max-width:1100px;margin:0 auto}
+.belonging .section-hd{margin-bottom:40px}
+.belonging .section-label{
+  font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--plum-lt);margin-bottom:12px;
 }
-.rooms-scroll::-webkit-scrollbar { display: none; }
-.room-pill {
-  flex-shrink: 0; display: flex; align-items: center; gap: 12px;
-  padding: 16px 24px; border-radius: 999px;
-  background: var(--card); border: 1px solid var(--bdr);
-  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+.belonging .section-title{
+  font-family:var(--hd);font-size:clamp(26px,3.5vw,36px);font-weight:300;
+  color:var(--ink);margin-bottom:12px;
 }
-.room-pill:hover { border-color: var(--lavender); background: var(--card-h); transform: translateY(-1px); }
-.room-emoji { font-size: 20px; }
-.room-info { text-align: left; }
-.room-name { font-size: 14px; font-weight: 400; color: var(--ink); display: block; }
-.room-count { font-size: 12px; color: var(--t3); display: flex; align-items: center; gap: 5px; }
-.room-dot { width: 5px; height: 5px; border-radius: 50%; background: #7CB07F; }
+.belonging .section-desc{font-size:15px;color:var(--t2);max-width:500px}
+
+.voices-scroll{
+  display:flex;gap:18px;overflow-x:auto;padding:8px 0 20px;
+  -ms-overflow-style:none;scrollbar-width:none;
+}
+.voices-scroll::-webkit-scrollbar{display:none}
+.voice-card{
+  flex-shrink:0;width:320px;padding:28px;border-radius:20px;
+  background:var(--card);border:1px solid var(--bdr);
+}
+.voice-card p{font-size:14px;line-height:1.75;color:var(--t2);margin-bottom:16px;font-style:italic}
+.voice-meta{display:flex;align-items:center;gap:10px}
+.voice-av{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+}
+.voice-name{font-size:13px;font-weight:400;color:var(--ink)}
+.voice-room{font-size:12px;color:var(--t3)}
 
 /* ============================================================
-   QUOTE / TESTIMONIAL
+   SECTION 5: EXPERIENCE — What Periwink Is
    ============================================================ */
-.quote-section {
-  padding: 100px 32px; text-align: center;
-  background: var(--plum); position: relative; overflow: hidden;
+.experience{padding:100px 32px;background:linear-gradient(180deg,var(--ivory) 0%,var(--mist) 50%,var(--ivory) 100%)}
+.experience-inner{max-width:900px;margin:0 auto}
+.experience .section-hd{text-align:center;margin-bottom:56px}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.exp-card{
+  padding:32px;border-radius:20px;background:var(--card);
+  border:1px solid var(--bdr);transition:transform .2s;
 }
-.quote-section::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(ellipse at center, rgba(215,204,255,0.08), transparent);
-  pointer-events: none;
+.exp-card:hover{transform:translateY(-2px)}
+.exp-icon{
+  width:44px;height:44px;border-radius:12px;margin-bottom:18px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  background:var(--mist);
 }
-.quote-inner { max-width: 640px; margin: 0 auto; position: relative; z-index: 1; }
-.quote-mark {
-  font-family: var(--hd); font-size: 80px; line-height: 1;
-  color: #fff; opacity: 0.15;
-}
-.quote-text {
-  font-family: var(--hd); font-size: clamp(20px, 2.8vw, 26px);
-  font-weight: 300; font-style: italic; color: #fff;
-  line-height: 1.6; margin: -20px 0 32px;
-}
-.quote-author { display: flex; align-items: center; justify-content: center; gap: 14px; }
-.quote-av {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--lavender), var(--rose));
-}
-.quote-name { color: #fff; font-weight: 400; font-size: 15px; }
-.quote-since { color: rgba(255,255,255,0.5); font-size: 13px; }
+.exp-card h3{font-family:var(--hd);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:8px}
+.exp-card p{font-size:14px;color:var(--t2);line-height:1.75}
 
 /* ============================================================
-   BUILDERS / FOUNDING MEMBERS
+   SECTION 6: ROOMS — Horizontal pills
    ============================================================ */
-.builders { padding: 100px 32px; background: var(--ivory2); }
-.builders-inner {
-  max-width: 1000px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+.rooms-section{padding:80px 32px;background:var(--ivory)}
+.rooms-inner{max-width:1100px;margin:0 auto}
+.rooms-scroll{
+  display:flex;gap:14px;overflow-x:auto;padding:8px 0 16px;
+  -ms-overflow-style:none;scrollbar-width:none;
 }
-.builders-visual {
-  aspect-ratio: 4/3; border-radius: 24px; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--mist), rgba(215,204,255,0.15));
+.rooms-scroll::-webkit-scrollbar{display:none}
+.room-pill{
+  flex-shrink:0;display:flex;align-items:center;gap:10px;
+  padding:14px 22px;border-radius:999px;
+  background:var(--card);border:1px solid var(--bdr);
+  cursor:pointer;transition:all .2s;white-space:nowrap;font-size:14px;color:var(--ink);
+  text-decoration:none;
 }
-.role-pills { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 28px; }
-.role-pill {
-  padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 400;
-  background: var(--ivory); border: 1px solid var(--bdr); color: var(--plum);
-}
+.room-pill:hover{border-color:var(--lavender);transform:translateY(-1px)}
+.room-emoji{font-size:18px}
+.room-count{font-size:12px;color:var(--t3)}
 
 /* ============================================================
-   FINAL CTA
+   SECTION 7: QUOTE
    ============================================================ */
-.cta-final {
-  padding: 120px 32px; text-align: center;
-  background: linear-gradient(180deg, var(--ivory) 0%, var(--mist) 100%);
+.quote-section{padding:100px 32px;text-align:center;background:var(--plum);position:relative;overflow:hidden}
+.quote-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(215,204,255,0.06),transparent);
+  pointer-events:none;
 }
-.cta-final h2 {
-  font-family: var(--hd); font-size: clamp(30px, 4.5vw, 46px);
-  font-weight: 300; margin-bottom: 16px; line-height: 1.2;
+.quote-inner{max-width:600px;margin:0 auto;position:relative;z-index:1}
+.quote-mark{font-family:var(--hd);font-size:72px;line-height:1;color:#fff;opacity:.12}
+.quote-text{
+  font-family:var(--hd);font-size:clamp(18px,2.5vw,24px);font-weight:300;
+  font-style:italic;color:#fff;line-height:1.65;margin:-16px 0 28px;
 }
-.cta-final h2 em { font-weight: 400; color: var(--plum); }
-.cta-final p { font-size: 16px; color: var(--t2); max-width: 480px; margin: 0 auto 36px; }
+.quote-author{display:flex;align-items:center;justify-content:center;gap:12px}
+.quote-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--lavender),var(--rose))}
+.quote-name{color:#fff;font-weight:400;font-size:14px}
+.quote-since{color:rgba(255,255,255,.45);font-size:12px}
+
+/* ============================================================
+   SECTION 8: INVITATION — Final CTA
+   ============================================================ */
+.invitation{padding:120px 32px;text-align:center;background:linear-gradient(180deg,var(--ivory) 0%,var(--mist) 100%)}
+.invitation h2{
+  font-family:var(--hd);font-size:clamp(28px,4vw,42px);font-weight:300;
+  color:var(--ink);margin-bottom:14px;line-height:1.2;
+}
+.invitation h2 em{font-weight:400;color:var(--plum)}
+.invitation p{font-size:16px;color:var(--t2);max-width:480px;margin:0 auto 36px;line-height:1.7}
+.invitation-form{
+  max-width:420px;margin:0 auto 12px;display:flex;gap:0;
+  background:var(--white);border-radius:999px;padding:5px;
+  border:1px solid var(--lavender-lt);box-shadow:0 4px 20px rgba(110,90,126,.1);
+  transition:all .25s;
+}
+.invitation-form:focus-within{border-color:var(--lavender);box-shadow:0 4px 28px rgba(110,90,126,.16)}
+.invitation-form input{
+  flex:1;min-width:0;border:none;outline:none;padding:13px 18px;
+  font-size:15px;font-family:var(--bd);font-weight:300;background:transparent;
+  color:var(--ink);border-radius:999px;
+}
+.invitation-form input::placeholder{color:var(--t3)}
+.invitation-form button{
+  padding:13px 26px;border-radius:999px;border:none;
+  background:var(--plum);color:#fff;font-size:14px;font-weight:400;
+  font-family:var(--bd);cursor:pointer;white-space:nowrap;transition:background .2s;
+}
+.invitation-form button:hover{background:var(--plum-dk)}
+.invitation-form button:disabled{opacity:.5}
+.inv-msg{font-size:13px;min-height:18px;text-align:center}
+.inv-msg.ok{color:#3d7a40}
+.inv-msg.err{color:#9e3a3a}
+.invitation-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 
 /* ============================================================
    FOOTER
    ============================================================ */
-.footer { padding: 40px 32px; background: var(--ink); }
-.footer-inner {
-  max-width: 1100px; margin: 0 auto;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+.footer{padding:40px 32px;background:var(--ink)}
+.footer-inner{
+  max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:20px;
 }
-.footer-logo { font-family: var(--hd); font-size: 20px; color: #fff; font-weight: 300; }
-.footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
-.footer-links { display: flex; gap: 24px; }
-.footer-link { font-size: 13px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
-.footer-link:hover { color: #fff; }
+.footer-logo{font-family:var(--hd);font-size:20px;color:#fff;font-weight:300}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.3)}
+.footer-links{display:flex;gap:24px}
+.footer-link{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s}
+.footer-link:hover{color:#fff}
 
 /* ============================================================
    MODAL
    ============================================================ */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 50;
-  display: flex; align-items: center; justify-content: center; padding: 24px;
-  background: rgba(43, 36, 51, 0.55); backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  opacity: 0; pointer-events: none; transition: opacity 0.25s;
+.modal-overlay{
+  position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:rgba(43,36,51,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  opacity:0;pointer-events:none;transition:opacity .25s;
 }
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal {
-  background: #fff; border-radius: 24px; max-width: 440px; width: 100%;
-  max-height: 90vh; overflow-y: auto; position: relative;
-  transform: translateY(12px) scale(0.97); transition: transform 0.3s ease;
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:#fff;border-radius:24px;max-width:440px;width:100%;
+  max-height:90vh;overflow-y:auto;position:relative;
+  transform:translateY(12px) scale(.97);transition:transform .3s ease;
 }
-.modal-overlay.open .modal { transform: translateY(0) scale(1); }
-.modal-x {
-  position: absolute; top: 18px; right: 18px;
-  width: 32px; height: 32px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; background: var(--ivory); color: var(--t3);
-  border: none; cursor: pointer; transition: background 0.2s;
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+.modal-x{
+  position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  background:var(--ivory);color:var(--t3);border:none;cursor:pointer;
 }
-.modal-x:hover { background: var(--mist); }
-.modal-hd { padding: 40px 36px 20px; text-align: center; border-bottom: 1px solid var(--bdr); }
-.modal-title { font-family: var(--hd); font-size: 26px; font-weight: 400; margin-bottom: 6px; }
-.modal-sub { color: var(--t3); font-size: 14px; }
-.modal-body { padding: 28px 36px 36px; }
-.fg { margin-bottom: 20px; }
-.fl { display: block; font-size: 13px; font-weight: 400; margin-bottom: 6px; color: var(--ink); }
-.fl .req { color: var(--rose); }
-.fi, .ft {
-  width: 100%; padding: 13px 16px; border-radius: 10px;
-  font-size: 15px; font-family: var(--bd); font-weight: 300;
-  border: 1px solid var(--bdr); outline: none; transition: all 0.2s;
-  color: var(--ink); background: #fff;
+.modal-hd{padding:40px 36px 20px;text-align:center;border-bottom:1px solid var(--bdr)}
+.modal-title{font-family:var(--hd);font-size:26px;font-weight:400;margin-bottom:6px;color:var(--ink)}
+.modal-sub{color:var(--t3);font-size:14px}
+.modal-body{padding:28px 36px 36px}
+.fg{margin-bottom:20px}
+.fl{display:block;font-size:13px;font-weight:400;margin-bottom:6px;color:var(--ink)}
+.fl .req{color:var(--rose)}
+.fi,.ft{
+  width:100%;padding:13px 16px;border-radius:10px;font-size:15px;
+  font-family:var(--bd);font-weight:300;border:1px solid var(--bdr);
+  outline:none;transition:all .2s;color:var(--ink);background:#fff;
 }
-.fi:focus, .ft:focus { border-color: var(--lavender); box-shadow: 0 0 0 3px rgba(183,168,201,0.12); }
-.ft { min-height: 88px; resize: vertical; }
-.fhint { font-size: 12px; color: var(--t3); margin-top: 4px; }
-.ferr {
-  padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px;
-  background: #FDF2F2; color: #8B3A3A; border: 1px solid #F5D0D0;
+.fi:focus,.ft:focus{border-color:var(--lavender);box-shadow:0 0 0 3px rgba(183,168,201,.12)}
+.ft{min-height:88px;resize:vertical}
+.ferr{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:20px;background:#FDF2F2;color:#8B3A3A;border:1px solid #F5D0D0}
+.fbtn{
+  width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:400;
+  font-family:var(--bd);background:var(--plum);color:#fff;border:none;cursor:pointer;
 }
-.fbtn {
-  width: 100%; padding: 14px; border-radius: 10px;
-  font-size: 15px; font-weight: 400; font-family: var(--bd);
-  background: var(--plum); color: #fff; border: none; cursor: pointer;
-  transition: background 0.2s;
+.fbtn:hover{background:var(--plum-dk)}
+.fbtn:disabled{opacity:.5;cursor:not-allowed}
+.fbtn-back{background:var(--ivory);color:var(--ink)}
+.fbtn-back:hover{background:var(--ivory2)}
+.fbtns{display:flex;gap:10px}
+.fbtns .fbtn:last-child{flex:2}
+.fbtns .fbtn:first-child{flex:1}
+.steps{display:flex;justify-content:center;gap:10px;margin-bottom:24px}
+.sdot{width:10px;height:10px;border-radius:50%;background:var(--bdr);transition:all .3s}
+.sdot.on{background:var(--plum);transform:scale(1.15)}
+.sdot.done{background:var(--plum)}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rbtn{
+  padding:13px;border-radius:10px;font-size:13px;font-weight:400;text-align:center;
+  cursor:pointer;border:1.5px solid var(--bdr);background:#fff;color:var(--ink);
+  font-family:var(--bd);transition:all .2s;
 }
-.fbtn:hover { background: var(--plum-dk); }
-.fbtn:disabled { opacity: 0.5; cursor: not-allowed; }
-.fbtn-back { background: var(--ivory); color: var(--ink); }
-.fbtn-back:hover { background: var(--ivory2); }
-.fbtns { display: flex; gap: 10px; }
-.fbtns .fbtn:last-child { flex: 2; }
-.fbtns .fbtn:first-child { flex: 1; }
-.steps { display: flex; justify-content: center; gap: 10px; margin-bottom: 24px; }
-.sdot { width: 10px; height: 10px; border-radius: 50%; background: var(--bdr); transition: all 0.3s; }
-.sdot.on { background: var(--plum); transform: scale(1.15); }
-.sdot.done { background: var(--plum); }
-.rgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.rbtn {
-  padding: 13px; border-radius: 10px; font-size: 13px; font-weight: 400;
-  text-align: center; cursor: pointer; border: 1.5px solid var(--bdr);
-  background: #fff; color: var(--ink); font-family: var(--bd); transition: all 0.2s;
-}
-.rbtn.sel { border-color: var(--plum); background: var(--mist); }
-.success-icon {
-  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 20px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; background: rgba(124,176,127,0.15); color: #3d7a40;
+.rbtn.sel{border-color:var(--plum);background:var(--mist)}
+.success-icon{
+  width:56px;height:56px;border-radius:50%;margin:0 auto 20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;background:rgba(124,176,127,.15);color:#3d7a40;
 }
 
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 900px) {
-  .story-grid { grid-template-columns: 1fr; }
-  .features-grid { grid-template-columns: 1fr; }
-  .builders-inner { grid-template-columns: 1fr; }
-  .builders-visual { display: none; }
-  .nav-link { display: none; }
+/* RESPONSIVE */
+@media(max-width:900px){
+  .exp-grid{grid-template-columns:1fr}
 }
-@media (max-width: 600px) {
-  .hero { padding: 120px 20px 80px; }
-  .hero-form { flex-direction: column; border-radius: 16px; padding: 6px; }
-  .hero-form input { text-align: center; }
-  .hero-form button { width: 100%; border-radius: 12px; }
-  .hero-links { flex-direction: column; align-items: center; }
-  .hero-links .btn { width: 100%; max-width: 280px; }
-  .social-proof { flex-direction: column; gap: 8px; }
-  .section-header { text-align: left; }
-  .section-header .section-desc { margin: 0; }
-  .footer-inner { flex-direction: column; text-align: center; }
-  .modal-hd { padding: 32px 24px 16px; }
-  .modal-body { padding: 20px 24px 28px; }
+@media(max-width:600px){
+  .resonance{padding:60px 20px}
+  .recognition{height:120px}
+  .resonance-form{flex-direction:column;border-radius:16px;padding:6px}
+  .resonance-form input{text-align:center}
+  .resonance-form button{width:100%;border-radius:12px}
+  .resonance-links{flex-direction:column;align-items:center}
+  .invitation-form{flex-direction:column;border-radius:16px;padding:6px}
+  .invitation-form input{text-align:center}
+  .invitation-form button{width:100%;border-radius:12px}
+  .voice-card{width:280px;padding:22px}
+  .footer-inner{flex-direction:column;text-align:center}
+  .modal-hd{padding:32px 24px 16px}
+  .modal-body{padding:20px 24px 28px}
 }
 </style>
 </head>
 <body>
 
 <!-- ============================================================
-     NAV
+     SECTION 1: RESONANCE — The Opening
      ============================================================ -->
-<nav class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">periwink</a>
-    <div class="nav-right">
-      <a href="#story" class="nav-link">Our Story</a>
-      <a href="#rooms" class="nav-link">Community</a>
-      <a href="#builders" class="nav-link">Contribute</a>
-      <button class="btn btn-plum" style="padding:10px 22px;font-size:13px" onclick="scrollToSignup()">Join Early</button>
-    </div>
-  </div>
-</nav>
+<section class="resonance">
+  <div class="resonance-logo">periwink</div>
 
-<!-- ============================================================
-     HERO
-     ============================================================ -->
-<section class="hero">
-  <!-- SVG figure — draws on scroll -->
-  <svg class="hero-figure" id="hero-svg" viewBox="0 0 400 600" fill="none">
-    <!-- Flowing feminine silhouette — abstract, minimal -->
-    <path data-order="1" d="M200 80 Q210 120 205 160 Q198 200 200 240" stroke-dasharray="200" stroke-dashoffset="200"/>
-    <path data-order="2" d="M200 240 Q195 280 190 320 Q185 360 195 400 Q200 430 198 460" stroke-dasharray="260" stroke-dashoffset="260"/>
-    <!-- Hair flowing -->
-    <path data-order="1" d="M200 80 Q180 60 160 75 Q140 95 150 130 Q155 150 165 160" stroke-dasharray="150" stroke-dashoffset="150"/>
-    <path data-order="1" d="M200 80 Q220 55 245 70 Q260 90 255 125 Q250 145 240 155" stroke-dasharray="150" stroke-dashoffset="150"/>
-    <!-- Shoulders -->
-    <path data-order="2" d="M200 240 Q170 245 140 265 Q120 280 115 310" stroke-dasharray="160" stroke-dashoffset="160"/>
-    <path data-order="2" d="M200 240 Q230 245 260 265 Q280 280 285 310" stroke-dasharray="160" stroke-dashoffset="160"/>
-    <!-- Arms flowing outward -->
-    <path data-order="3" d="M140 265 Q120 290 95 310 Q75 325 60 340" stroke-dasharray="140" stroke-dashoffset="140"/>
-    <path data-order="3" d="M260 265 Q280 290 305 310 Q325 325 340 340" stroke-dasharray="140" stroke-dashoffset="140"/>
-    <!-- Flowing dress/skirt -->
-    <path data-order="3" d="M190 320 Q175 380 155 440 Q140 480 130 520" stroke-dasharray="240" stroke-dashoffset="240"/>
-    <path data-order="3" d="M210 320 Q225 380 245 440 Q260 480 270 520" stroke-dasharray="240" stroke-dashoffset="240"/>
-    <!-- Organic elements — petals floating -->
-    <path data-order="4" d="M80 180 Q90 160 110 165 Q100 185 80 180Z" stroke-dasharray="80" stroke-dashoffset="80" fill="none"/>
-    <path data-order="4" d="M310 200 Q325 185 340 195 Q325 210 310 200Z" stroke-dasharray="80" stroke-dashoffset="80" fill="none"/>
-    <path data-order="5" d="M70 400 Q85 385 100 395 Q85 410 70 400Z" stroke-dasharray="80" stroke-dashoffset="80" fill="none"/>
-    <path data-order="5" d="M320 420 Q335 405 350 415 Q335 430 320 420Z" stroke-dasharray="80" stroke-dashoffset="80" fill="none"/>
-    <!-- Small periwinkle flower at heart -->
-    <path data-order="4" d="M200 190 Q195 175 200 165 Q205 175 200 190Z" stroke-dasharray="60" stroke-dashoffset="60"/>
-    <path data-order="4" d="M200 190 Q188 185 183 178 Q192 180 200 190Z" stroke-dasharray="40" stroke-dashoffset="40"/>
-    <path data-order="4" d="M200 190 Q212 185 217 178 Q208 180 200 190Z" stroke-dasharray="40" stroke-dashoffset="40"/>
-  </svg>
-
-  <div class="hero-content">
-    <div class="hero-label anim"><span class="hero-dot"></span>Building something meaningful</div>
-
-    <h1 class="anim ad1">You're not alone<br>in this. <em>None of us are.</em></h1>
-
-    <p class="hero-sub anim ad2">
-      Periwink is where women navigating perimenopause and menopause find each other,
-      share what they're noticing, and feel held.
-    </p>
-
-    <p class="hero-whisper anim ad3">More truth. Deeper alignment. More you.</p>
-
-    <div class="anim ad4">
-      <form class="hero-form" id="hero-form" onsubmit="submitHero(event)">
-        <input type="email" name="email" required placeholder="Enter your email" autocomplete="email">
-        <button type="submit">Join Early</button>
-      </form>
-      <p class="hero-msg" id="hero-msg"></p>
-    </div>
-
-    <div class="hero-links anim ad5">
-      <a href="#rooms" class="btn btn-outline" style="padding:10px 22px;font-size:13px">Explore Circles</a>
-      <button class="btn btn-ghost" style="padding:10px 22px;font-size:13px" onclick="openModal('founding')">Become a Founding Member</button>
-    </div>
-
-    <div class="social-proof anim ad6">
-      <div class="avatars">
-        <div class="av" style="background:linear-gradient(135deg,var(--lavender),var(--mist))"></div>
-        <div class="av" style="background:linear-gradient(135deg,#D4DED0,var(--mist))"></div>
-        <div class="av" style="background:linear-gradient(135deg,var(--rose-lt),var(--mist))"></div>
-        <div class="av" style="background:linear-gradient(135deg,var(--mist),var(--lavender-lt))"></div>
-      </div>
-      <p>Join <strong>2,400+ women</strong> finding their way forward</p>
-    </div>
+  <div class="recognition" id="recognition-rotator">
+    <div class="recognition-line active">"Lately I don't feel like myself."</div>
+    <div class="recognition-line">"I'm exhausted, but I can't explain it."</div>
+    <div class="recognition-line">"My body feels different, and I don't know how to talk about it."</div>
+    <div class="recognition-line">"I thought this was just stress."</div>
+    <div class="recognition-line">"I feel more emotional, less patient, and somehow more clear."</div>
+    <div class="recognition-line">"I want support that feels intelligent, not patronizing."</div>
+    <div class="recognition-line">"I'm functioning, but I'm not fully okay."</div>
+    <div class="recognition-line">"I want to understand what's happening without being reduced to symptoms."</div>
+    <div class="recognition-line">"I don't want another app. I want something that actually helps."</div>
   </div>
 
-  <div class="scroll-hint anim ad6">
+  <p class="resonance-prompt">If any of that felt familiar — you're in the right place.</p>
+
+  <form class="resonance-form" id="hero-form" onsubmit="submitEmail(event,'hero')">
+    <input type="email" name="email" required placeholder="Enter your email" autocomplete="email">
+    <button type="submit">Join Early</button>
+  </form>
+  <p class="resonance-msg" id="hero-msg"></p>
+
+  <div class="resonance-links">
+    <a href="#experience">What is Periwink?</a>
+    <button onclick="openModal('founding')">Become a Founding Member</button>
+  </div>
+
+  <div class="scroll-cue">
     <span>Discover</span>
-    <div class="scroll-line"></div>
+    <div class="scroll-cue-line"></div>
   </div>
 </section>
 
 <!-- ============================================================
-     STORY — Narrative Arc
+     SECTION 2: RECOGNITION
      ============================================================ -->
-<section id="story" class="story">
-  <div class="story-inner">
-    <div class="section-header reveal">
-      <p class="section-label">Our story</p>
-      <h2 class="section-title">She thought she was the only one.</h2>
-      <p class="section-desc">Every woman's journey through this chapter begins with a quiet moment of recognition.</p>
-    </div>
-
-    <div class="story-grid">
-      <div class="story-card reveal d1">
-        <div class="story-num">1</div>
-        <h3>She's navigating something no one talks about.</h3>
-        <p>The hot flashes at 3am. The brain fog in meetings. The sudden anxiety that has no name. She Googles symptoms alone at midnight, wondering if this is just her.</p>
-      </div>
-      <div class="story-card reveal d2">
-        <div class="story-num">2</div>
-        <h3>She starts to wonder: is anyone else feeling this?</h3>
-        <p>The doctor visits feel rushed. Friends change the subject. The wellness industry offers solutions but not understanding. She doesn't need another product. She needs to feel <em>seen</em>.</p>
-      </div>
-      <div class="story-card reveal d3">
-        <div class="story-num">3</div>
-        <h3>She finds a place that finally gets it.</h3>
-        <p>A space where "me too" isn't a hashtag &mdash; it's a lifeline. Where women share what's actually working. Where tracking her symptoms reveals patterns she never noticed. Where she can be anonymous or known, on her terms.</p>
-      </div>
-      <div class="story-card reveal d4">
-        <div class="story-num">4</div>
-        <h3>She found her people.</h3>
-        <p>And together, they're not just getting through it &mdash; they're redefining what this chapter means. More wisdom. More honesty. More of the conversations that should have been happening all along.</p>
-      </div>
-    </div>
+<section class="recognition-section">
+  <div class="recognition-inner reveal">
+    <h2>You're not imagining it.</h2>
+    <p class="body-text">
+      What you're experiencing is real. It has a shape, a name, and a community of women who understand&nbsp;&mdash;
+      because they're living it too.
+    </p>
+    <p class="body-text">
+      This is not simply a problem to solve. It is a season to understand and move through&nbsp;&mdash;
+      with support, with honesty, and with other women beside you.
+    </p>
+    <p class="shift-text" style="margin-top:20px">
+      Change is easier, wiser, and more healing when it is shared.
+    </p>
   </div>
 </section>
 
 <!-- ============================================================
-     FEATURES — 4-card grid
+     SECTION 3: REFRAME
      ============================================================ -->
-<section class="features">
-  <div class="features-inner">
-    <div class="section-header reveal">
+<section class="reframe">
+  <div class="reframe-inner reveal">
+    <h2>You are not breaking down.<br>You are <em>becoming.</em></h2>
+    <div class="reframe-phrases">
+      <p class="reframe-phrase">This is not the end of something. It's the <strong>truth of you emerging.</strong></p>
+      <p class="reframe-phrase">What is falling away is not you&nbsp;&mdash; it's <strong>what no longer fits.</strong></p>
+      <p class="reframe-phrase">The body is not betraying you. It is asking for a <strong>new relationship with self.</strong></p>
+      <p class="reframe-phrase">You don't need to go back to who you were. You are becoming <strong>who you are now.</strong></p>
+    </div>
+    <p style="font-size:15px;color:var(--rose);font-style:italic">
+      From symptoms to sovereignty. A shared path of becoming.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4: BELONGING — Community Voices
+     ============================================================ -->
+<section class="belonging">
+  <div class="belonging-inner">
+    <div class="section-hd reveal">
+      <p class="section-label">Voices from the community</p>
+      <h2 class="section-title">Where transformation is witnessed</h2>
+      <p class="section-desc">Real women. Real words. Every voice here is a reminder that you are not alone.</p>
+    </div>
+    <div class="voices-scroll reveal d1" id="voices-scroll"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 5: EXPERIENCE — What Periwink Is
+     ============================================================ -->
+<section id="experience" class="experience">
+  <div class="experience-inner">
+    <div class="section-hd reveal" style="text-align:center;margin-bottom:56px">
       <p class="section-label">What we're building</p>
-      <h2 class="section-title">Four pillars of a different kind of community</h2>
-      <p class="section-desc">Every feature exists because a woman like you said she needed it.</p>
+      <h2 class="section-title" style="font-family:var(--hd);font-size:clamp(26px,3.5vw,36px);color:var(--ink)">Better outcomes through connection</h2>
+      <p class="section-desc" style="max-width:500px;margin:0 auto;color:var(--t2)">Every feature exists because a woman like you said she needed it.</p>
     </div>
-
-    <div class="features-grid">
-      <div class="feature-card reveal d1">
-        <div class="feature-icon">💬</div>
+    <div class="exp-grid">
+      <div class="exp-card reveal d1">
+        <div class="exp-icon">💬</div>
         <h3>Community Rooms</h3>
-        <p>Topic-based circles for the conversations that matter most. Post under your pseudonym or go fully anonymous. Threaded discussions where lived experience is valued as much as expertise.</p>
+        <p>Intimate topic-based circles for the conversations that matter most. Post under your pseudonym or go fully anonymous. Lived experience valued as much as expertise.</p>
       </div>
-      <div class="feature-card reveal d2">
-        <div class="feature-icon">📖</div>
-        <h3>Symptom Tracker</h3>
-        <p>Daily logging across 25 symptoms &mdash; vasomotor, sleep, mood, physical, and more. Rate severity, note patterns, and finally see the shape of what your body has been telling you.</p>
+      <div class="exp-card reveal d2">
+        <div class="exp-icon">📖</div>
+        <h3>Guided Check-ins</h3>
+        <p>Daily awareness that honors what you're feeling&nbsp;&mdash; not just what you're measuring. Track 25 symptoms across vasomotor, sleep, mood, and physical categories. See patterns emerge.</p>
       </div>
-      <div class="feature-card reveal d3">
-        <div class="feature-icon">🔬</div>
+      <div class="exp-card reveal d3">
+        <div class="exp-icon">🔬</div>
         <h3>Citizen Science</h3>
-        <p>Opt in to contribute your anonymous data to community insights. See what symptoms are most common, which treatments are helping, and discover correlations no one is studying yet.</p>
+        <p>Opt in to contribute anonymous data to community insights. See what's most common, which treatments help, and discover correlations no one is studying yet.</p>
       </div>
-      <div class="feature-card reveal d4">
-        <div class="feature-icon">🔒</div>
+      <div class="exp-card reveal d4">
+        <div class="exp-icon">🔒</div>
         <h3>Privacy First</h3>
-        <p>Pseudonyms by default. Full anonymity per-post. Granular consent controls over every piece of data. Your story is yours &mdash; you decide who sees what, always.</p>
+        <p>Pseudonyms by default. Full anonymity per-post. Granular consent over every piece of data. Your story is yours&nbsp;&mdash; you decide who sees what, always.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================
-     ROOMS — Horizontal scrolling pills
+     SECTION 6: ROOMS
      ============================================================ -->
-<section id="rooms" class="rooms">
+<section class="rooms-section">
   <div class="rooms-inner">
-    <div class="section-header reveal" style="text-align:left;margin-bottom:32px">
-      <p class="section-label">Active circles</p>
-      <h2 class="section-title">Find your people</h2>
+    <div class="reveal" style="margin-bottom:24px">
+      <p class="section-label" style="font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--plum-lt);margin-bottom:10px">Active circles</p>
+      <h2 style="font-family:var(--hd);font-size:clamp(24px,3vw,32px);font-weight:300;color:var(--ink)">Find your people</h2>
     </div>
-    <div class="rooms-scroll reveal" id="rooms-scroll"></div>
+    <div class="rooms-scroll reveal d1" id="rooms-scroll"></div>
   </div>
 </section>
 
 <!-- ============================================================
-     TESTIMONIAL
+     SECTION 7: QUOTE
      ============================================================ -->
 <section class="quote-section">
   <div class="quote-inner reveal">
@@ -739,53 +562,22 @@ a { color: inherit; }
 </section>
 
 <!-- ============================================================
-     BUILDERS
+     SECTION 8: INVITATION
      ============================================================ -->
-<section id="builders" class="builders">
-  <div class="builders-inner">
-    <div class="reveal">
-      <p class="section-label">Shape what this becomes</p>
-      <h2 class="section-title">Help us build something that matters.</h2>
-      <p style="color:var(--t2);line-height:1.8;margin-bottom:8px">
-        Periwink isn't just a product &mdash; it's a collaborative movement.
-        We're looking for practitioners, researchers, creators, and community builders
-        who want to shape what this becomes.
-      </p>
-      <div class="role-pills">
-        <span class="role-pill">Healthcare Practitioners</span>
-        <span class="role-pill">Researchers</span>
-        <span class="role-pill">Content Creators</span>
-        <span class="role-pill">Community Builders</span>
-        <span class="role-pill">Brand Partners</span>
-      </div>
-      <button class="btn btn-plum" onclick="openModal('founding')">Apply as a Founding Member</button>
-    </div>
-    <div class="builders-visual reveal d2">
-      <svg width="360" height="280" viewBox="0 0 500 400" fill="none" style="width:85%;height:auto">
-        <path d="M0 200 Q80 160 160 200 Q240 240 320 200 Q400 160 500 200" stroke="var(--lavender)" stroke-width="1.5" fill="none" opacity=".45"/>
-        <path d="M0 230 Q80 190 160 230 Q240 270 320 230 Q400 190 500 230" stroke="var(--lavender-lt)" stroke-width="1" fill="none" opacity=".35"/>
-        <path d="M0 260 Q80 220 160 260 Q240 300 320 260 Q400 220 500 260" stroke="var(--lavender)" stroke-width=".8" fill="none" opacity=".25"/>
-        <circle cx="100" cy="150" r="40" fill="var(--mist)" opacity=".2"/>
-        <circle cx="380" cy="130" r="50" fill="var(--mist)" opacity=".15"/>
-        <circle cx="250" cy="290" r="30" fill="var(--rose-lt)" opacity=".12"/>
-        <circle cx="80" cy="100" r="3" fill="var(--plum-lt)" opacity=".2"/>
-        <circle cx="420" cy="90" r="2.5" fill="var(--plum-lt)" opacity=".18"/>
-        <circle cx="300" cy="340" r="2.5" fill="var(--rose)" opacity=".2"/>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     FINAL CTA
-     ============================================================ -->
-<section class="cta-final">
+<section class="invitation">
   <div class="reveal">
-    <h2>Ready for a <em>wiser way forward?</em></h2>
-    <p>Join thousands of women learning, growing, and navigating this chapter together. You don't have to carry this alone.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-plum" onclick="scrollToSignup()">Join Early Access</button>
-      <button class="btn btn-ghost" onclick="openModal('founding')">Become a Founding Member</button>
+    <h2>A wiser way forward&nbsp;&mdash;<br><em>together.</em></h2>
+    <p>
+      You don't have to figure this out by yourself. There are women here who understand what you're feeling&nbsp;&mdash;
+      because they're feeling it too.
+    </p>
+    <form class="invitation-form" id="inv-form" onsubmit="submitEmail(event,'inv')">
+      <input type="email" name="email" required placeholder="Enter your email" autocomplete="email">
+      <button type="submit">Join Early Access</button>
+    </form>
+    <p class="inv-msg" id="inv-msg"></p>
+    <div class="invitation-links">
+      <button onclick="openModal('founding')" style="font-size:13px;color:var(--t2);padding:8px 20px;border-radius:999px;border:1px solid var(--bdr);background:none;cursor:pointer;font-family:var(--bd);font-weight:300;transition:all .2s">Become a Founding Member</button>
     </div>
   </div>
 </section>
@@ -816,26 +608,24 @@ a { color: inherit; }
       <p class="modal-sub">Help shape what Periwink becomes.</p>
     </div>
     <div class="modal-body">
-      <div class="steps" id="f-steps">
-        <div class="sdot on"></div><div class="sdot"></div><div class="sdot"></div>
-      </div>
+      <div class="steps" id="f-steps"><div class="sdot on"></div><div class="sdot"></div><div class="sdot"></div></div>
       <div id="f-err" class="ferr" style="display:none"></div>
       <div id="fs1">
         <div class="fg"><label class="fl">Your name <span class="req">*</span></label><input class="fi" id="fn" placeholder="Full name"></div>
         <div class="fg"><label class="fl">Email <span class="req">*</span></label><input class="fi" id="fe" type="email" placeholder="you@example.com"></div>
         <div class="fg"><label class="fl">What role interests you? <span class="req">*</span></label><div class="rgrid" id="rgrid"></div></div>
-        <div class="fg"><label class="fl">Organization</label><input class="fi" id="fo" placeholder="Your company or practice (optional)"></div>
+        <div class="fg"><label class="fl">Organization</label><input class="fi" id="fo" placeholder="Optional"></div>
         <button class="fbtn" type="button" onclick="fStep(2)">Continue</button>
       </div>
       <div id="fs2" style="display:none">
-        <div class="fg"><label class="fl">What draws you to Periwink? <span class="req">*</span></label><textarea class="ft" id="fd" placeholder="What resonates with you about what we're building?"></textarea></div>
-        <div class="fg"><label class="fl">What do you hope to offer this community? <span class="req">*</span></label><textarea class="ft" id="fof" placeholder="Your expertise, perspective, or contribution..."></textarea></div>
-        <div class="fg"><label class="fl">How do you support women in your current work? <span class="req">*</span></label><textarea class="ft" id="fa" placeholder="Tell us about your approach..."></textarea></div>
+        <div class="fg"><label class="fl">What draws you to Periwink? <span class="req">*</span></label><textarea class="ft" id="fd" placeholder="What resonates with you?"></textarea></div>
+        <div class="fg"><label class="fl">What do you hope to offer? <span class="req">*</span></label><textarea class="ft" id="fof" placeholder="Your expertise, perspective, contribution..."></textarea></div>
+        <div class="fg"><label class="fl">How do you support women in your current work? <span class="req">*</span></label><textarea class="ft" id="fa" placeholder="Your approach..."></textarea></div>
         <div class="fbtns"><button class="fbtn fbtn-back" type="button" onclick="fStep(1)">Back</button><button class="fbtn" type="button" onclick="fStep(3)">Continue</button></div>
       </div>
       <div id="fs3" style="display:none">
         <div class="fg"><label class="fl">What does "holding space" mean to you? <span class="req">*</span></label><textarea class="ft" id="fh" placeholder="In your own words..."></textarea></div>
-        <div class="fg"><label class="fl">Anything you'd want to build or contribute?</label><textarea class="ft" id="fb" placeholder="Ideas, content, features... (optional)"></textarea></div>
+        <div class="fg"><label class="fl">Anything you'd want to build or contribute?</label><textarea class="ft" id="fb" placeholder="Optional"></textarea></div>
         <div class="fg"><label class="fl">Website or LinkedIn</label><input class="fi" id="fw" type="url" placeholder="https://..."></div>
         <div class="fbtns"><button class="fbtn fbtn-back" type="button" onclick="fStep(2)">Back</button><button class="fbtn" type="button" id="f-submit" onclick="submitFounding()">Submit Application</button></div>
       </div>
@@ -851,7 +641,7 @@ a { color: inherit; }
       <div class="success-icon">&#10003;</div>
       <h4 class="modal-title" id="suc-title" style="font-size:22px;margin-bottom:8px"></h4>
       <p id="suc-msg" style="color:var(--t2);font-size:14px;margin-bottom:28px"></p>
-      <button class="btn btn-plum" style="padding:10px 24px;font-size:13px" onclick="closeModal('success')">Close</button>
+      <button class="fbtn" style="width:auto;padding:10px 28px;border-radius:999px;font-size:13px" onclick="closeModal('success')">I'll be here</button>
     </div>
   </div>
 </div>
@@ -862,190 +652,166 @@ a { color: inherit; }
 <script>
 var API = 'https://periwink-production-a893.up.railway.app';
 
-// --- Nav ---
-window.addEventListener('scroll', function() {
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
-});
-
-// --- Scroll reveal ---
-var rObs = new IntersectionObserver(function(es) {
-  es.forEach(function(e) {
-    if (e.isIntersecting) { e.target.classList.add('vis'); rObs.unobserve(e.target); }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
-document.querySelectorAll('.reveal').forEach(function(el) { rObs.observe(el); });
-
-// --- SVG line drawing on scroll ---
-(function() {
-  var svg = document.getElementById('hero-svg');
-  var paths = svg.querySelectorAll('path');
-  var maxOrder = 0;
-  paths.forEach(function(p) { var o = parseInt(p.getAttribute('data-order') || '1'); if (o > maxOrder) maxOrder = o; });
-
-  function drawOnScroll() {
-    var scrollY = window.scrollY;
-    var docH = document.documentElement.scrollHeight - window.innerHeight;
-    var progress = Math.min(scrollY / (docH * 0.35), 1); // complete drawing in first 35% of scroll
-
-    paths.forEach(function(p) {
-      var order = parseInt(p.getAttribute('data-order') || '1');
-      var dashLen = parseFloat(p.getAttribute('stroke-dasharray'));
-      // Stagger by order
-      var start = (order - 1) / (maxOrder + 1);
-      var end = (order + 0.5) / (maxOrder + 1);
-      var localProgress = Math.max(0, Math.min(1, (progress - start) / (end - start)));
-      p.style.strokeDashoffset = dashLen * (1 - localProgress);
-    });
-  }
-
-  window.addEventListener('scroll', drawOnScroll, { passive: true });
-  drawOnScroll();
+/* --- Recognition rotator --- */
+(function(){
+  var lines = document.querySelectorAll('.recognition-line');
+  var idx = 0;
+  setInterval(function(){
+    lines[idx].classList.remove('active');
+    idx = (idx + 1) % lines.length;
+    lines[idx].classList.add('active');
+  }, 4000);
 })();
 
-// --- Rooms ---
+/* --- Scroll reveal --- */
+var rObs = new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('vis');rObs.unobserve(e.target)}
+  });
+},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){rObs.observe(el)});
+
+/* --- Community voices --- */
+var voices = [
+  {text:"The CEO noticed. I was mid-presentation and my face went full crimson. Instead of dying inside, I just said 'power surge' and kept going. Three women messaged me after.",name:"MoonlitSage",room:"Hot Flashes",hue:280},
+  {text:"4:17am again. I've memorized the pattern of light on my ceiling. My husband sleeps like he's being paid for it. I started keeping a journal by the bed\u2014if I can't sleep, at least I can write.",name:"NightOwl3am",room:"Sleep & Fatigue",hue:220},
+  {text:"Three months on estradiol patches. The brain fog lifted first\u2014like someone cleaned a window I didn't know was dirty. Then the sleep came back. I cried in my doctor's office. Not from sadness. From relief.",name:"SteadyRain",room:"HRT & Hormone Therapy",hue:180},
+  {text:"I snapped at my daughter today over nothing. She looked at me like I was a stranger. I am, a little. The rage comes from nowhere and I don't know how to explain that to a 15-year-old.",name:"QuietStorm42",room:"Mood & Mental Health",hue:320},
+  {text:"I'm not the same person I was two years ago. And I don't want to go back. That's the part no one warned me about\u2014that sometimes what falls away is a relief.",name:"TidalGrace",room:"Relationships",hue:160},
+  {text:"Started magnesium glycinate three weeks ago. The leg cramps stopped in four days. The sleep took longer. But last night I slept six hours straight for the first time in months. Six. Hours.",name:"WildSage",room:"Supplements",hue:120},
+  {text:"My running pace dropped by 90 seconds per mile. I tried pushing through for months. Then I stopped fighting my body and started listening. I'm slower now, and somehow stronger.",name:"CopperMoon",room:"Body Changes",hue:30},
+  {text:"I told my boss. I didn't plan to. She asked why I'd been missing morning meetings and I just said 'I'm in perimenopause and I'm not sleeping.' She said, 'Me too.' We both cried a little.",name:"GoldenThread",room:"Work & Career",hue:50},
+];
+var vs = document.getElementById('voices-scroll');
+voices.forEach(function(v){
+  var d = document.createElement('div');
+  d.className = 'voice-card';
+  d.innerHTML = '<p>\u201C'+v.text+'\u201D</p><div class="voice-meta"><div class="voice-av" style="background:linear-gradient(135deg,hsl('+v.hue+',35%,75%),hsl('+(v.hue+40)%360+',30%,82%))"></div><div><div class="voice-name">'+v.name+'</div><div class="voice-room">in '+v.room+'</div></div></div>';
+  vs.appendChild(d);
+});
+
+/* --- Rooms --- */
 var rooms = [
-  { emoji: '\uD83D\uDD25', name: 'Hot Flashes & Night Sweats', count: '2,847' },
-  { emoji: '\uD83C\uDF19', name: 'Sleep & Fatigue', count: '3,201' },
-  { emoji: '\uD83E\uDDE0', name: 'Mind & Mood', count: '2,956' },
-  { emoji: '\uD83D\uDC8A', name: 'HRT & Hormone Therapy', count: '4,102' },
-  { emoji: '\uD83D\uDC9C', name: 'Relationships & Intimacy', count: '1,890' },
-  { emoji: '\uD83C\uDF3F', name: 'Supplements & Nutrition', count: '2,103' },
-  { emoji: '\uD83E\uDD8B', name: 'Body Changes', count: '1,645' },
-  { emoji: '\uD83D\uDCBC', name: 'Work & Career', count: '1,320' },
+  {emoji:'\uD83D\uDD25',name:'Hot Flashes & Night Sweats',count:'2,847'},
+  {emoji:'\uD83C\uDF19',name:'Sleep & Fatigue',count:'3,201'},
+  {emoji:'\uD83E\uDDE0',name:'Mind & Mood',count:'2,956'},
+  {emoji:'\uD83D\uDC8A',name:'HRT & Hormone Therapy',count:'4,102'},
+  {emoji:'\uD83D\uDC9C',name:'Relationships & Intimacy',count:'1,890'},
+  {emoji:'\uD83C\uDF3F',name:'Supplements & Nutrition',count:'2,103'},
+  {emoji:'\uD83E\uDD8B',name:'Body Changes',count:'1,645'},
+  {emoji:'\uD83D\uDCBC',name:'Work & Career',count:'1,320'},
 ];
 var rs = document.getElementById('rooms-scroll');
-rooms.forEach(function(r) {
+rooms.forEach(function(r){
   var d = document.createElement('div');
   d.className = 'room-pill';
-  d.onclick = function() { scrollToSignup(); };
-  d.innerHTML = '<span class="room-emoji">' + r.emoji + '</span><div class="room-info"><span class="room-name">' + r.name + '</span><span class="room-count"><span class="room-dot"></span>' + r.count + ' sharing</span></div>';
+  d.onclick = function(){scrollToForm()};
+  d.innerHTML = '<span class="room-emoji">'+r.emoji+'</span><span>'+r.name+'</span><span class="room-count">'+r.count+'</span>';
   rs.appendChild(d);
 });
 
-// --- Scroll to signup ---
-function scrollToSignup() {
+/* --- Scroll to form --- */
+function scrollToForm(){
   var f = document.getElementById('hero-form');
-  f.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  setTimeout(function() { f.querySelector('input').focus(); }, 600);
+  f.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(function(){f.querySelector('input').focus()},600);
 }
 
-// --- Hero email signup ---
-function submitHero(e) {
+/* --- Email signup --- */
+function submitEmail(e, prefix){
   e.preventDefault();
-  var form = document.getElementById('hero-form');
-  var msg = document.getElementById('hero-msg');
+  var form = e.target;
+  var msg = document.getElementById(prefix + '-msg');
   var input = form.querySelector('input');
   var btn = form.querySelector('button');
-  msg.textContent = ''; msg.className = 'hero-msg';
-  btn.disabled = true; btn.textContent = 'Joining...';
-
-  fetch(API + '/api/signup', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: input.value.trim() }),
+  msg.textContent = '';msg.className = prefix === 'hero' ? 'resonance-msg' : 'inv-msg';
+  btn.disabled = true;btn.textContent = 'Joining...';
+  fetch(API + '/api/signup',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({email:input.value.trim()}),
   })
-  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
-  .then(function(res) {
-    if (res.ok) {
-      msg.textContent = "You're in! We'll be in touch soon.";
-      msg.className = 'hero-msg ok'; input.value = '';
+  .then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d}})})
+  .then(function(res){
+    if(res.ok){
+      msg.textContent = "You're in. We'll be in touch soon.";
+      msg.className = (prefix === 'hero' ? 'resonance-msg' : 'inv-msg') + ' ok';
+      input.value = '';
     } else {
       msg.textContent = res.data.error || 'Something went wrong.';
-      msg.className = 'hero-msg err';
+      msg.className = (prefix === 'hero' ? 'resonance-msg' : 'inv-msg') + ' err';
     }
   })
-  .catch(function() { msg.textContent = 'Network error. Please try again.'; msg.className = 'hero-msg err'; })
-  .finally(function() { btn.disabled = false; btn.textContent = 'Join Early'; });
+  .catch(function(){
+    msg.textContent = 'Network error. Please try again.';
+    msg.className = (prefix === 'hero' ? 'resonance-msg' : 'inv-msg') + ' err';
+  })
+  .finally(function(){btn.disabled = false;btn.textContent = prefix === 'hero' ? 'Join Early' : 'Join Early Access'});
 }
 
-// --- Modal ---
-function openModal(n) { document.getElementById('modal-' + n).classList.add('open'); document.body.style.overflow = 'hidden'; if (n === 'founding') { curStep = 1; showStep(1); } }
-function closeModal(n) { document.getElementById('modal-' + n).classList.remove('open'); document.body.style.overflow = ''; }
-document.querySelectorAll('.modal-overlay').forEach(function(o) {
-  o.addEventListener('click', function(e) { if (e.target === o) { o.classList.remove('open'); document.body.style.overflow = ''; } });
+/* --- Modal --- */
+function openModal(n){document.getElementById('modal-'+n).classList.add('open');document.body.style.overflow='hidden';if(n==='founding'){curStep=1;showStep(1)}}
+function closeModal(n){document.getElementById('modal-'+n).classList.remove('open');document.body.style.overflow=''}
+document.querySelectorAll('.modal-overlay').forEach(function(o){
+  o.addEventListener('click',function(e){if(e.target===o){o.classList.remove('open');document.body.style.overflow=''}});
 });
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(function(o) { o.classList.remove('open'); document.body.style.overflow = ''; });
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(function(o){o.classList.remove('open');document.body.style.overflow=''});
 });
 
-function showErr(msg) { var el = document.getElementById('f-err'); el.textContent = msg; el.style.display = 'block'; }
-function hideErr() { document.getElementById('f-err').style.display = 'none'; }
-
-// --- Founding member roles ---
-var roles = [
-  { v: 'PRACTITIONER', l: 'Healthcare Practitioner' },
-  { v: 'RESEARCHER', l: 'Researcher' },
-  { v: 'CONTENT_CREATOR', l: 'Content Creator' },
-  { v: 'COMMUNITY_BUILDER', l: 'Community Builder' },
-  { v: 'BRAND_PARTNER', l: 'Brand Partner' },
+/* --- Founding member --- */
+var roles=[
+  {v:'PRACTITIONER',l:'Healthcare Practitioner'},{v:'RESEARCHER',l:'Researcher'},
+  {v:'CONTENT_CREATOR',l:'Content Creator'},{v:'COMMUNITY_BUILDER',l:'Community Builder'},
+  {v:'BRAND_PARTNER',l:'Brand Partner'},
 ];
-var selRole = '';
-var rg = document.getElementById('rgrid');
-roles.forEach(function(r) {
-  var b = document.createElement('button');
-  b.type = 'button'; b.className = 'rbtn'; b.textContent = r.l;
-  b.onclick = function() {
-    selRole = r.v;
-    document.querySelectorAll('.rbtn').forEach(function(x) { x.classList.remove('sel'); });
-    b.classList.add('sel');
-  };
+var selRole='';
+var rg=document.getElementById('rgrid');
+roles.forEach(function(r){
+  var b=document.createElement('button');b.type='button';b.className='rbtn';b.textContent=r.l;
+  b.onclick=function(){selRole=r.v;document.querySelectorAll('.rbtn').forEach(function(x){x.classList.remove('sel')});b.classList.add('sel')};
   rg.appendChild(b);
 });
-
-// --- Founding steps ---
-var curStep = 1;
-function showStep(s) {
-  for (var i = 1; i <= 3; i++) document.getElementById('fs' + i).style.display = i === s ? 'block' : 'none';
-  var dots = document.querySelectorAll('#f-steps .sdot');
-  dots.forEach(function(d, idx) { d.className = 'sdot' + (idx + 1 === s ? ' on' : '') + (idx + 1 < s ? ' done' : ''); });
+function showErr(m){var el=document.getElementById('f-err');el.textContent=m;el.style.display='block'}
+function hideErr(){document.getElementById('f-err').style.display='none'}
+var curStep=1;
+function showStep(s){
+  for(var i=1;i<=3;i++)document.getElementById('fs'+i).style.display=i===s?'block':'none';
+  var dots=document.querySelectorAll('#f-steps .sdot');
+  dots.forEach(function(d,idx){d.className='sdot'+(idx+1===s?' on':'')+(idx+1<s?' done':'')});
 }
-function fStep(s) {
+function fStep(s){
   hideErr();
-  if (s === 2 && curStep === 1) {
-    if (!document.getElementById('fn').value.trim() || !document.getElementById('fe').value.trim() || !selRole) { showErr('Please fill in name, email, and select a role.'); return; }
-  }
-  if (s === 3 && curStep === 2) {
-    if (!document.getElementById('fd').value.trim() || !document.getElementById('fof').value.trim() || !document.getElementById('fa').value.trim()) { showErr('Please answer all required questions.'); return; }
-  }
-  curStep = s; showStep(s);
+  if(s===2&&curStep===1){if(!document.getElementById('fn').value.trim()||!document.getElementById('fe').value.trim()||!selRole){showErr('Please fill in name, email, and select a role.');return}}
+  if(s===3&&curStep===2){if(!document.getElementById('fd').value.trim()||!document.getElementById('fof').value.trim()||!document.getElementById('fa').value.trim()){showErr('Please answer all required questions.');return}}
+  curStep=s;showStep(s);
 }
-
-function submitFounding() {
+function submitFounding(){
   hideErr();
-  if (!document.getElementById('fh').value.trim()) { showErr('Please answer the required question.'); return; }
-  var btn = document.getElementById('f-submit');
-  btn.disabled = true; btn.textContent = 'Submitting...';
-
-  var data = {
-    name: document.getElementById('fn').value.trim(),
-    email: document.getElementById('fe').value.trim(),
-    roleType: selRole,
-    whatDrawsYou: document.getElementById('fd').value.trim(),
-    whatYouOffer: document.getElementById('fof').value.trim(),
-    currentApproach: document.getElementById('fa').value.trim(),
-    holdingSpace: document.getElementById('fh').value.trim(),
-    wantToBuild: document.getElementById('fb').value.trim() || null,
-    organization: document.getElementById('fo').value.trim() || null,
-    website: document.getElementById('fw').value.trim() || null,
+  if(!document.getElementById('fh').value.trim()){showErr('Please answer the required question.');return}
+  var btn=document.getElementById('f-submit');btn.disabled=true;btn.textContent='Submitting...';
+  var data={
+    name:document.getElementById('fn').value.trim(),email:document.getElementById('fe').value.trim(),
+    roleType:selRole,whatDrawsYou:document.getElementById('fd').value.trim(),
+    whatYouOffer:document.getElementById('fof').value.trim(),currentApproach:document.getElementById('fa').value.trim(),
+    holdingSpace:document.getElementById('fh').value.trim(),
+    wantToBuild:document.getElementById('fb').value.trim()||null,
+    organization:document.getElementById('fo').value.trim()||null,
+    website:document.getElementById('fw').value.trim()||null,
   };
-
-  fetch(API + '/api/signup/founding', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
-  .then(function(res) {
-    if (res.ok) {
+  fetch(API+'/api/signup/founding',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+  .then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d}})})
+  .then(function(res){
+    if(res.ok){
       closeModal('founding');
-      ['fn','fe','fo','fd','fof','fa','fh','fb','fw'].forEach(function(id) { document.getElementById(id).value = ''; });
-      selRole = ''; document.querySelectorAll('.rbtn').forEach(function(b) { b.classList.remove('sel'); });
-      document.getElementById('suc-title').textContent = 'Application received.';
-      document.getElementById('suc-msg').textContent = "We'll review and be in touch within a few days. Thank you for wanting to build with us.";
+      ['fn','fe','fo','fd','fof','fa','fh','fb','fw'].forEach(function(id){document.getElementById(id).value=''});
+      selRole='';document.querySelectorAll('.rbtn').forEach(function(b){b.classList.remove('sel')});
+      document.getElementById('suc-title').textContent='Application received.';
+      document.getElementById('suc-msg').textContent="We'll review and be in touch within a few days. Thank you for wanting to build with us.";
       openModal('success');
-    } else { showErr(res.data.error || 'Something went wrong.'); }
+    } else showErr(res.data.error||'Something went wrong.');
   })
-  .catch(function() { showErr('Network error. Please try again.'); })
-  .finally(function() { btn.disabled = false; btn.textContent = 'Submit Application'; });
+  .catch(function(){showErr('Network error. Please try again.')})
+  .finally(function(){btn.disabled=false;btn.textContent='Submit Application'});
 }
 </script>
 </body>
