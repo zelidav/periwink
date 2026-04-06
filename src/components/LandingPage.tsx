@@ -269,6 +269,16 @@ export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [formError, setFormError] = useState("");
 
+  // Hero email signup
+  const [heroEmail, setHeroEmail] = useState("");
+  const [heroMsg, setHeroMsg] = useState<{ text: string; type: "success" | "error" } | null>(null);
+  const heroFormRef = useRef<HTMLFormElement>(null);
+
+  const scrollToSignup = useCallback(() => {
+    heroFormRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => heroFormRef.current?.querySelector("input")?.focus(), 600);
+  }, []);
+
   // Community form
   const [communityForm, setCommunityForm] = useState({
     name: "",
@@ -297,6 +307,29 @@ export default function LandingPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleHeroSignup = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
+    setHeroMsg(null);
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: heroEmail }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setHeroEmail("");
+        setHeroMsg({ text: "You're in! We'll be in touch soon.", type: "success" });
+      } else {
+        setHeroMsg({ text: data.error || "Something went wrong.", type: "error" });
+      }
+    } catch {
+      setHeroMsg({ text: "Network error. Please try again.", type: "error" });
+    }
+    setIsSubmitting(false);
+  }, [heroEmail]);
 
   const handleCommunitySubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -471,7 +504,7 @@ export default function LandingPage() {
               Contribute
             </a>
             <button
-              onClick={() => { setFormError(""); setCommunityModalOpen(true); }}
+              onClick={scrollToSignup}
               className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
               style={{
                 background: c.periwinkleDeep,
@@ -537,26 +570,71 @@ export default function LandingPage() {
             More truth. Deeper alignment. More you.
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-4">
-            <button
-              onClick={() => { setFormError(""); setCommunityModalOpen(true); }}
-              className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
-              style={{
-                background: c.periwinkleDeep,
-                color: "#fff",
-                boxShadow: "0 6px 28px rgba(110, 90, 126, 0.35)",
-              }}
-            >
-              Join the Community
-            </button>
-            <button
-              onClick={() => { setFormError(""); setFoundingStep(1); setFoundingModalOpen(true); }}
-              className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
+          {/* Email signup form */}
+          <div className="animate-fade-in-up delay-4">
+            <form
+              ref={heroFormRef}
+              onSubmit={handleHeroSignup}
+              className="flex gap-0 mx-auto max-w-[460px]"
               style={{
                 background: "#fff",
-                color: c.periwinkleDeep,
-                border: `2px solid ${c.periwinkleDeep}`,
+                borderRadius: "999px",
+                padding: "6px",
+                border: `1px solid ${c.periwinkleLight}`,
+                boxShadow: "0 4px 24px rgba(110, 90, 126, 0.12)",
+              }}
+            >
+              <input
+                type="email"
+                required
+                placeholder="Enter your email"
+                value={heroEmail}
+                onChange={(e) => setHeroEmail(e.target.value)}
+                className="flex-1 min-w-0"
+                style={{
+                  border: "none", outline: "none", padding: "14px 20px",
+                  fontSize: "16px", fontFamily: "inherit", background: "transparent",
+                  color: c.ink, borderRadius: "999px",
+                }}
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="cursor-pointer whitespace-nowrap"
+                style={{
+                  padding: "14px 28px", borderRadius: "999px", border: "none",
+                  background: c.periwinkleDeep, color: "#fff", fontSize: "15px",
+                  fontWeight: 500, fontFamily: "inherit",
+                }}
+              >
+                {isSubmitting ? "Joining..." : "Join Early"}
+              </button>
+            </form>
+            {heroMsg && (
+              <p className="text-sm text-center mt-2" style={{ color: heroMsg.type === "success" ? "#166534" : "#991B1B" }}>
+                {heroMsg.text}
+              </p>
+            )}
+          </div>
+
+          {/* Secondary CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-3 animate-fade-in-up delay-4">
+            <a
+              href="#community"
+              className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5"
+              style={{
+                background: "#fff", color: c.periwinkleDeep,
+                border: `2px solid ${c.periwinkleDeep}`, textDecoration: "none", textAlign: "center",
+              }}
+            >
+              Explore Circles
+            </a>
+            <button
+              onClick={() => { setFormError(""); setFoundingStep(1); setFoundingModalOpen(true); }}
+              className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
+              style={{
+                background: "transparent", color: c.ink,
+                border: `2px solid ${c.inkMuted}`,
               }}
             >
               Become a Founding Member
@@ -690,7 +768,7 @@ export default function LandingPage() {
             {circles.map((circle, i) => (
               <Reveal key={i} delay={i * 0.06}>
                 <button
-                  onClick={() => { setFormError(""); setCommunityModalOpen(true); }}
+                  onClick={scrollToSignup}
                   className="text-left p-7 rounded-3xl transition-all hover:-translate-y-1 w-full cursor-pointer"
                   style={{
                     background: `linear-gradient(165deg, #fff 0%, ${c.lavenderBlush} 100%)`,
@@ -817,7 +895,7 @@ export default function LandingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => { setFormError(""); setCommunityModalOpen(true); }}
+                onClick={scrollToSignup}
                 className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
                 style={{
                   background: c.periwinkleDeep,

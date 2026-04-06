@@ -170,6 +170,38 @@ body {
 
 .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
+/* Hero signup form */
+.hero-form {
+  max-width: 460px; margin: 0 auto 12px; display: flex; gap: 0;
+  background: #fff; border-radius: 999px; padding: 6px;
+  border: 1px solid var(--light);
+  box-shadow: 0 4px 24px rgba(110, 90, 126, 0.12);
+  transition: box-shadow 0.2s;
+}
+.hero-form:focus-within {
+  box-shadow: 0 4px 32px rgba(110, 90, 126, 0.2);
+  border-color: var(--soft);
+}
+.hero-form input {
+  flex: 1; border: none; outline: none; padding: 14px 20px;
+  font-size: 16px; font-family: inherit; background: transparent;
+  color: var(--ink); border-radius: 999px; min-width: 0;
+}
+.hero-form input::placeholder { color: var(--ink3); }
+.hero-form button {
+  padding: 14px 28px; border-radius: 999px; border: none;
+  background: var(--deep); color: #fff; font-size: 15px; font-weight: 500;
+  font-family: inherit; cursor: pointer; white-space: nowrap;
+  transition: background 0.2s;
+}
+.hero-form button:hover { background: #5a4869; }
+.hero-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+.hero-form-msg {
+  font-size: 14px; margin-top: 8px; min-height: 20px; text-align: center;
+}
+.hero-form-msg.error { color: #991B1B; }
+.hero-form-msg.success { color: #166534; }
+
 .social-proof {
   display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 48px;
 }
@@ -363,6 +395,9 @@ body {
 }
 @media (max-width: 600px) {
   .grid-3 { grid-template-columns: 1fr; }
+  .hero-form { flex-direction: column; border-radius: 20px; padding: 8px; }
+  .hero-form input { text-align: center; }
+  .hero-form button { width: 100%; }
   .hero-ctas { flex-direction: column; align-items: center; }
   .hero-ctas .btn { width: 100%; max-width: 320px; }
   .social-proof { flex-direction: column; gap: 8px; }
@@ -382,7 +417,7 @@ body {
       <a href="#about" class="nav-link">Our Story</a>
       <a href="#community" class="nav-link">Community</a>
       <a href="#builders" class="nav-link">Contribute</a>
-      <button class="btn btn-primary btn-nav" onclick="openModal('community')">Join Early</button>
+      <button class="btn btn-primary btn-nav" onclick="scrollToSignup()">Join Early</button>
     </div>
   </div>
 </nav>
@@ -415,9 +450,16 @@ body {
     <h1 class="hero-title anim d1">A wiser way forward &mdash; <em>together.</em></h1>
     <p class="hero-sub anim d2">Growth, wisdom, and shared experience &mdash; for the women you are becoming.</p>
     <p class="hero-whisper anim d3">More truth. Deeper alignment. More you.</p>
-    <div class="hero-ctas anim d4">
-      <button class="btn btn-primary" onclick="openModal('community')">Join the Community</button>
-      <button class="btn btn-outline" onclick="openModal('founding')">Become a Founding Member</button>
+    <div class="anim d4">
+      <form class="hero-form" id="hero-signup-form" onsubmit="submitHeroSignup(event)">
+        <input type="email" name="email" required placeholder="Enter your email" autocomplete="email">
+        <button type="submit">Join Early</button>
+      </form>
+      <p class="hero-form-msg" id="hero-form-msg"></p>
+    </div>
+    <div class="hero-ctas anim d4" style="margin-top:8px">
+      <a href="#community" class="btn btn-outline btn-sm" style="text-decoration:none">Explore Circles</a>
+      <button class="btn btn-ghost btn-sm" onclick="openModal('founding')">Become a Founding Member</button>
     </div>
     <div class="social-proof anim d5">
       <div class="avatars">
@@ -560,7 +602,7 @@ body {
       Join thousands of women learning, growing, and navigating change together. Be part of building something meaningful.
     </p>
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-primary" onclick="openModal('community')">Join Early Access</button>
+      <button class="btn btn-primary" onclick="scrollToSignup()">Join Early Access</button>
       <button class="btn btn-ghost" onclick="openModal('founding')">Become a Founding Member</button>
     </div>
   </div>
@@ -710,6 +752,53 @@ body {
 // --- API base URL (Railway production) ---
 var API = 'https://periwink-production-a893.up.railway.app';
 
+// --- Scroll to hero signup ---
+function scrollToSignup() {
+  var form = document.getElementById('hero-signup-form');
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(function() { form.querySelector('input').focus(); }, 600);
+}
+
+// --- Hero email signup ---
+function submitHeroSignup(e) {
+  e.preventDefault();
+  var form = document.getElementById('hero-signup-form');
+  var msg = document.getElementById('hero-form-msg');
+  var input = form.querySelector('input');
+  var btn = form.querySelector('button');
+  var email = input.value.trim();
+
+  msg.textContent = '';
+  msg.className = 'hero-form-msg';
+  btn.disabled = true;
+  btn.textContent = 'Joining...';
+
+  fetch(API + '/api/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email }),
+  })
+  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+  .then(function(res) {
+    if (res.ok) {
+      msg.textContent = "You're in! We'll be in touch soon.";
+      msg.className = 'hero-form-msg success';
+      input.value = '';
+    } else {
+      msg.textContent = res.data.error || 'Something went wrong.';
+      msg.className = 'hero-form-msg error';
+    }
+  })
+  .catch(function() {
+    msg.textContent = 'Network error. Please try again.';
+    msg.className = 'hero-form-msg error';
+  })
+  .finally(function() {
+    btn.disabled = false;
+    btn.textContent = 'Join Early';
+  });
+}
+
 // --- Nav scroll ---
 window.addEventListener('scroll', function() {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
@@ -762,7 +851,7 @@ circles.forEach(function(c, i) {
   var d = document.createElement('div');
   d.className = 'circle-card reveal';
   d.style.transitionDelay = (i * 0.06) + 's';
-  d.onclick = function() { openModal('community'); };
+  d.onclick = function() { scrollToSignup(); };
   d.innerHTML = '<span class="circle-emoji">' + c.emoji + '</span><h4 class="circle-name">' + c.name + '</h4><p class="circle-desc">' + c.desc + '</p><div class="circle-members"><span class="circle-dot"></span>' + c.members + ' sharing</div>';
   cg.appendChild(d);
   rObs.observe(d);
