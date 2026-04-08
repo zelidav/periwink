@@ -14,6 +14,7 @@ html{scroll-behavior:smooth}
 body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#F7F3EE;color:#2B2433;-webkit-font-smoothing:antialiased;line-height:1.65}
 ::selection{background:rgba(215,204,255,.3)}
 .hd{font-family:'Cormorant Garamond',Georgia,serif}
+a{color:inherit}
 
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:30;padding:16px 24px;transition:all .3s}
@@ -27,16 +28,18 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 .nav-found{background:none;color:#6E5A7E;border:1px solid #B7A8C9}
 .nav-found:hover{border-color:#6E5A7E}
 
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;background:linear-gradient(180deg,#E8E3EA 0%,#F7F3EE 100%)}
-.hero-bg{position:absolute;inset:0;background:url('silhouette.png') center/contain no-repeat;opacity:.06;pointer-events:none}
-.hero-content{position:relative;z-index:1;max-width:620px}
+/* HERO — video background */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;background:#E8E3EA}
+.hero-video{position:absolute;inset:0;z-index:0}
+.hero-video video{width:100%;height:100%;object-fit:cover;opacity:.15}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(232,227,234,.6) 0%,rgba(247,243,238,.85) 60%,rgba(247,243,238,.95) 100%);z-index:1}
+.hero-content{position:relative;z-index:2;max-width:620px}
 .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5.5vw,54px);font-weight:300;line-height:1.15;margin-bottom:20px}
 .hero h1 em{font-weight:400;color:#6E5A7E}
 .hero-sub{font-size:17px;color:#6B6575;line-height:1.75;margin-bottom:12px}
 .hero-whisper{font-size:15px;color:#C99AA5;font-style:italic;margin-bottom:36px}
 
-/* INLINE SIGNUP */
+/* Hero signup */
 .hero-signup{max-width:440px;margin:0 auto 20px;display:flex;gap:0;background:#fff;border-radius:999px;padding:5px;border:1px solid #D0C5DD;box-shadow:0 4px 18px rgba(110,90,126,.08);transition:all .25s}
 .hero-signup:focus-within{border-color:#B7A8C9;box-shadow:0 4px 24px rgba(110,90,126,.14)}
 .hero-signup input{flex:1;min-width:0;border:none;outline:none;padding:12px 18px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:300;background:transparent;color:#2B2433;border-radius:999px}
@@ -51,22 +54,26 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 .hero-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .btn{padding:12px 28px;border-radius:999px;font-size:14px;font-weight:400;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-block}
 .btn:hover{transform:translateY(-1px)}
+.btn-primary{background:#6E5A7E;color:#fff;box-shadow:0 4px 18px rgba(110,90,126,.25)}
+.btn-primary:hover{background:#5a4869}
 .btn-outline{background:none;color:#6E5A7E;border:1.5px solid #B7A8C9}
 .btn-outline:hover{border-color:#6E5A7E}
 .btn-ghost{background:none;color:#6B6575;border:1.5px solid #DDD7CE}
 .btn-ghost:hover{color:#2B2433;border-color:#9B94A3}
 
-/* STORY */
-.story{padding:80px 24px;background:#F7F3EE}
-.story-inner{max-width:640px;margin:0 auto;text-align:center}
+/* STORY — feather bg */
+.story{padding:80px 24px;background:#F7F3EE;position:relative;overflow:hidden}
+.story-bg{position:absolute;inset:0;background:url('feather.png') center/cover no-repeat;opacity:.05;pointer-events:none}
+.story-inner{max-width:640px;margin:0 auto;text-align:center;position:relative;z-index:1}
 .story h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,34px);font-weight:300;line-height:1.3;margin-bottom:24px}
 .story h2 em{font-weight:400;color:#6E5A7E}
 .story p{font-size:16px;color:#6B6575;line-height:1.8;margin-bottom:16px}
 .story-phrase{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:#6E5A7E;margin:32px 0 0;line-height:1.5}
 
-/* VOICES */
-.voices{padding:80px 24px;background:#F2EDE6}
-.voices-inner{max-width:960px;margin:0 auto}
+/* VOICES — floral bg */
+.voices{padding:80px 24px;background:#F2EDE6;position:relative;overflow:hidden}
+.voices-bg{position:absolute;inset:0;background:url('floral.png') center/cover no-repeat;opacity:.04;pointer-events:none}
+.voices-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
 .voices h2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,30px);font-weight:300;margin-bottom:8px;text-align:center}
 .voices-sub{font-size:15px;color:#9B94A3;text-align:center;margin-bottom:32px}
 .voices-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -75,10 +82,11 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 .voice-name{font-size:13px;font-weight:400;color:#2B2433}
 .voice-room{font-size:12px;color:#9B94A3}
 
-/* SIGNUP SECTIONS */
-.signup-section{padding:80px 24px;background:#F7F3EE}
+/* SIGNUP SECTIONS — waves bg on community */
+.signup-section{padding:80px 24px;background:#F7F3EE;position:relative;overflow:hidden}
 .signup-section.alt{background:#F2EDE6}
-.signup-inner{max-width:480px;margin:0 auto}
+.signup-bg{position:absolute;inset:0;background:url('waves.png') center/cover no-repeat;opacity:.04;pointer-events:none}
+.signup-inner{max-width:480px;margin:0 auto;position:relative;z-index:1}
 .signup-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:300;text-align:center;margin-bottom:8px}
 .signup-inner .sub{font-size:15px;color:#9B94A3;text-align:center;margin-bottom:28px}
 .field{margin-bottom:16px}
@@ -106,11 +114,31 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 
 .footer{padding:32px 24px;text-align:center;font-size:12px;color:#9B94A3}
 
+/* BUTTERFLY THANK-YOU OVERLAY */
+.thankyou-overlay{
+  position:fixed;inset:0;z-index:100;
+  display:flex;align-items:center;justify-content:center;
+  background:#000;opacity:0;pointer-events:none;
+  transition:opacity .4s ease;
+}
+.thankyou-overlay.active{opacity:1;pointer-events:all}
+.thankyou-overlay video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.thankyou-text{
+  position:relative;z-index:1;text-align:center;
+  opacity:0;transform:translateY(10px);
+  transition:opacity 1s ease .5s,transform 1s ease .5s;
+}
+.thankyou-overlay.show-text .thankyou-text{opacity:1;transform:translateY(0)}
+.thankyou-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,48px);font-weight:300;color:#fff;margin-bottom:8px;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+.thankyou-text p{font-size:16px;color:rgba(255,255,255,.8);text-shadow:0 1px 10px rgba(0,0,0,.3)}
+
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
 @media(max-width:600px){
+  .hero-video video{display:none}
+  .hero{background:linear-gradient(180deg,#E8E3EA 0%,#F7F3EE 100%)}
   .voices-grid{grid-template-columns:1fr}
   .hero-signup{flex-direction:column;border-radius:14px;padding:6px}
   .hero-signup input{text-align:center}
@@ -134,9 +162,14 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO with video background -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-video">
+    <video autoplay muted loop playsinline>
+      <source src="hero-video.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <h1 class="hd">You're not alone<br>in this. <em>None of us are.</em></h1>
     <p class="hero-sub">A calm, intelligent community for women navigating perimenopause and menopause. Where women find each other, share what they're noticing, and feel held.</p>
@@ -158,6 +191,7 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 
 <!-- STORY -->
 <section class="story reveal">
+  <div class="story-bg"></div>
   <div class="story-inner">
     <h2 class="hd">You are not breaking down.<br>You are <em>becoming.</em></h2>
     <p>What is falling away is not you — it's what no longer fits. The body is not betraying you. It is asking for a new relationship with self.</p>
@@ -169,6 +203,7 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 
 <!-- VOICES -->
 <section class="voices reveal">
+  <div class="voices-bg"></div>
   <div class="voices-inner">
     <h2 class="hd">Women who understand</h2>
     <p class="voices-sub">Real voices from women navigating this together.</p>
@@ -199,6 +234,7 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 
 <!-- COMMUNITY SIGNUP -->
 <section class="signup-section" id="community-section">
+  <div class="signup-bg"></div>
   <div class="signup-inner reveal">
     <h2 class="hd">Join the Community</h2>
     <p class="sub">You're taking the first step. We're glad you're here.</p>
@@ -276,12 +312,23 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
   <h2 class="hd">A wiser way forward — <em>together.</em></h2>
   <p>You don't have to figure this out by yourself. There are women here who understand — because they're feeling it too.</p>
   <div class="final-btns">
-    <button class="btn btn-outline" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})" style="background:#6E5A7E;color:#fff;border:none;box-shadow:0 4px 18px rgba(110,90,126,.25)">Join the Community</button>
+    <button class="btn btn-primary" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Join the Community</button>
     <button class="btn btn-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
   </div>
 </section>
 
 <footer class="footer">&copy; 2025 Periwink. All rights reserved.</footer>
+
+<!-- BUTTERFLY THANK-YOU OVERLAY -->
+<div class="thankyou-overlay" id="thankyou">
+  <video id="thankyou-video" muted playsinline>
+    <source src="butterfly-thankyou.mp4" type="video/mp4">
+  </video>
+  <div class="thankyou-text">
+    <h2 class="hd">Welcome to Periwink</h2>
+    <p>You are exactly where you need to be.</p>
+  </div>
+</div>
 
 <script>
 var API = 'https://periwink-production-a893.up.railway.app';
@@ -299,6 +346,51 @@ var obs = new IntersectionObserver(function(entries) {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
+// Hero video scroll parallax — slow down playback based on scroll
+(function() {
+  var vid = document.querySelector('.hero-video video');
+  if (!vid) return;
+  window.addEventListener('scroll', function() {
+    var scrollY = window.scrollY;
+    var heroH = document.querySelector('.hero').offsetHeight;
+    var progress = Math.min(scrollY / heroH, 1);
+    // Fade out video as user scrolls past hero
+    vid.style.opacity = Math.max(0.15 - progress * 0.15, 0);
+  }, { passive: true });
+})();
+
+// Butterfly thank-you overlay
+function showThankYou() {
+  var overlay = document.getElementById('thankyou');
+  var video = document.getElementById('thankyou-video');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  video.currentTime = 0;
+  video.play();
+  // Show text near end of video
+  var dur = video.duration || 5;
+  video.addEventListener('loadedmetadata', function() {
+    dur = video.duration;
+  });
+  setTimeout(function() {
+    overlay.classList.add('show-text');
+  }, Math.max((dur - 2) * 1000, 2000));
+  // Auto close after video + pause
+  video.addEventListener('ended', function() {
+    overlay.classList.add('show-text');
+    setTimeout(function() {
+      overlay.classList.remove('active', 'show-text');
+      document.body.style.overflow = '';
+    }, 3000);
+  });
+  // Click to close
+  overlay.addEventListener('click', function() {
+    overlay.classList.remove('active', 'show-text');
+    document.body.style.overflow = '';
+    video.pause();
+  });
+}
+
 // Quick email signup
 function submitQuick(e) {
   e.preventDefault();
@@ -314,8 +406,13 @@ function submitQuick(e) {
   })
   .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
   .then(function(res) {
-    if (res.ok) { msg.textContent = "You're in! We'll be in touch."; msg.className = 'hero-msg ok'; input.value = ''; }
-    else { msg.textContent = res.data.error || 'Something went wrong.'; msg.className = 'hero-msg err'; }
+    if (res.ok) {
+      input.value = '';
+      showThankYou();
+    } else {
+      msg.textContent = res.data.error || 'Something went wrong.';
+      msg.className = 'hero-msg err';
+    }
   })
   .catch(function() { msg.textContent = 'Network error.'; msg.className = 'hero-msg err'; })
   .finally(function() { btn.disabled = false; btn.textContent = 'Join'; });
@@ -340,7 +437,7 @@ function submitCommunity(e) {
   })
   .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
   .then(function(res) {
-    if (res.ok) { form.style.display = 'none'; document.getElementById('community-success').style.display = 'block'; }
+    if (res.ok) { form.style.display = 'none'; document.getElementById('community-success').style.display = 'block'; showThankYou(); }
     else { showErr('community-error', res.data.error || 'Something went wrong.'); }
   })
   .catch(function() { showErr('community-error', 'Network error. Please try again.'); })
@@ -365,7 +462,7 @@ function submitFounding(e) {
   })
   .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
   .then(function(res) {
-    if (res.ok) { form.style.display = 'none'; document.getElementById('founding-success').style.display = 'block'; }
+    if (res.ok) { form.style.display = 'none'; document.getElementById('founding-success').style.display = 'block'; showThankYou(); }
     else { showErr('founding-error', res.data.error || 'Something went wrong.'); }
   })
   .catch(function() { showErr('founding-error', 'Network error. Please try again.'); })
