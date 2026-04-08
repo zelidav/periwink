@@ -33,18 +33,18 @@ interface DemoUser {
 }
 
 const DEMO_USERS: DemoUser[] = [
-  { pseudonym: "MoonlitSage", bio: "Former ER nurse. Now I'm the one navigating without a map.", menopauseStage: "LATE_PERIMENOPAUSE", birthYear: 1975, country: "US", avatarStyle: "sage-moon", yearsInStage: 3 },
-  { pseudonym: "DesertRose", bio: "Yoga teacher who can't hold tree pose when the hot flash hits.", menopauseStage: "EARLY_PERIMENOPAUSE", birthYear: 1978, country: "US", avatarStyle: "desert-rose", yearsInStage: 1 },
-  { pseudonym: "QuietStorm42", bio: "Software engineer. My code compiles but my brain doesn't.", menopauseStage: "MENOPAUSE", birthYear: 1974, country: "CA", avatarStyle: "quiet-storm", yearsInStage: 2 },
-  { pseudonym: "WildSage", bio: "Naturopath-curious. Trying everything, judging nothing.", menopauseStage: "UNSURE", birthYear: 1980, country: "AU", avatarStyle: "wild-sage", yearsInStage: 1 },
-  { pseudonym: "TidalGrace", bio: "Through the other side. Here to hold space.", menopauseStage: "POSTMENOPAUSE", birthYear: 1968, country: "UK", avatarStyle: "tidal-grace", yearsInStage: 5 },
-  { pseudonym: "NightOwl3am", bio: "Founding member of the 3am club. Accepting new members nightly.", menopauseStage: "LATE_PERIMENOPAUSE", birthYear: 1976, country: "US", avatarStyle: "night-owl", yearsInStage: 2 },
-  { pseudonym: "GoldenThread", bio: "Writer. This chapter is the hardest to put into words.", menopauseStage: "EARLY_PERIMENOPAUSE", birthYear: 1979, country: "IE", avatarStyle: "golden-thread", yearsInStage: 1 },
-  { pseudonym: "SteadyRain", bio: "Teacher, mother, finding my rhythm again at 52.", menopauseStage: "MENOPAUSE", birthYear: 1974, country: "US", avatarStyle: "steady-rain", yearsInStage: 3 },
-  { pseudonym: "WinterBloom", bio: "Gardener. Learning to bloom in unexpected seasons.", menopauseStage: "LATE_PERIMENOPAUSE", birthYear: 1977, country: "NZ", avatarStyle: "winter-bloom", yearsInStage: 2 },
-  { pseudonym: "CopperMoon", bio: "Fitness instructor. My body rewrote the rules.", menopauseStage: "EARLY_PERIMENOPAUSE", birthYear: 1981, country: "US", avatarStyle: "copper-moon", yearsInStage: 1 },
-  { pseudonym: "SilverLining", bio: "10 years post. It gets so much better. I promise.", menopauseStage: "POSTMENOPAUSE", birthYear: 1964, country: "US", avatarStyle: "silver-lining", yearsInStage: 10 },
-  { pseudonym: "VelvetDusk", bio: "Just starting to notice. Is this... it?", menopauseStage: "UNSURE", birthYear: 1983, country: "UK", avatarStyle: "velvet-dusk", yearsInStage: 0 },
+  { pseudonym: "MoonlitSage", bio: "Former ER nurse. Now I'm the one navigating without a map.", menopauseStage: "LATE_PERIMENOPAUSE", birthYear: 1975, country: "US", avatarStyle: "dicebear:avataaars", yearsInStage: 3 },
+  { pseudonym: "DesertRose", bio: "Yoga teacher who can't hold tree pose when the hot flash hits.", menopauseStage: "EARLY_PERIMENOPAUSE", birthYear: 1978, country: "US", avatarStyle: "dicebear:adventurer", yearsInStage: 1 },
+  { pseudonym: "QuietStorm42", bio: "Software engineer. My code compiles but my brain doesn't.", menopauseStage: "MENOPAUSE", birthYear: 1974, country: "CA", avatarStyle: "dicebear:lorelei", yearsInStage: 2 },
+  { pseudonym: "WildSage", bio: "Naturopath-curious. Trying everything, judging nothing.", menopauseStage: "UNSURE", birthYear: 1980, country: "AU", avatarStyle: "gradient", yearsInStage: 1 },
+  { pseudonym: "TidalGrace", bio: "Through the other side. Here to hold space.", menopauseStage: "POSTMENOPAUSE", birthYear: 1968, country: "UK", avatarStyle: "dicebear:open-peeps", yearsInStage: 5 },
+  { pseudonym: "NightOwl3am", bio: "Founding member of the 3am club. Accepting new members nightly.", menopauseStage: "LATE_PERIMENOPAUSE", birthYear: 1976, country: "US", avatarStyle: "dicebear:notionists", yearsInStage: 2 },
+  { pseudonym: "GoldenThread", bio: "Writer. This chapter is the hardest to put into words.", menopauseStage: "EARLY_PERIMENOPAUSE", birthYear: 1979, country: "IE", avatarStyle: "dicebear:fun-emoji", yearsInStage: 1 },
+  { pseudonym: "SteadyRain", bio: "Teacher, mother, finding my rhythm again at 52.", menopauseStage: "MENOPAUSE", birthYear: 1974, country: "US", avatarStyle: "gradient", yearsInStage: 3 },
+  { pseudonym: "WinterBloom", bio: "Gardener. Learning to bloom in unexpected seasons.", menopauseStage: "LATE_PERIMENOPAUSE", birthYear: 1977, country: "NZ", avatarStyle: "dicebear:thumbs", yearsInStage: 2 },
+  { pseudonym: "CopperMoon", bio: "Fitness instructor. My body rewrote the rules.", menopauseStage: "EARLY_PERIMENOPAUSE", birthYear: 1981, country: "US", avatarStyle: "dicebear:personas", yearsInStage: 1 },
+  { pseudonym: "SilverLining", bio: "10 years post. It gets so much better. I promise.", menopauseStage: "POSTMENOPAUSE", birthYear: 1964, country: "US", avatarStyle: "gradient", yearsInStage: 10 },
+  { pseudonym: "VelvetDusk", bio: "Just starting to notice. Is this... it?", menopauseStage: "UNSURE", birthYear: 1983, country: "UK", avatarStyle: "dicebear:big-ears", yearsInStage: 0 },
 ];
 
 // ============================================================================

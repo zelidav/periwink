@@ -101,7 +101,7 @@ a{color:inherit}
 .founder-inner{max-width:700px;margin:0 auto;text-align:center}
 .founder h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:300;margin-bottom:24px}
 .founder-card{display:flex;gap:24px;align-items:flex-start;text-align:left;padding:32px;border-radius:20px;background:#FDFBF8;border:1px solid #DDD7CE}
-.founder-avatar{width:80px;height:80px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#B7A8C9,#C99AA5);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-family:'Cormorant Garamond',serif;font-weight:400}
+.founder-avatar{width:100px;height:100px;border-radius:50%;flex-shrink:0;object-fit:cover;border:3px solid #E8E3EA}
 .founder-info h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:4px}
 .founder-info .role{font-size:13px;color:#6E5A7E;margin-bottom:12px}
 .founder-info p{font-size:14px;color:#2B2433;line-height:1.75}
@@ -158,8 +158,8 @@ a{color:inherit}
   .founder-card{flex-direction:column;align-items:center;text-align:center}
 }
 @media(max-width:600px){
-  .hero-video video{display:none}
-  .hero{background:linear-gradient(180deg,#3a2f47 0%,#2B2433 100%)}
+  .hero-video video{opacity:.3}
+  .hero{background:#2B2433}
   .hero-signup{flex-direction:column;border-radius:14px;padding:6px}
   .hero-signup input{text-align:center}
   .hero-signup button{width:100%;border-radius:10px}
@@ -277,7 +277,7 @@ a{color:inherit}
   <div class="founder-inner">
     <h2 class="hd">About the Founder</h2>
     <div class="founder-card">
-      <div class="founder-avatar">AT</div>
+      <img class="founder-avatar" src="adrian-tubero.jpg" alt="Dr. Adrian Tubero" style="object-fit:cover">
       <div class="founder-info">
         <h3 class="hd">Dr. Adrian Tubero, Psy.D.</h3>
         <p class="role">Clinical Psychologist &middot; Founder, Periwink &middot; New York City</p>

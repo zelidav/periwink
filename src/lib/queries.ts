@@ -73,7 +73,7 @@ export async function getCommentsForPosts(postIds: string[]) {
     orderBy: { createdAt: "asc" },
     include: {
       author: {
-        include: { profile: { select: { displayName: true } } },
+        include: { profile: { select: { displayName: true, avatarStyle: true } } },
       },
     },
   });

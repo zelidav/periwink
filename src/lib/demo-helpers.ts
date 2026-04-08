@@ -26,3 +26,7 @@ export function avatarGradient(name: string): string {
   const hue = avatarHue(name);
   return `linear-gradient(135deg, hsl(${hue}, 35%, 75%), hsl(${(hue + 40) % 360}, 30%, 82%))`;
 }
+
+export function dicebearUrl(name: string, style: string = "avataaars", size: number = 64): string {
+  return `https://api.dicebear.com/9.x/${style}/svg?seed=${encodeURIComponent(name)}&size=${size}`;
+}

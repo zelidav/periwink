@@ -21,7 +21,7 @@ interface PostCardProps {
     body: string;
     createdAt: Date;
     identity: string;
-    author: { profile: { displayName: string | null } | null };
+    author: { profile: { displayName: string | null; avatarStyle?: string | null } | null };
   }>;
 }
 
@@ -42,7 +42,7 @@ export default function PostCard({ post, showRoom = false, expanded = false, com
     >
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <Avatar name={isAnon ? "anonymous" : displayName} size={34} />
+        <Avatar name={isAnon ? "anonymous" : displayName} size={34} avatarStyle={isAnon ? null : post.author.profile?.avatarStyle} />
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 14, fontWeight: 400, color: "var(--color-ink, #2B2433)" }}>
             {isAnon ? "Anonymous member" : displayName}
@@ -103,7 +103,7 @@ export default function PostCard({ post, showRoom = false, expanded = false, com
               : c.author?.profile?.displayName || "Member";
             return (
               <div key={c.id} style={{ display: "flex", gap: 10, marginBottom: 14 }}>
-                <Avatar name={c.identity === "ANONYMOUS" ? "anon" : cName} size={28} />
+                <Avatar name={c.identity === "ANONYMOUS" ? "anon" : cName} size={28} avatarStyle={c.identity === "ANONYMOUS" ? null : c.author?.profile?.avatarStyle} />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: 13, color: "var(--color-ink, #2B2433)", fontWeight: 400 }}>
                     {cName}
