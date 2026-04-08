@@ -16,6 +16,10 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 .hd{font-family:'Cormorant Garamond',Georgia,serif}
 a{color:inherit}
 
+/* Butterfly loop — fixed ambient background behind everything */
+.butterfly-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.butterfly-bg video{width:100%;height:100%;object-fit:cover;opacity:.06}
+
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:30;padding:16px 24px;transition:all .3s}
 .nav.scrolled{background:rgba(247,243,238,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 16px rgba(110,90,126,.06)}
@@ -76,7 +80,7 @@ a{color:inherit}
 .story-inner{max-width:640px;margin:0 auto;text-align:center;position:relative;z-index:1}
 .story h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:300;line-height:1.3;margin-bottom:24px}
 .story h2 em{font-weight:400;color:#6E5A7E}
-.story p{font-size:16px;color:#6B6575;line-height:1.8;margin-bottom:16px}
+.story p{font-size:16px;color:#2B2433;line-height:1.8;margin-bottom:16px}
 .story-phrase{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:#6E5A7E;margin:32px 0 0;line-height:1.5}
 
 /* VOICES — floral bg */
@@ -85,10 +89,10 @@ a{color:inherit}
 .voices-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(242,237,230,.8),rgba(242,237,230,.85));pointer-events:none}
 .voices-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
 .voices h2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,30px);font-weight:300;margin-bottom:8px;text-align:center}
-.voices-sub{font-size:15px;color:#9B94A3;text-align:center;margin-bottom:32px}
+.voices-sub{font-size:15px;color:#6B6575;text-align:center;margin-bottom:32px}
 .voices-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .voice-card{padding:24px;border-radius:16px;background:rgba(253,251,248,.9);border:1px solid #DDD7CE;backdrop-filter:blur(4px)}
-.voice-card p{font-size:14px;line-height:1.7;color:#6B6575;font-style:italic;margin-bottom:12px}
+.voice-card p{font-size:14px;line-height:1.7;color:#2B2433;font-style:italic;margin-bottom:12px}
 .voice-name{font-size:13px;font-weight:400;color:#2B2433}
 .voice-room{font-size:12px;color:#9B94A3}
 
@@ -100,7 +104,7 @@ a{color:inherit}
 .founder-avatar{width:80px;height:80px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#B7A8C9,#C99AA5);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-family:'Cormorant Garamond',serif;font-weight:400}
 .founder-info h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:4px}
 .founder-info .role{font-size:13px;color:#6E5A7E;margin-bottom:12px}
-.founder-info p{font-size:14px;color:#6B6575;line-height:1.75}
+.founder-info p{font-size:14px;color:#2B2433;line-height:1.75}
 
 /* SIGNUP SECTIONS */
 .signup-section{padding:80px 24px;position:relative;overflow:hidden}
@@ -109,7 +113,7 @@ a{color:inherit}
 .signup-waves{position:absolute;inset:0;background:url('waves.png') center/cover no-repeat;opacity:.1;pointer-events:none}
 .signup-inner{max-width:480px;margin:0 auto;position:relative;z-index:1}
 .signup-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:300;text-align:center;margin-bottom:8px}
-.signup-inner .sub{font-size:15px;color:#9B94A3;text-align:center;margin-bottom:28px}
+.signup-inner .sub{font-size:15px;color:#6B6575;text-align:center;margin-bottom:28px}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:13px;font-weight:400;margin-bottom:4px}
 .field label .req{color:#C99AA5}
@@ -167,6 +171,13 @@ a{color:inherit}
 </style>
 </head>
 <body>
+
+<!-- BUTTERFLY LOOP — ambient background -->
+<div class="butterfly-bg">
+  <video autoplay muted loop playsinline>
+    <source src="butterfly-loop.mp4" type="video/mp4">
+  </video>
+</div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
