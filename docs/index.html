@@ -28,64 +28,85 @@ a{color:inherit}
 .nav-found{background:none;color:#6E5A7E;border:1px solid #B7A8C9}
 .nav-found:hover{border-color:#6E5A7E}
 
-/* HERO — video background */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;background:#E8E3EA}
+/* HERO — video background, visible */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;background:#2B2433}
 .hero-video{position:absolute;inset:0;z-index:0}
-.hero-video video{width:100%;height:100%;object-fit:cover;opacity:.15}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(232,227,234,.6) 0%,rgba(247,243,238,.85) 60%,rgba(247,243,238,.95) 100%);z-index:1}
+.hero-video video{width:100%;height:100%;object-fit:cover;opacity:.45}
+.hero-grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(43,36,51,.3) 0%,rgba(43,36,51,.5) 50%,rgba(43,36,51,.8) 100%)}
 .hero-content{position:relative;z-index:2;max-width:620px}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5.5vw,54px);font-weight:300;line-height:1.15;margin-bottom:20px}
-.hero h1 em{font-weight:400;color:#6E5A7E}
-.hero-sub{font-size:17px;color:#6B6575;line-height:1.75;margin-bottom:12px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,58px);font-weight:300;line-height:1.15;margin-bottom:20px;color:#fff}
+.hero h1 em{font-weight:400;color:#D7CCFF}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.8);line-height:1.75;margin-bottom:12px}
 .hero-whisper{font-size:15px;color:#C99AA5;font-style:italic;margin-bottom:36px}
 
 /* Hero signup */
-.hero-signup{max-width:440px;margin:0 auto 20px;display:flex;gap:0;background:#fff;border-radius:999px;padding:5px;border:1px solid #D0C5DD;box-shadow:0 4px 18px rgba(110,90,126,.08);transition:all .25s}
-.hero-signup:focus-within{border-color:#B7A8C9;box-shadow:0 4px 24px rgba(110,90,126,.14)}
-.hero-signup input{flex:1;min-width:0;border:none;outline:none;padding:12px 18px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:300;background:transparent;color:#2B2433;border-radius:999px}
-.hero-signup input::placeholder{color:#9B94A3}
+.hero-signup{max-width:440px;margin:0 auto 20px;display:flex;gap:0;background:rgba(255,255,255,.12);border-radius:999px;padding:5px;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .25s}
+.hero-signup:focus-within{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.18)}
+.hero-signup input{flex:1;min-width:0;border:none;outline:none;padding:12px 18px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:300;background:transparent;color:#fff;border-radius:999px}
+.hero-signup input::placeholder{color:rgba(255,255,255,.5)}
 .hero-signup button{padding:12px 24px;border-radius:999px;border:none;background:#6E5A7E;color:#fff;font-size:14px;font-weight:400;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:background .2s}
 .hero-signup button:hover{background:#5a4869}
 .hero-signup button:disabled{opacity:.5}
 .hero-msg{font-size:13px;min-height:18px;text-align:center}
-.hero-msg.ok{color:#3d7a40}
-.hero-msg.err{color:#9e3a3a}
-.hero-or{font-size:13px;color:#9B94A3;margin-bottom:8px}
+.hero-msg.ok{color:#7CB07F}
+.hero-msg.err{color:#C99AA5}
+.hero-or{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:8px}
 .hero-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .btn{padding:12px 28px;border-radius:999px;font-size:14px;font-weight:400;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-block}
 .btn:hover{transform:translateY(-1px)}
 .btn-primary{background:#6E5A7E;color:#fff;box-shadow:0 4px 18px rgba(110,90,126,.25)}
 .btn-primary:hover{background:#5a4869}
+.btn-hero-outline{background:none;color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+.btn-hero-outline:hover{border-color:rgba(255,255,255,.6)}
+.btn-hero-ghost{background:none;color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.15)}
+.btn-hero-ghost:hover{color:#fff;border-color:rgba(255,255,255,.4)}
 .btn-outline{background:none;color:#6E5A7E;border:1.5px solid #B7A8C9}
 .btn-outline:hover{border-color:#6E5A7E}
 .btn-ghost{background:none;color:#6B6575;border:1.5px solid #DDD7CE}
 .btn-ghost:hover{color:#2B2433;border-color:#9B94A3}
 
-/* STORY — feather bg */
-.story{padding:80px 24px;background:#F7F3EE;position:relative;overflow:hidden}
-.story-bg{position:absolute;inset:0;background:url('feather.png') center/cover no-repeat;opacity:.05;pointer-events:none}
+/* IMAGE SECTION — full-width with silhouette */
+.image-break{position:relative;height:50vh;min-height:300px;overflow:hidden}
+.image-break img{width:100%;height:100%;object-fit:cover}
+
+/* STORY — feather bg prominent */
+.story{padding:80px 24px;position:relative;overflow:hidden}
+.story-bg{position:absolute;inset:0;background:url('feather.png') center/cover no-repeat;opacity:.15;pointer-events:none}
+.story-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,238,.85),rgba(247,243,238,.9));pointer-events:none}
 .story-inner{max-width:640px;margin:0 auto;text-align:center;position:relative;z-index:1}
-.story h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,34px);font-weight:300;line-height:1.3;margin-bottom:24px}
+.story h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:300;line-height:1.3;margin-bottom:24px}
 .story h2 em{font-weight:400;color:#6E5A7E}
 .story p{font-size:16px;color:#6B6575;line-height:1.8;margin-bottom:16px}
-.story-phrase{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:#6E5A7E;margin:32px 0 0;line-height:1.5}
+.story-phrase{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:#6E5A7E;margin:32px 0 0;line-height:1.5}
 
 /* VOICES — floral bg */
-.voices{padding:80px 24px;background:#F2EDE6;position:relative;overflow:hidden}
-.voices-bg{position:absolute;inset:0;background:url('floral.png') center/cover no-repeat;opacity:.04;pointer-events:none}
+.voices{padding:80px 24px;position:relative;overflow:hidden;background:#F2EDE6}
+.voices-bg{position:absolute;inset:0;background:url('floral.png') center/cover no-repeat;opacity:.1;pointer-events:none}
+.voices-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(242,237,230,.8),rgba(242,237,230,.85));pointer-events:none}
 .voices-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
 .voices h2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,30px);font-weight:300;margin-bottom:8px;text-align:center}
 .voices-sub{font-size:15px;color:#9B94A3;text-align:center;margin-bottom:32px}
 .voices-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.voice-card{padding:24px;border-radius:16px;background:#FDFBF8;border:1px solid #DDD7CE}
+.voice-card{padding:24px;border-radius:16px;background:rgba(253,251,248,.9);border:1px solid #DDD7CE;backdrop-filter:blur(4px)}
 .voice-card p{font-size:14px;line-height:1.7;color:#6B6575;font-style:italic;margin-bottom:12px}
 .voice-name{font-size:13px;font-weight:400;color:#2B2433}
 .voice-room{font-size:12px;color:#9B94A3}
 
-/* SIGNUP SECTIONS — waves bg on community */
-.signup-section{padding:80px 24px;background:#F7F3EE;position:relative;overflow:hidden}
-.signup-section.alt{background:#F2EDE6}
-.signup-bg{position:absolute;inset:0;background:url('waves.png') center/cover no-repeat;opacity:.04;pointer-events:none}
+/* FOUNDER */
+.founder{padding:80px 24px;background:#F7F3EE}
+.founder-inner{max-width:700px;margin:0 auto;text-align:center}
+.founder h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:300;margin-bottom:24px}
+.founder-card{display:flex;gap:24px;align-items:flex-start;text-align:left;padding:32px;border-radius:20px;background:#FDFBF8;border:1px solid #DDD7CE}
+.founder-avatar{width:80px;height:80px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#B7A8C9,#C99AA5);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-family:'Cormorant Garamond',serif;font-weight:400}
+.founder-info h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:4px}
+.founder-info .role{font-size:13px;color:#6E5A7E;margin-bottom:12px}
+.founder-info p{font-size:14px;color:#6B6575;line-height:1.75}
+
+/* SIGNUP SECTIONS */
+.signup-section{padding:80px 24px;position:relative;overflow:hidden}
+.signup-section.community{background:#F7F3EE}
+.signup-section.founding{background:#F2EDE6}
+.signup-waves{position:absolute;inset:0;background:url('waves.png') center/cover no-repeat;opacity:.1;pointer-events:none}
 .signup-inner{max-width:480px;margin:0 auto;position:relative;z-index:1}
 .signup-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:300;text-align:center;margin-bottom:8px}
 .signup-inner .sub{font-size:15px;color:#9B94A3;text-align:center;margin-bottom:28px}
@@ -115,37 +136,33 @@ a{color:inherit}
 .footer{padding:32px 24px;text-align:center;font-size:12px;color:#9B94A3}
 
 /* BUTTERFLY THANK-YOU OVERLAY */
-.thankyou-overlay{
-  position:fixed;inset:0;z-index:100;
-  display:flex;align-items:center;justify-content:center;
-  background:#000;opacity:0;pointer-events:none;
-  transition:opacity .4s ease;
-}
+.thankyou-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:#000;opacity:0;pointer-events:none;transition:opacity .4s ease}
 .thankyou-overlay.active{opacity:1;pointer-events:all}
 .thankyou-overlay video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.thankyou-text{
-  position:relative;z-index:1;text-align:center;
-  opacity:0;transform:translateY(10px);
-  transition:opacity 1s ease .5s,transform 1s ease .5s;
-}
+.thankyou-text{position:relative;z-index:1;text-align:center;opacity:0;transform:translateY(10px);transition:opacity 1s ease .5s,transform 1s ease .5s}
 .thankyou-overlay.show-text .thankyou-text{opacity:1;transform:translateY(0)}
-.thankyou-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,48px);font-weight:300;color:#fff;margin-bottom:8px;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+.thankyou-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,48px);font-weight:300;color:#fff;margin-bottom:8px;text-shadow:0 2px 20px rgba(0,0,0,.4)}
 .thankyou-text p{font-size:16px;color:rgba(255,255,255,.8);text-shadow:0 1px 10px rgba(0,0,0,.3)}
+.thankyou-text .dismiss{font-size:12px;color:rgba(255,255,255,.4);margin-top:20px}
 
 /* Scroll reveal */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
+@media(max-width:768px){
+  .voices-grid{grid-template-columns:1fr}
+  .founder-card{flex-direction:column;align-items:center;text-align:center}
+}
 @media(max-width:600px){
   .hero-video video{display:none}
-  .hero{background:linear-gradient(180deg,#E8E3EA 0%,#F7F3EE 100%)}
-  .voices-grid{grid-template-columns:1fr}
+  .hero{background:linear-gradient(180deg,#3a2f47 0%,#2B2433 100%)}
   .hero-signup{flex-direction:column;border-radius:14px;padding:6px}
   .hero-signup input{text-align:center}
   .hero-signup button{width:100%;border-radius:10px}
   .hero-links{flex-direction:column;align-items:center}
   .final-btns{flex-direction:column;align-items:center}
   .nav-found{display:none}
+  .image-break{height:35vh}
 }
 </style>
 </head>
@@ -162,14 +179,14 @@ a{color:inherit}
   </div>
 </nav>
 
-<!-- HERO with video background -->
+<!-- HERO — video bg, dark, immersive -->
 <section class="hero">
   <div class="hero-video">
     <video autoplay muted loop playsinline>
       <source src="hero-video.mp4" type="video/mp4">
     </video>
   </div>
-  <div class="hero-overlay"></div>
+  <div class="hero-grad"></div>
   <div class="hero-content">
     <h1 class="hd">You're not alone<br>in this. <em>None of us are.</em></h1>
     <p class="hero-sub">A calm, intelligent community for women navigating perimenopause and menopause. Where women find each other, share what they're noticing, and feel held.</p>
@@ -183,15 +200,21 @@ a{color:inherit}
 
     <p class="hero-or">or</p>
     <div class="hero-links">
-      <button class="btn btn-outline" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Full Community Signup</button>
-      <button class="btn btn-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
+      <button class="btn btn-hero-outline" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Full Community Signup</button>
+      <button class="btn btn-hero-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
     </div>
   </div>
 </section>
 
+<!-- SILHOUETTE IMAGE BREAK -->
+<div class="image-break">
+  <img src="silhouette.png" alt="Periwink — the second becoming" loading="lazy">
+</div>
+
 <!-- STORY -->
 <section class="story reveal">
   <div class="story-bg"></div>
+  <div class="story-grad"></div>
   <div class="story-inner">
     <h2 class="hd">You are not breaking down.<br>You are <em>becoming.</em></h2>
     <p>What is falling away is not you — it's what no longer fits. The body is not betraying you. It is asking for a new relationship with self.</p>
@@ -201,9 +224,15 @@ a{color:inherit}
   </div>
 </section>
 
+<!-- WAVES IMAGE BREAK -->
+<div class="image-break">
+  <img src="waves.png" alt="Periwink — a wiser way forward" loading="lazy">
+</div>
+
 <!-- VOICES -->
 <section class="voices reveal">
   <div class="voices-bg"></div>
+  <div class="voices-grad"></div>
   <div class="voices-inner">
     <h2 class="hd">Women who understand</h2>
     <p class="voices-sub">Real voices from women navigating this together.</p>
@@ -232,9 +261,33 @@ a{color:inherit}
   </div>
 </section>
 
+<!-- FOUNDER -->
+<section class="founder reveal">
+  <div class="founder-inner">
+    <h2 class="hd">About the Founder</h2>
+    <div class="founder-card">
+      <div class="founder-avatar">AT</div>
+      <div class="founder-info">
+        <h3 class="hd">Dr. Adrian Tubero, Psy.D.</h3>
+        <p class="role">Clinical Psychologist &middot; Founder, Periwink &middot; New York City</p>
+        <p>Adrian is a clinical psychologist with over 20 years in private practice, specializing in trauma, attachment, and the deeper emotional patterns that shape how we live and relate. Her work centers on helping people understand themselves more fully — not simply to reduce symptoms, but to create lasting, internal change.</p>
+        <p style="margin-top:12px">Her own experience navigating perimenopause revealed how fragmented and isolating the landscape of care truly is. What struck her most wasn't just the intensity of the symptoms, but how profoundly this phase affects identity, emotional stability, relationships, and sense of self.</p>
+        <p style="margin-top:12px">That gap is what led her to build Periwink — a space where women are not reduced to symptoms, but supported as they navigate identity shifts, relationship changes, and the deeper process of becoming more fully themselves. From symptom management to meaning-making. From isolation to connection.</p>
+        <p style="margin-top:12px">Adrian trained extensively in relational trauma through AEDP and Core Self Reclamation Therapy (CSRT), and is currently deepening her training in women's health through Harvard Medical School's Executive Education program in Women's Health and Wellness.</p>
+        <p style="margin-top:12px;font-style:italic;color:#C99AA5">"This phase of life is not simply a problem to manage — it is a profound psychological and relational experience. With the right support, it can become a path toward greater coherence, clarity, and self-understanding."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLORAL IMAGE BREAK -->
+<div class="image-break">
+  <img src="floral.png" alt="Periwink — held in change" loading="lazy">
+</div>
+
 <!-- COMMUNITY SIGNUP -->
-<section class="signup-section" id="community-section">
-  <div class="signup-bg"></div>
+<section class="signup-section community" id="community-section">
+  <div class="signup-waves"></div>
   <div class="signup-inner reveal">
     <h2 class="hd">Join the Community</h2>
     <p class="sub">You're taking the first step. We're glad you're here.</p>
@@ -264,7 +317,7 @@ a{color:inherit}
 </section>
 
 <!-- FOUNDING MEMBER SIGNUP -->
-<section class="signup-section alt" id="founding-section">
+<section class="signup-section founding" id="founding-section">
   <div class="signup-inner reveal">
     <h2 class="hd">Become a Founding Member</h2>
     <p class="sub">Help shape what Periwink becomes.</p>
@@ -327,6 +380,7 @@ a{color:inherit}
   <div class="thankyou-text">
     <h2 class="hd">Welcome to Periwink</h2>
     <p>You are exactly where you need to be.</p>
+    <p class="dismiss">tap anywhere to continue</p>
   </div>
 </div>
 
@@ -346,20 +400,7 @@ var obs = new IntersectionObserver(function(entries) {
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
-// Hero video scroll parallax — slow down playback based on scroll
-(function() {
-  var vid = document.querySelector('.hero-video video');
-  if (!vid) return;
-  window.addEventListener('scroll', function() {
-    var scrollY = window.scrollY;
-    var heroH = document.querySelector('.hero').offsetHeight;
-    var progress = Math.min(scrollY / heroH, 1);
-    // Fade out video as user scrolls past hero
-    vid.style.opacity = Math.max(0.15 - progress * 0.15, 0);
-  }, { passive: true });
-})();
-
-// Butterfly thank-you overlay
+// Butterfly thank-you
 function showThankYou() {
   var overlay = document.getElementById('thankyou');
   var video = document.getElementById('thankyou-video');
@@ -367,28 +408,20 @@ function showThankYou() {
   document.body.style.overflow = 'hidden';
   video.currentTime = 0;
   video.play();
-  // Show text near end of video
-  var dur = video.duration || 5;
-  video.addEventListener('loadedmetadata', function() {
-    dur = video.duration;
-  });
-  setTimeout(function() {
+  // Show text after 3 seconds or when video ends
+  var textTimer = setTimeout(function() { overlay.classList.add('show-text'); }, 3000);
+  video.addEventListener('ended', function onEnd() {
+    clearTimeout(textTimer);
     overlay.classList.add('show-text');
-  }, Math.max((dur - 2) * 1000, 2000));
-  // Auto close after video + pause
-  video.addEventListener('ended', function() {
-    overlay.classList.add('show-text');
-    setTimeout(function() {
-      overlay.classList.remove('active', 'show-text');
-      document.body.style.overflow = '';
-    }, 3000);
+    video.removeEventListener('ended', onEnd);
   });
-  // Click to close
-  overlay.addEventListener('click', function() {
+  // Dismiss on click
+  overlay.onclick = function() {
     overlay.classList.remove('active', 'show-text');
     document.body.style.overflow = '';
     video.pause();
-  });
+    overlay.onclick = null;
+  };
 }
 
 // Quick email signup
@@ -406,15 +439,10 @@ function submitQuick(e) {
   })
   .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
   .then(function(res) {
-    if (res.ok) {
-      input.value = '';
-      showThankYou();
-    } else {
-      msg.textContent = res.data.error || 'Something went wrong.';
-      msg.className = 'hero-msg err';
-    }
+    if (res.ok) { input.value = ''; showThankYou(); }
+    else { msg.textContent = res.data.error || 'Something went wrong.'; msg.className = 'hero-msg err'; }
   })
-  .catch(function() { msg.textContent = 'Network error.'; msg.className = 'hero-msg err'; })
+  .catch(function() { msg.textContent = 'Network error. Please try again.'; msg.className = 'hero-msg err'; })
   .finally(function() { btn.disabled = false; btn.textContent = 'Join'; });
 }
 
