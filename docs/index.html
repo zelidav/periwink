@@ -35,8 +35,8 @@ a{color:inherit}
 /* HERO — video background, visible */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;background:#2B2433}
 .hero-video{position:absolute;inset:0;z-index:0}
-.hero-video video{width:100%;height:100%;object-fit:cover;opacity:.45}
-.hero-grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(43,36,51,.3) 0%,rgba(43,36,51,.5) 50%,rgba(43,36,51,.8) 100%)}
+.hero-video video{width:100%;height:100%;object-fit:cover;opacity:.55}
+.hero-grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(110,90,126,.25) 0%,rgba(183,168,201,.2) 30%,rgba(43,36,51,.5) 70%,rgba(43,36,51,.75) 100%)}
 .hero-content{position:relative;z-index:2;max-width:620px}
 .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,58px);font-weight:300;line-height:1.15;margin-bottom:20px;color:#fff}
 .hero h1 em{font-weight:400;color:#D7CCFF}
@@ -153,9 +153,59 @@ a{color:inherit}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
+/* LINE DRAWING — flowing Picasso animation */
+.linedraw{position:relative;padding:60px 24px;background:#F7F3EE;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:400px}
+.linedraw svg{max-width:800px;width:100%;height:auto}
+.linedraw .line{
+  fill:none;stroke:#2B2433;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  opacity:0;
+}
+.linedraw .accent{
+  fill:none;stroke:#C99AA5;stroke-width:1.2;stroke-linecap:round;
+  opacity:0;
+}
+.linedraw .dot{fill:#C99AA5;opacity:0}
+
+/* Drawing animation — each path draws itself then fades */
+@keyframes drawLine{
+  0%{stroke-dashoffset:var(--len);opacity:0}
+  5%{opacity:.8}
+  40%{stroke-dashoffset:0;opacity:.8}
+  70%{stroke-dashoffset:0;opacity:.8}
+  95%{opacity:0}
+  100%{stroke-dashoffset:0;opacity:0}
+}
+@keyframes drawAccent{
+  0%{stroke-dashoffset:var(--len);opacity:0}
+  10%{opacity:.5}
+  50%{stroke-dashoffset:0;opacity:.5}
+  80%{opacity:.5}
+  95%{opacity:0}
+  100%{opacity:0}
+}
+@keyframes bloomDot{
+  0%{opacity:0;r:0}
+  20%{opacity:.4;r:var(--r)}
+  70%{opacity:.4;r:var(--r)}
+  100%{opacity:0;r:0}
+}
+
+.linedraw .line{
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  animation:drawLine var(--dur) ease-in-out var(--del) infinite;
+}
+.linedraw .accent{
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  animation:drawAccent var(--dur) ease-in-out var(--del) infinite;
+}
+.linedraw .dot{
+  animation:bloomDot var(--dur) ease-in-out var(--del) infinite;
+}
+
 @media(max-width:768px){
   .voices-grid{grid-template-columns:1fr}
   .founder-card{flex-direction:column;align-items:center;text-align:center}
+  .linedraw{min-height:280px}
 }
 @media(max-width:600px){
   .hero-video video{opacity:.3}
