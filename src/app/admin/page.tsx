@@ -6,6 +6,21 @@ import { useEffect, useState, useCallback } from "react";
 // Types
 // ---------------------------------------------------------------------------
 
+interface Stats {
+  totalUsers: number;
+  totalSignups: number;
+  totalApplications: number;
+  pendingApplications: number;
+  totalPosts: number;
+  totalComments: number;
+  totalReactions: number;
+  totalRooms: number;
+  totalSymptomLogs: number;
+  recentSignups: { id: string; name: string; email: string; createdAt: string }[];
+  recentUsers: { id: string; email: string; createdAt: string; profile: { displayName: string | null } | null }[];
+  dailySignups: Record<string, number>;
+}
+
 interface Signup {
   id: string;
   name: string;
@@ -20,6 +35,10 @@ interface Application {
   email: string;
   roleType: string;
   status: string;
+  whatDrawsYou: string | null;
+  whatYouOffer: string | null;
+  organization: string | null;
+  website: string | null;
   createdAt: string;
 }
 
@@ -43,6 +62,7 @@ interface RoomRecord {
   icon: string | null;
   description: string;
   isDefault: boolean;
+  isArchived: boolean;
   sortOrder: number;
   _count: { posts: number; followers: number };
 }
@@ -56,131 +76,44 @@ interface ModeratorRecord {
   room: { name: string };
 }
 
+interface PostRecord {
+  id: string;
+  title: string;
+  body: string;
+  identity: string;
+  isPinned: boolean;
+  isLocked: boolean;
+  isHidden: boolean;
+  viewCount: number;
+  createdAt: string;
+  author: { email: string; profile: { displayName: string | null } | null };
+  room: { name: string; slug: string };
+  _count: { comments: number; reactions: number };
+}
+
 // ---------------------------------------------------------------------------
-// Styles
+// Colors & Styles
 // ---------------------------------------------------------------------------
 
-const colors = {
+const C = {
   plum: "#6E5A7E",
+  plumLight: "#8B7A9B",
   lavender: "#B7A8C9",
   ivory: "#F7F3EE",
   ink: "#2B2433",
   card: "#FDFBF8",
-  border: "#DDD7CE",
+  border: "#E2DDE8",
+  borderLight: "#EDE9F0",
   text2: "#6B6575",
   text3: "#9B94A3",
-};
-
-const tabBarStyle: React.CSSProperties = {
-  display: "flex",
-  gap: 8,
-  marginBottom: 24,
-  flexWrap: "wrap",
-};
-
-const tabStyle = (active: boolean): React.CSSProperties => ({
-  padding: "8px 20px",
-  borderRadius: 20,
-  border: "none",
-  cursor: "pointer",
-  fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-  fontSize: "0.875rem",
-  fontWeight: 500,
-  background: active ? colors.plum : "transparent",
-  color: active ? "#fff" : colors.text2,
-  transition: "all 0.15s ease",
-});
-
-const tableWrapStyle: React.CSSProperties = {
-  background: colors.card,
-  borderRadius: 12,
-  border: `1px solid ${colors.border}`,
-  overflow: "auto",
-};
-
-const tableStyle: React.CSSProperties = {
-  width: "100%",
-  borderCollapse: "collapse",
-  fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-  fontSize: "0.85rem",
-};
-
-const thStyle: React.CSSProperties = {
-  textAlign: "left",
-  padding: "10px 14px",
-  borderBottom: `2px solid ${colors.border}`,
-  color: colors.text2,
-  fontWeight: 600,
-  fontSize: "0.75rem",
-  textTransform: "uppercase",
-  letterSpacing: "0.04em",
-  whiteSpace: "nowrap",
-};
-
-const tdStyle = (rowIndex: number): React.CSSProperties => ({
-  padding: "9px 14px",
-  borderBottom: `1px solid ${colors.border}`,
-  color: colors.ink,
-  background: rowIndex % 2 === 1 ? "rgba(183,168,201,0.06)" : "transparent",
-});
-
-const btnStyle: React.CSSProperties = {
-  padding: "8px 18px",
-  borderRadius: 10,
-  border: "none",
-  background: colors.plum,
-  color: "#fff",
-  cursor: "pointer",
-  fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-  fontSize: "0.85rem",
-  fontWeight: 500,
-};
-
-const btnDangerStyle: React.CSSProperties = {
-  ...btnStyle,
-  background: "#C44",
-  fontSize: "0.8rem",
-  padding: "5px 12px",
-};
-
-const inputStyle: React.CSSProperties = {
-  padding: "8px 12px",
-  borderRadius: 10,
-  border: `1px solid ${colors.border}`,
-  fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-  fontSize: "0.85rem",
-  color: colors.ink,
-  background: "#fff",
-  outline: "none",
-};
-
-const selectStyle: React.CSSProperties = {
-  ...inputStyle,
-  cursor: "pointer",
-};
-
-const formRowStyle: React.CSSProperties = {
-  display: "flex",
-  gap: 10,
-  alignItems: "center",
-  flexWrap: "wrap",
-  marginTop: 16,
-};
-
-const sectionHeadingStyle: React.CSSProperties = {
-  fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
-  fontSize: "1.25rem",
-  color: colors.ink,
-  fontWeight: 400,
-  marginBottom: 12,
-  marginTop: 28,
-};
-
-const statusColors: Record<string, string> = {
-  PENDING: "#888",
-  REVIEWING: "#B8860B",
-  APPROVED: "#2E7D32",
-  DECLINED: "#C44",
+  green: "#2E7D32",
+  greenBg: "#E8F5E9",
+  red: "#C62828",
+  redBg: "#FFEBEE",
+  amber: "#F57F17",
+  amberBg: "#FFF8E1",
+  blue: "#1565C0",
+  blueBg: "#E3F2FD",
 };
 
 // ---------------------------------------------------------------------------
@@ -195,50 +128,61 @@ function fmtDate(iso: string) {
   });
 }
 
+function fmtDateShort(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+function timeAgo(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d ago`;
+}
+
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
-type Tab = "signups" | "applications" | "users" | "moderators" | "rooms";
+type Tab = "dashboard" | "signups" | "applications" | "users" | "posts" | "rooms" | "moderators";
 
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [denied, setDenied] = useState(false);
-  const [tab, setTab] = useState<Tab>("signups");
+  const [tab, setTab] = useState<Tab>("dashboard");
 
   // Data
+  const [stats, setStats] = useState<Stats | null>(null);
   const [signups, setSignups] = useState<Signup[]>([]);
   const [applications, setApplications] = useState<Application[]>([]);
   const [users, setUsers] = useState<UserRecord[]>([]);
   const [moderators, setModerators] = useState<ModeratorRecord[]>([]);
   const [rooms, setRooms] = useState<RoomRecord[]>([]);
+  const [posts, setPosts] = useState<PostRecord[]>([]);
 
   // Forms
   const [newMod, setNewMod] = useState({ userId: "", roomId: "", role: "MODERATOR" });
-  const [newRoom, setNewRoom] = useState({
-    name: "",
-    slug: "",
-    description: "",
-    icon: "",
-    isDefault: false,
-    sortOrder: 0,
-  });
+  const [newRoom, setNewRoom] = useState({ name: "", slug: "", description: "", icon: "", isDefault: false, sortOrder: 0 });
 
-  // Loading / error
+  // Search
+  const [searchSignups, setSearchSignups] = useState("");
+  const [searchUsers, setSearchUsers] = useState("");
+  const [searchPosts, setSearchPosts] = useState("");
+  const [appFilter, setAppFilter] = useState("ALL");
+
+  // State
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [expandedApp, setExpandedApp] = useState<string | null>(null);
 
-  // -----------------------------------------------------------------------
-  // Auth check
-  // -----------------------------------------------------------------------
+  // Auth
   useEffect(() => {
     const stored = sessionStorage.getItem("periwink-admin-auth");
-    if (stored === "true") {
-      setAuthed(true);
-      return;
-    }
+    if (stored === "true") { setAuthed(true); return; }
     const pw = window.prompt("Enter admin password:");
-    if (pw === "periwink2026") {
+    if (pw === "PERIADMIN") {
       sessionStorage.setItem("periwink-admin-auth", "true");
       setAuthed(true);
     } else {
@@ -246,25 +190,27 @@ export default function AdminPage() {
     }
   }, []);
 
-  // -----------------------------------------------------------------------
-  // Data fetching
-  // -----------------------------------------------------------------------
+  // Fetch
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
-      const [sRes, aRes, uRes, mRes, rRes] = await Promise.all([
+      const [stRes, sRes, aRes, uRes, mRes, rRes, pRes] = await Promise.all([
+        fetch("/api/admin/stats"),
         fetch("/api/admin/signups"),
         fetch("/api/admin/applications"),
         fetch("/api/admin/users"),
         fetch("/api/admin/moderators"),
         fetch("/api/admin/rooms"),
+        fetch("/api/admin/posts"),
       ]);
+      setStats(await stRes.json());
       setSignups(await sRes.json());
       setApplications(await aRes.json());
       setUsers(await uRes.json());
       setModerators(await mRes.json());
       setRooms(await rRes.json());
+      setPosts(await pRes.json());
     } catch (e) {
       setError("Failed to load data. " + (e instanceof Error ? e.message : ""));
     } finally {
@@ -272,14 +218,9 @@ export default function AdminPage() {
     }
   }, []);
 
-  useEffect(() => {
-    if (authed) fetchData();
-  }, [authed, fetchData]);
+  useEffect(() => { if (authed) fetchData(); }, [authed, fetchData]);
 
-  // -----------------------------------------------------------------------
   // Mutations
-  // -----------------------------------------------------------------------
-
   async function updateApplicationStatus(id: string, status: string) {
     try {
       await fetch(`/api/admin/applications/${id}`, {
@@ -288,32 +229,21 @@ export default function AdminPage() {
         body: JSON.stringify({ status }),
       });
       await fetchData();
-    } catch {
-      setError("Failed to update application status.");
-    }
+    } catch { setError("Failed to update application status."); }
   }
 
   async function addModerator() {
-    if (!newMod.userId || !newMod.roomId) {
-      setError("Select a user and room.");
-      return;
-    }
+    if (!newMod.userId || !newMod.roomId) { setError("Select a user and room."); return; }
     try {
       const res = await fetch("/api/admin/moderators", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newMod),
       });
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.error || "Failed to add moderator.");
-        return;
-      }
+      if (!res.ok) { const d = await res.json(); setError(d.error || "Failed."); return; }
       setNewMod({ userId: "", roomId: "", role: "MODERATOR" });
       await fetchData();
-    } catch {
-      setError("Failed to add moderator.");
-    }
+    } catch { setError("Failed to add moderator."); }
   }
 
   async function removeModerator(id: string) {
@@ -325,15 +255,12 @@ export default function AdminPage() {
         body: JSON.stringify({ id }),
       });
       await fetchData();
-    } catch {
-      setError("Failed to remove moderator.");
-    }
+    } catch { setError("Failed to remove moderator."); }
   }
 
   async function createRoom() {
     if (!newRoom.name || !newRoom.slug || !newRoom.description) {
-      setError("Name, slug, and description are required.");
-      return;
+      setError("Name, slug, and description required."); return;
     }
     try {
       const res = await fetch("/api/admin/rooms", {
@@ -341,336 +268,521 @@ export default function AdminPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newRoom),
       });
-      if (!res.ok) {
-        const data = await res.json();
-        setError(data.error || "Failed to create room.");
-        return;
-      }
+      if (!res.ok) { const d = await res.json(); setError(d.error || "Failed."); return; }
       setNewRoom({ name: "", slug: "", description: "", icon: "", isDefault: false, sortOrder: 0 });
       await fetchData();
-    } catch {
-      setError("Failed to create room.");
-    }
+    } catch { setError("Failed to create room."); }
   }
 
+  async function togglePost(id: string, field: "isHidden" | "isPinned" | "isLocked", value: boolean) {
+    try {
+      await fetch("/api/admin/posts", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, [field]: value }),
+      });
+      await fetchData();
+    } catch { setError("Failed to update post."); }
+  }
+
+  async function deletePost(id: string) {
+    if (!confirm("Soft-delete this post?")) return;
+    try {
+      await fetch("/api/admin/posts", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      await fetchData();
+    } catch { setError("Failed to delete post."); }
+  }
+
+  // Guards
+  if (denied) return (
+    <div style={{ textAlign: "center", marginTop: 80, fontFamily: "'DM Sans', sans-serif", color: C.text2 }}>
+      <p style={{ fontSize: "1.1rem" }}>Access denied.</p>
+    </div>
+  );
+  if (!authed) return null;
+
+  // Tab config
+  const tabs: { key: Tab; label: string; count?: number }[] = [
+    { key: "dashboard", label: "Dashboard" },
+    { key: "signups", label: "Signups", count: signups.length },
+    { key: "applications", label: "Applications", count: applications.filter(a => a.status === "PENDING").length || undefined },
+    { key: "users", label: "Users", count: users.length },
+    { key: "posts", label: "Posts", count: posts.length },
+    { key: "rooms", label: "Rooms", count: rooms.length },
+    { key: "moderators", label: "Moderators", count: moderators.length },
+  ];
+
+  // Filtered data
+  const filteredSignups = signups.filter(s =>
+    !searchSignups || [s.name, s.email, s.pseudonym].some(f => f?.toLowerCase().includes(searchSignups.toLowerCase()))
+  );
+  const filteredUsers = users.filter(u =>
+    !searchUsers || [u.email, u.profile?.displayName].some(f => f?.toLowerCase().includes(searchUsers.toLowerCase()))
+  );
+  const filteredApps = applications.filter(a =>
+    appFilter === "ALL" || a.status === appFilter
+  );
+  const filteredPosts = posts.filter(p =>
+    !searchPosts || [p.title, p.body, p.author?.profile?.displayName, p.room?.name].some(f => f?.toLowerCase().includes(searchPosts.toLowerCase()))
+  );
+
   // -----------------------------------------------------------------------
-  // Render guards
+  // Render helpers
   // -----------------------------------------------------------------------
-  if (denied) {
+
+  function StatCard({ label, value, color, bg }: { label: string; value: number | string; color?: string; bg?: string }) {
     return (
-      <div style={{ textAlign: "center", marginTop: 80, fontFamily: "var(--font-body, 'DM Sans', sans-serif)", color: colors.text2 }}>
-        <p style={{ fontSize: "1.1rem" }}>Access denied.</p>
+      <div style={{
+        background: bg || C.card,
+        border: `1px solid ${C.borderLight}`,
+        borderRadius: 12,
+        padding: "20px 24px",
+        flex: "1 1 140px",
+        minWidth: 140,
+      }}>
+        <div style={{ fontSize: "2rem", fontWeight: 600, color: color || C.plum, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.1 }}>
+          {value}
+        </div>
+        <div style={{ fontSize: "0.8rem", color: C.text2, marginTop: 4, fontFamily: "'DM Sans', sans-serif", textTransform: "uppercase", letterSpacing: "0.04em", fontWeight: 500 }}>
+          {label}
+        </div>
       </div>
     );
   }
 
-  if (!authed) return null;
+  function Badge({ text, color, bg }: { text: string; color: string; bg: string }) {
+    return (
+      <span style={{
+        display: "inline-block",
+        padding: "2px 10px",
+        borderRadius: 999,
+        fontSize: "0.75rem",
+        fontWeight: 600,
+        color,
+        background: bg,
+        fontFamily: "'DM Sans', sans-serif",
+      }}>
+        {text}
+      </span>
+    );
+  }
+
+  function StatusBadge({ status }: { status: string }) {
+    const map: Record<string, { color: string; bg: string }> = {
+      PENDING: { color: C.amber, bg: C.amberBg },
+      REVIEWING: { color: C.blue, bg: C.blueBg },
+      APPROVED: { color: C.green, bg: C.greenBg },
+      DECLINED: { color: C.red, bg: C.redBg },
+    };
+    const s = map[status] || { color: C.text2, bg: C.borderLight };
+    return <Badge text={status} color={s.color} bg={s.bg} />;
+  }
+
+  function SearchBar({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder: string }) {
+    return (
+      <input
+        type="text"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder={placeholder}
+        style={{
+          padding: "8px 14px",
+          borderRadius: 10,
+          border: `1px solid ${C.border}`,
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: "0.85rem",
+          color: C.ink,
+          background: "#fff",
+          outline: "none",
+          width: "100%",
+          maxWidth: 320,
+        }}
+      />
+    );
+  }
+
+  function Th({ children }: { children: React.ReactNode }) {
+    return (
+      <th style={{
+        textAlign: "left", padding: "10px 14px", borderBottom: `2px solid ${C.border}`,
+        color: C.text2, fontWeight: 600, fontSize: "0.75rem", textTransform: "uppercase",
+        letterSpacing: "0.04em", whiteSpace: "nowrap", fontFamily: "'DM Sans', sans-serif",
+      }}>
+        {children}
+      </th>
+    );
+  }
+
+  function Td({ children, i, style }: { children: React.ReactNode; i: number; style?: React.CSSProperties }) {
+    return (
+      <td style={{
+        padding: "9px 14px", borderBottom: `1px solid ${C.borderLight}`, color: C.ink,
+        background: i % 2 === 1 ? "rgba(183,168,201,0.04)" : "transparent",
+        fontSize: "0.85rem", fontFamily: "'DM Sans', sans-serif", ...style,
+      }}>
+        {children}
+      </td>
+    );
+  }
+
+  function Btn({ children, onClick, variant = "primary", small }: { children: React.ReactNode; onClick: () => void; variant?: "primary" | "danger" | "ghost"; small?: boolean }) {
+    const styles: Record<string, React.CSSProperties> = {
+      primary: { background: C.plum, color: "#fff" },
+      danger: { background: C.red, color: "#fff" },
+      ghost: { background: "transparent", color: C.plum, border: `1px solid ${C.border}` },
+    };
+    return (
+      <button onClick={onClick} style={{
+        padding: small ? "4px 10px" : "8px 18px",
+        borderRadius: small ? 6 : 10,
+        border: "none",
+        cursor: "pointer",
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: small ? "0.78rem" : "0.85rem",
+        fontWeight: 500,
+        transition: "opacity 0.15s",
+        ...styles[variant],
+      }}>
+        {children}
+      </button>
+    );
+  }
+
+  function TableWrap({ children }: { children: React.ReactNode }) {
+    return (
+      <div style={{ background: C.card, borderRadius: 12, border: `1px solid ${C.border}`, overflow: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          {children}
+        </table>
+      </div>
+    );
+  }
+
+  function SectionHead({ title, right }: { title: string; right?: React.ReactNode }) {
+    return (
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 12 }}>
+        <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.4rem", fontWeight: 400, color: C.ink, margin: 0 }}>
+          {title}
+        </h2>
+        {right}
+      </div>
+    );
+  }
 
   // -----------------------------------------------------------------------
-  // Tab content renderers
+  // Dashboard
   // -----------------------------------------------------------------------
 
-  const tabs: { key: Tab; label: string }[] = [
-    { key: "signups", label: "Signups" },
-    { key: "applications", label: "Applications" },
-    { key: "users", label: "Users" },
-    { key: "moderators", label: "Moderators" },
-    { key: "rooms", label: "Rooms" },
-  ];
+  function renderDashboard() {
+    if (!stats) return <div style={{ color: C.text3, fontFamily: "'DM Sans', sans-serif" }}>Loading stats...</div>;
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+        {/* Stat cards */}
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <StatCard label="Community Signups" value={stats.totalSignups} />
+          <StatCard label="Applications" value={stats.totalApplications} />
+          <StatCard label="Pending Review" value={stats.pendingApplications} color={stats.pendingApplications > 0 ? C.amber : C.text3} bg={stats.pendingApplications > 0 ? C.amberBg : undefined} />
+          <StatCard label="Users" value={stats.totalUsers} />
+        </div>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <StatCard label="Posts" value={stats.totalPosts} color={C.plumLight} />
+          <StatCard label="Comments" value={stats.totalComments} color={C.plumLight} />
+          <StatCard label="Reactions" value={stats.totalReactions} color={C.plumLight} />
+          <StatCard label="Rooms" value={stats.totalRooms} color={C.plumLight} />
+          <StatCard label="Symptom Logs" value={stats.totalSymptomLogs} color={C.plumLight} />
+        </div>
+
+        {/* Signup trend - simple bar chart */}
+        {Object.keys(stats.dailySignups).length > 0 && (
+          <div style={{ background: C.card, border: `1px solid ${C.borderLight}`, borderRadius: 12, padding: 24 }}>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: C.ink, marginBottom: 16 }}>
+              Signups — Last 30 Days
+            </h3>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 80 }}>
+              {Object.entries(stats.dailySignups).map(([day, count]) => {
+                const maxVal = Math.max(...Object.values(stats.dailySignups));
+                const h = Math.max(8, (count / maxVal) * 80);
+                return (
+                  <div key={day} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                    <div style={{ fontSize: "0.65rem", color: C.text3 }}>{count}</div>
+                    <div style={{ width: "100%", maxWidth: 28, height: h, background: C.lavender, borderRadius: 4 }} title={`${day}: ${count}`} />
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ display: "flex", gap: 4, marginTop: 4 }}>
+              {Object.keys(stats.dailySignups).map(day => (
+                <div key={day} style={{ flex: 1, fontSize: "0.6rem", color: C.text3, textAlign: "center" }}>
+                  {new Date(day + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Recent activity side-by-side */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div style={{ background: C.card, border: `1px solid ${C.borderLight}`, borderRadius: 12, padding: 20 }}>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.05rem", fontWeight: 400, color: C.ink, marginBottom: 12 }}>
+              Recent Signups
+            </h3>
+            {stats.recentSignups.map(s => (
+              <div key={s.id} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: `1px solid ${C.borderLight}`, fontSize: "0.83rem", fontFamily: "'DM Sans', sans-serif" }}>
+                <div>
+                  <span style={{ color: C.ink, fontWeight: 500 }}>{s.name}</span>
+                  <span style={{ color: C.text3, marginLeft: 8 }}>{s.email}</span>
+                </div>
+                <span style={{ color: C.text3, fontSize: "0.78rem", whiteSpace: "nowrap" }}>{timeAgo(s.createdAt)}</span>
+              </div>
+            ))}
+            {stats.recentSignups.length === 0 && <div style={{ color: C.text3, fontSize: "0.83rem" }}>None yet</div>}
+          </div>
+
+          <div style={{ background: C.card, border: `1px solid ${C.borderLight}`, borderRadius: 12, padding: 20 }}>
+            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.05rem", fontWeight: 400, color: C.ink, marginBottom: 12 }}>
+              Recent Users
+            </h3>
+            {stats.recentUsers.map(u => (
+              <div key={u.id} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: `1px solid ${C.borderLight}`, fontSize: "0.83rem", fontFamily: "'DM Sans', sans-serif" }}>
+                <div>
+                  <span style={{ color: C.ink, fontWeight: 500 }}>{u.profile?.displayName || "—"}</span>
+                  <span style={{ color: C.text3, marginLeft: 8 }}>{u.email}</span>
+                </div>
+                <span style={{ color: C.text3, fontSize: "0.78rem", whiteSpace: "nowrap" }}>{timeAgo(u.createdAt)}</span>
+              </div>
+            ))}
+            {stats.recentUsers.length === 0 && <div style={{ color: C.text3, fontSize: "0.83rem" }}>None yet</div>}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Signups
+  // -----------------------------------------------------------------------
 
   function renderSignups() {
     return (
-      <div style={tableWrapStyle}>
-        <table style={tableStyle}>
-          <thead>
-            <tr>
-              <th style={thStyle}>Name</th>
-              <th style={thStyle}>Email</th>
-              <th style={thStyle}>Pseudonym</th>
-              <th style={thStyle}>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {signups.map((s, i) => (
-              <tr key={s.id}>
-                <td style={tdStyle(i)}>{s.name}</td>
-                <td style={tdStyle(i)}>{s.email}</td>
-                <td style={tdStyle(i)}>{s.pseudonym}</td>
-                <td style={tdStyle(i)}>{fmtDate(s.createdAt)}</td>
-              </tr>
-            ))}
-            {signups.length === 0 && (
-              <tr>
-                <td style={{ ...tdStyle(0), color: colors.text3 }} colSpan={4}>
-                  No signups yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-
-  function renderApplications() {
-    return (
-      <div style={tableWrapStyle}>
-        <table style={tableStyle}>
-          <thead>
-            <tr>
-              <th style={thStyle}>Name</th>
-              <th style={thStyle}>Email</th>
-              <th style={thStyle}>Role</th>
-              <th style={thStyle}>Status</th>
-              <th style={thStyle}>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applications.map((a, i) => (
-              <tr key={a.id}>
-                <td style={tdStyle(i)}>{a.name}</td>
-                <td style={tdStyle(i)}>{a.email}</td>
-                <td style={tdStyle(i)}>{a.roleType}</td>
-                <td style={tdStyle(i)}>
-                  <select
-                    value={a.status}
-                    onChange={(e) => updateApplicationStatus(a.id, e.target.value)}
-                    style={{
-                      ...selectStyle,
-                      color: statusColors[a.status] || colors.ink,
-                      fontWeight: 600,
-                      padding: "4px 8px",
-                      fontSize: "0.8rem",
-                    }}
-                  >
-                    <option value="PENDING">PENDING</option>
-                    <option value="REVIEWING">REVIEWING</option>
-                    <option value="APPROVED">APPROVED</option>
-                    <option value="DECLINED">DECLINED</option>
-                  </select>
-                </td>
-                <td style={tdStyle(i)}>{fmtDate(a.createdAt)}</td>
-              </tr>
-            ))}
-            {applications.length === 0 && (
-              <tr>
-                <td style={{ ...tdStyle(0), color: colors.text3 }} colSpan={5}>
-                  No applications yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-
-  function renderUsers() {
-    return (
-      <div style={tableWrapStyle}>
-        <table style={tableStyle}>
-          <thead>
-            <tr>
-              <th style={thStyle}>Display Name</th>
-              <th style={thStyle}>Email</th>
-              <th style={thStyle}>Stage</th>
-              <th style={thStyle}>Avatar Style</th>
-              <th style={thStyle}>Joined</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((u, i) => (
-              <tr key={u.id}>
-                <td style={tdStyle(i)}>{u.profile?.displayName || "--"}</td>
-                <td style={tdStyle(i)}>{u.email}</td>
-                <td style={tdStyle(i)}>{u.profile?.menopauseStage || "--"}</td>
-                <td style={tdStyle(i)}>{u.profile?.avatarStyle || "--"}</td>
-                <td style={tdStyle(i)}>{fmtDate(u.createdAt)}</td>
-              </tr>
-            ))}
-            {users.length === 0 && (
-              <tr>
-                <td style={{ ...tdStyle(0), color: colors.text3 }} colSpan={5}>
-                  No users yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-
-  function renderModerators() {
-    return (
       <>
-        <div style={tableWrapStyle}>
-          <table style={tableStyle}>
-            <thead>
-              <tr>
-                <th style={thStyle}>User</th>
-                <th style={thStyle}>Room</th>
-                <th style={thStyle}>Role</th>
-                <th style={thStyle}></th>
+        <SectionHead title={`Community Signups (${signups.length})`} right={<SearchBar value={searchSignups} onChange={setSearchSignups} placeholder="Search name, email, pseudonym..." />} />
+        <TableWrap>
+          <thead><tr><Th>Name</Th><Th>Email</Th><Th>Pseudonym</Th><Th>Date</Th></tr></thead>
+          <tbody>
+            {filteredSignups.map((s, i) => (
+              <tr key={s.id}>
+                <Td i={i}>{s.name}</Td>
+                <Td i={i}><a href={`mailto:${s.email}`} style={{ color: C.plum }}>{s.email}</a></Td>
+                <Td i={i}>{s.pseudonym}</Td>
+                <Td i={i}>{fmtDate(s.createdAt)}</Td>
               </tr>
-            </thead>
-            <tbody>
-              {moderators.map((m, i) => (
-                <tr key={m.id}>
-                  <td style={tdStyle(i)}>
-                    {m.user.profile?.displayName || m.user.email}
-                  </td>
-                  <td style={tdStyle(i)}>{m.room.name}</td>
-                  <td style={tdStyle(i)}>{m.role}</td>
-                  <td style={tdStyle(i)}>
-                    <button style={btnDangerStyle} onClick={() => removeModerator(m.id)}>
-                      Remove
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {moderators.length === 0 && (
-                <tr>
-                  <td style={{ ...tdStyle(0), color: colors.text3 }} colSpan={4}>
-                    No moderators assigned.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        <h3 style={sectionHeadingStyle}>Add Moderator</h3>
-        <div style={formRowStyle}>
-          <select
-            style={{ ...selectStyle, minWidth: 180 }}
-            value={newMod.userId}
-            onChange={(e) => setNewMod({ ...newMod, userId: e.target.value })}
-          >
-            <option value="">Select user...</option>
-            {users.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.profile?.displayName || u.email}
-              </option>
             ))}
-          </select>
-
-          <select
-            style={{ ...selectStyle, minWidth: 160 }}
-            value={newMod.roomId}
-            onChange={(e) => setNewMod({ ...newMod, roomId: e.target.value })}
-          >
-            <option value="">Select room...</option>
-            {rooms.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.name}
-              </option>
-            ))}
-          </select>
-
-          <select
-            style={selectStyle}
-            value={newMod.role}
-            onChange={(e) => setNewMod({ ...newMod, role: e.target.value })}
-          >
-            <option value="MODERATOR">MODERATOR</option>
-            <option value="OWNER">OWNER</option>
-          </select>
-
-          <button style={btnStyle} onClick={addModerator}>
-            Add
-          </button>
-        </div>
+            {filteredSignups.length === 0 && <tr><Td i={0} style={{ color: C.text3 }}>No signups found.</Td></tr>}
+          </tbody>
+        </TableWrap>
       </>
     );
   }
+
+  // -----------------------------------------------------------------------
+  // Applications
+  // -----------------------------------------------------------------------
+
+  function renderApplications() {
+    const counts = {
+      ALL: applications.length,
+      PENDING: applications.filter(a => a.status === "PENDING").length,
+      REVIEWING: applications.filter(a => a.status === "REVIEWING").length,
+      APPROVED: applications.filter(a => a.status === "APPROVED").length,
+      DECLINED: applications.filter(a => a.status === "DECLINED").length,
+    };
+
+    return (
+      <>
+        <SectionHead title={`Founding Member Applications (${applications.length})`} />
+        <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
+          {(["ALL", "PENDING", "REVIEWING", "APPROVED", "DECLINED"] as const).map(f => (
+            <button key={f} onClick={() => setAppFilter(f)} style={{
+              padding: "5px 14px", borderRadius: 999, border: "none", cursor: "pointer",
+              fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", fontWeight: 500,
+              background: appFilter === f ? C.plum : "transparent",
+              color: appFilter === f ? "#fff" : C.text2,
+            }}>
+              {f} {counts[f] > 0 ? `(${counts[f]})` : ""}
+            </button>
+          ))}
+        </div>
+        <TableWrap>
+          <thead><tr><Th>Name</Th><Th>Email</Th><Th>Role</Th><Th>Status</Th><Th>Date</Th><Th>{" "}</Th></tr></thead>
+          <tbody>
+            {filteredApps.map((a, i) => (
+              <>
+                <tr key={a.id} style={{ cursor: "pointer" }} onClick={() => setExpandedApp(expandedApp === a.id ? null : a.id)}>
+                  <Td i={i}><span style={{ fontWeight: 500 }}>{a.name}</span></Td>
+                  <Td i={i}><a href={`mailto:${a.email}`} style={{ color: C.plum }}>{a.email}</a></Td>
+                  <Td i={i}>{a.roleType.replace(/_/g, " ")}</Td>
+                  <Td i={i}><StatusBadge status={a.status} /></Td>
+                  <Td i={i}>{fmtDateShort(a.createdAt)}</Td>
+                  <Td i={i}>
+                    <select
+                      value={a.status}
+                      onClick={e => e.stopPropagation()}
+                      onChange={e => updateApplicationStatus(a.id, e.target.value)}
+                      style={{
+                        padding: "4px 8px", borderRadius: 6, border: `1px solid ${C.border}`,
+                        fontSize: "0.78rem", fontFamily: "'DM Sans', sans-serif", cursor: "pointer",
+                        background: "#fff", color: C.ink,
+                      }}
+                    >
+                      <option value="PENDING">Pending</option>
+                      <option value="REVIEWING">Reviewing</option>
+                      <option value="APPROVED">Approved</option>
+                      <option value="DECLINED">Declined</option>
+                    </select>
+                  </Td>
+                </tr>
+                {expandedApp === a.id && (
+                  <tr key={a.id + "-detail"}>
+                    <td colSpan={6} style={{ padding: "16px 24px", background: "rgba(183,168,201,0.06)", borderBottom: `1px solid ${C.borderLight}`, fontSize: "0.85rem", fontFamily: "'DM Sans', sans-serif" }}>
+                      {a.whatDrawsYou && <div style={{ marginBottom: 8 }}><strong style={{ color: C.text2 }}>What draws them:</strong> {a.whatDrawsYou}</div>}
+                      {a.whatYouOffer && <div style={{ marginBottom: 8 }}><strong style={{ color: C.text2 }}>What they offer:</strong> {a.whatYouOffer}</div>}
+                      {a.organization && <div style={{ marginBottom: 8 }}><strong style={{ color: C.text2 }}>Organization:</strong> {a.organization}</div>}
+                      {a.website && <div><strong style={{ color: C.text2 }}>Website:</strong> <a href={a.website} target="_blank" rel="noopener noreferrer" style={{ color: C.plum }}>{a.website}</a></div>}
+                      {!a.whatDrawsYou && !a.whatYouOffer && !a.organization && !a.website && <div style={{ color: C.text3 }}>No additional details provided.</div>}
+                    </td>
+                  </tr>
+                )}
+              </>
+            ))}
+            {filteredApps.length === 0 && <tr><Td i={0} style={{ color: C.text3 }}>No applications match this filter.</Td></tr>}
+          </tbody>
+        </TableWrap>
+      </>
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Users
+  // -----------------------------------------------------------------------
+
+  function renderUsers() {
+    return (
+      <>
+        <SectionHead title={`Users (${users.length})`} right={<SearchBar value={searchUsers} onChange={setSearchUsers} placeholder="Search email or display name..." />} />
+        <TableWrap>
+          <thead><tr><Th>Display Name</Th><Th>Email</Th><Th>Stage</Th><Th>Joined</Th></tr></thead>
+          <tbody>
+            {filteredUsers.map((u, i) => (
+              <tr key={u.id}>
+                <Td i={i}><span style={{ fontWeight: 500 }}>{u.profile?.displayName || "—"}</span></Td>
+                <Td i={i}><a href={`mailto:${u.email}`} style={{ color: C.plum }}>{u.email}</a></Td>
+                <Td i={i}>{u.profile?.menopauseStage ? <Badge text={u.profile.menopauseStage} color={C.plum} bg={C.borderLight} /> : "—"}</Td>
+                <Td i={i}>{fmtDate(u.createdAt)}</Td>
+              </tr>
+            ))}
+            {filteredUsers.length === 0 && <tr><Td i={0} style={{ color: C.text3 }}>No users found.</Td></tr>}
+          </tbody>
+        </TableWrap>
+      </>
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Posts
+  // -----------------------------------------------------------------------
+
+  function renderPosts() {
+    return (
+      <>
+        <SectionHead title={`Posts (${posts.length})`} right={<SearchBar value={searchPosts} onChange={setSearchPosts} placeholder="Search title, content, author, room..." />} />
+        <TableWrap>
+          <thead><tr><Th>Title</Th><Th>Author</Th><Th>Room</Th><Th>Comments</Th><Th>Reactions</Th><Th>Views</Th><Th>Status</Th><Th>Date</Th><Th>Actions</Th></tr></thead>
+          <tbody>
+            {filteredPosts.map((p, i) => (
+              <tr key={p.id}>
+                <Td i={i}><span style={{ fontWeight: 500, maxWidth: 220, display: "inline-block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.title}</span></Td>
+                <Td i={i}>{p.identity === "ANONYMOUS" ? <span style={{ color: C.text3, fontStyle: "italic" }}>Anonymous</span> : (p.author?.profile?.displayName || p.author?.email || "—")}</Td>
+                <Td i={i}>{p.room?.name}</Td>
+                <Td i={i}>{p._count.comments}</Td>
+                <Td i={i}>{p._count.reactions}</Td>
+                <Td i={i}>{p.viewCount}</Td>
+                <Td i={i}>
+                  <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                    {p.isPinned && <Badge text="Pinned" color={C.blue} bg={C.blueBg} />}
+                    {p.isLocked && <Badge text="Locked" color={C.amber} bg={C.amberBg} />}
+                    {p.isHidden && <Badge text="Hidden" color={C.red} bg={C.redBg} />}
+                    {!p.isPinned && !p.isLocked && !p.isHidden && <span style={{ color: C.text3 }}>—</span>}
+                  </div>
+                </Td>
+                <Td i={i}>{fmtDateShort(p.createdAt)}</Td>
+                <Td i={i}>
+                  <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                    <Btn small variant="ghost" onClick={() => togglePost(p.id, "isPinned", !p.isPinned)}>
+                      {p.isPinned ? "Unpin" : "Pin"}
+                    </Btn>
+                    <Btn small variant="ghost" onClick={() => togglePost(p.id, "isHidden", !p.isHidden)}>
+                      {p.isHidden ? "Show" : "Hide"}
+                    </Btn>
+                    <Btn small variant="ghost" onClick={() => togglePost(p.id, "isLocked", !p.isLocked)}>
+                      {p.isLocked ? "Unlock" : "Lock"}
+                    </Btn>
+                    <Btn small variant="danger" onClick={() => deletePost(p.id)}>Delete</Btn>
+                  </div>
+                </Td>
+              </tr>
+            ))}
+            {filteredPosts.length === 0 && <tr><Td i={0} style={{ color: C.text3 }}>No posts found.</Td></tr>}
+          </tbody>
+        </TableWrap>
+      </>
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Rooms
+  // -----------------------------------------------------------------------
 
   function renderRooms() {
     return (
       <>
-        <div style={tableWrapStyle}>
-          <table style={tableStyle}>
-            <thead>
-              <tr>
-                <th style={thStyle}>Name</th>
-                <th style={thStyle}>Slug</th>
-                <th style={thStyle}>Icon</th>
-                <th style={thStyle}>Posts</th>
-                <th style={thStyle}>Followers</th>
-                <th style={thStyle}>Default</th>
+        <SectionHead title={`Rooms (${rooms.length})`} />
+        <TableWrap>
+          <thead><tr><Th>Icon</Th><Th>Name</Th><Th>Slug</Th><Th>Posts</Th><Th>Followers</Th><Th>Default</Th><Th>Order</Th></tr></thead>
+          <tbody>
+            {rooms.map((r, i) => (
+              <tr key={r.id}>
+                <Td i={i} style={{ fontSize: "1.2rem" }}>{r.icon || "—"}</Td>
+                <Td i={i}><span style={{ fontWeight: 500 }}>{r.name}</span></Td>
+                <Td i={i} style={{ color: C.text2 }}>{r.slug}</Td>
+                <Td i={i}>{r._count.posts}</Td>
+                <Td i={i}>{r._count.followers}</Td>
+                <Td i={i}>{r.isDefault ? <Badge text="Default" color={C.green} bg={C.greenBg} /> : "—"}</Td>
+                <Td i={i}>{r.sortOrder}</Td>
               </tr>
-            </thead>
-            <tbody>
-              {rooms.map((r, i) => (
-                <tr key={r.id}>
-                  <td style={tdStyle(i)}>{r.name}</td>
-                  <td style={tdStyle(i)}>{r.slug}</td>
-                  <td style={tdStyle(i)}>{r.icon || "--"}</td>
-                  <td style={tdStyle(i)}>{r._count.posts}</td>
-                  <td style={tdStyle(i)}>{r._count.followers}</td>
-                  <td style={tdStyle(i)}>{r.isDefault ? "Yes" : "No"}</td>
-                </tr>
-              ))}
-              {rooms.length === 0 && (
-                <tr>
-                  <td style={{ ...tdStyle(0), color: colors.text3 }} colSpan={6}>
-                    No rooms yet.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </TableWrap>
 
-        <h3 style={sectionHeadingStyle}>Create Room</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 500, marginTop: 8 }}>
-          <input
-            style={inputStyle}
-            placeholder="Room name"
-            value={newRoom.name}
-            onChange={(e) => setNewRoom({ ...newRoom, name: e.target.value })}
-          />
-          <input
-            style={inputStyle}
-            placeholder="slug (e.g. hot-flashes)"
-            value={newRoom.slug}
-            onChange={(e) => setNewRoom({ ...newRoom, slug: e.target.value })}
-          />
-          <input
-            style={inputStyle}
-            placeholder="Description"
-            value={newRoom.description}
-            onChange={(e) => setNewRoom({ ...newRoom, description: e.target.value })}
-          />
-          <input
-            style={inputStyle}
-            placeholder="Icon (emoji)"
-            value={newRoom.icon}
-            onChange={(e) => setNewRoom({ ...newRoom, icon: e.target.value })}
-          />
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <input
-              style={{ ...inputStyle, width: 80 }}
-              type="number"
-              placeholder="Sort"
-              value={newRoom.sortOrder}
-              onChange={(e) =>
-                setNewRoom({ ...newRoom, sortOrder: parseInt(e.target.value) || 0 })
-              }
-            />
-            <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", color: colors.text2 }}>
-              <input
-                type="checkbox"
-                checked={newRoom.isDefault}
-                onChange={(e) => setNewRoom({ ...newRoom, isDefault: e.target.checked })}
-              />
+        <div style={{ marginTop: 28, background: C.card, border: `1px solid ${C.borderLight}`, borderRadius: 12, padding: 24 }}>
+          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: C.ink, marginBottom: 16 }}>
+            Create Room
+          </h3>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, maxWidth: 500 }}>
+            <input style={inputS} placeholder="Room name" value={newRoom.name} onChange={e => setNewRoom({ ...newRoom, name: e.target.value })} />
+            <input style={inputS} placeholder="slug (e.g. hot-flashes)" value={newRoom.slug} onChange={e => setNewRoom({ ...newRoom, slug: e.target.value })} />
+            <input style={{ ...inputS, gridColumn: "1 / -1" }} placeholder="Description" value={newRoom.description} onChange={e => setNewRoom({ ...newRoom, description: e.target.value })} />
+            <input style={inputS} placeholder="Icon (emoji)" value={newRoom.icon} onChange={e => setNewRoom({ ...newRoom, icon: e.target.value })} />
+            <input style={inputS} type="number" placeholder="Sort order" value={newRoom.sortOrder} onChange={e => setNewRoom({ ...newRoom, sortOrder: parseInt(e.target.value) || 0 })} />
+            <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.85rem", color: C.text2, fontFamily: "'DM Sans', sans-serif" }}>
+              <input type="checkbox" checked={newRoom.isDefault} onChange={e => setNewRoom({ ...newRoom, isDefault: e.target.checked })} />
               Default room
             </label>
-          </div>
-          <div>
-            <button style={btnStyle} onClick={createRoom}>
-              Create Room
-            </button>
+            <div><Btn onClick={createRoom}>Create Room</Btn></div>
           </div>
         </div>
       </>
@@ -678,55 +790,128 @@ export default function AdminPage() {
   }
 
   // -----------------------------------------------------------------------
+  // Moderators
+  // -----------------------------------------------------------------------
+
+  function renderModerators() {
+    return (
+      <>
+        <SectionHead title={`Moderators (${moderators.length})`} />
+        <TableWrap>
+          <thead><tr><Th>User</Th><Th>Room</Th><Th>Role</Th><Th>{" "}</Th></tr></thead>
+          <tbody>
+            {moderators.map((m, i) => (
+              <tr key={m.id}>
+                <Td i={i}><span style={{ fontWeight: 500 }}>{m.user.profile?.displayName || m.user.email}</span></Td>
+                <Td i={i}>{m.room.name}</Td>
+                <Td i={i}><Badge text={m.role} color={m.role === "OWNER" ? C.plum : C.blue} bg={m.role === "OWNER" ? C.borderLight : C.blueBg} /></Td>
+                <Td i={i}><Btn small variant="danger" onClick={() => removeModerator(m.id)}>Remove</Btn></Td>
+              </tr>
+            ))}
+            {moderators.length === 0 && <tr><Td i={0} style={{ color: C.text3 }}>No moderators assigned.</Td></tr>}
+          </tbody>
+        </TableWrap>
+
+        <div style={{ marginTop: 28, background: C.card, border: `1px solid ${C.borderLight}`, borderRadius: 12, padding: 24 }}>
+          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 400, color: C.ink, marginBottom: 16 }}>
+            Add Moderator
+          </h3>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <select style={inputS} value={newMod.userId} onChange={e => setNewMod({ ...newMod, userId: e.target.value })}>
+              <option value="">Select user...</option>
+              {users.map(u => <option key={u.id} value={u.id}>{u.profile?.displayName || u.email}</option>)}
+            </select>
+            <select style={inputS} value={newMod.roomId} onChange={e => setNewMod({ ...newMod, roomId: e.target.value })}>
+              <option value="">Select room...</option>
+              {rooms.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+            </select>
+            <select style={inputS} value={newMod.role} onChange={e => setNewMod({ ...newMod, role: e.target.value })}>
+              <option value="MODERATOR">Moderator</option>
+              <option value="OWNER">Owner</option>
+            </select>
+            <Btn onClick={addModerator}>Add</Btn>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Shared input style
+  const inputS: React.CSSProperties = {
+    padding: "8px 12px",
+    borderRadius: 8,
+    border: `1px solid ${C.border}`,
+    fontFamily: "'DM Sans', sans-serif",
+    fontSize: "0.85rem",
+    color: C.ink,
+    background: "#fff",
+    outline: "none",
+    minWidth: 160,
+  };
+
+  // -----------------------------------------------------------------------
   // Main render
   // -----------------------------------------------------------------------
+
   return (
     <div>
       {error && (
-        <div
-          style={{
-            background: "#FEE",
-            border: "1px solid #ECC",
-            borderRadius: 8,
-            padding: "10px 16px",
-            marginBottom: 16,
-            color: "#922",
-            fontSize: "0.85rem",
-            fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <div style={{
+          background: C.redBg, border: `1px solid #F5D0D0`, borderRadius: 8, padding: "10px 16px",
+          marginBottom: 16, color: C.red, fontSize: "0.85rem", fontFamily: "'DM Sans', sans-serif",
+          display: "flex", justifyContent: "space-between", alignItems: "center",
+        }}>
           <span>{error}</span>
-          <button
-            onClick={() => setError("")}
-            style={{ background: "none", border: "none", cursor: "pointer", color: "#922", fontSize: "1rem" }}
-          >
-            x
-          </button>
+          <button onClick={() => setError("")} style={{ background: "none", border: "none", cursor: "pointer", color: C.red, fontSize: "1rem" }}>x</button>
         </div>
       )}
 
       {loading && (
-        <div style={{ color: colors.text3, fontSize: "0.85rem", marginBottom: 16, fontFamily: "var(--font-body, 'DM Sans', sans-serif)" }}>
+        <div style={{ color: C.text3, fontSize: "0.85rem", marginBottom: 16, fontFamily: "'DM Sans', sans-serif" }}>
           Loading...
         </div>
       )}
 
-      <div style={tabBarStyle}>
-        {tabs.map((t) => (
-          <button key={t.key} style={tabStyle(tab === t.key)} onClick={() => setTab(t.key)}>
+      {/* Tab bar */}
+      <div style={{ display: "flex", gap: 4, marginBottom: 24, flexWrap: "wrap", borderBottom: `1px solid ${C.borderLight}`, paddingBottom: 12 }}>
+        {tabs.map(t => (
+          <button key={t.key} onClick={() => setTab(t.key)} style={{
+            padding: "8px 18px", borderRadius: 8, border: "none", cursor: "pointer",
+            fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", fontWeight: 500,
+            background: tab === t.key ? C.plum : "transparent",
+            color: tab === t.key ? "#fff" : C.text2,
+            transition: "all 0.15s ease",
+          }}>
             {t.label}
+            {t.count !== undefined && (
+              <span style={{
+                marginLeft: 6, fontSize: "0.75rem", opacity: 0.8,
+                background: tab === t.key ? "rgba(255,255,255,0.2)" : C.borderLight,
+                color: tab === t.key ? "#fff" : C.text3,
+                padding: "1px 7px", borderRadius: 999,
+              }}>
+                {t.count}
+              </span>
+            )}
           </button>
         ))}
+
+        <button onClick={fetchData} style={{
+          marginLeft: "auto", padding: "8px 14px", borderRadius: 8, border: `1px solid ${C.border}`,
+          cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", fontWeight: 500,
+          background: "transparent", color: C.text2,
+        }}>
+          Refresh
+        </button>
       </div>
 
+      {tab === "dashboard" && renderDashboard()}
       {tab === "signups" && renderSignups()}
       {tab === "applications" && renderApplications()}
       {tab === "users" && renderUsers()}
-      {tab === "moderators" && renderModerators()}
+      {tab === "posts" && renderPosts()}
       {tab === "rooms" && renderRooms()}
+      {tab === "moderators" && renderModerators()}
     </div>
   );
 }

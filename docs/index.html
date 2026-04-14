@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Periwink — You're Not Alone in This</title>
 <meta name="description" content="A calm, intelligent community for women navigating perimenopause and menopause.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Periwink">
+<meta name="theme-color" content="#6E5A7E">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,10 +21,6 @@ body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#
 ::selection{background:rgba(215,204,255,.3)}
 .hd{font-family:'Cormorant Garamond',Georgia,serif}
 a{color:inherit}
-
-/* Butterfly loop — fixed ambient background behind everything */
-.butterfly-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-.butterfly-bg video{width:100%;height:100%;object-fit:cover;opacity:.06}
 
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:30;padding:16px 24px;transition:all .3s}
@@ -31,93 +33,86 @@ a{color:inherit}
 .nav-join:hover{background:#5a4869}
 .nav-found{background:none;color:#6E5A7E;border:1px solid #B7A8C9}
 .nav-found:hover{border-color:#6E5A7E}
+.nav-install{background:none;color:#6E5A7E;border:1px solid #B7A8C9;display:none}
+.nav-install:hover{border-color:#6E5A7E;background:rgba(110,90,126,.06)}
 
-/* HERO — video background, visible */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;background:#2B2433}
+/* HERO — butterfly video, light lavender palette */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative;overflow:hidden;background:#E8E0F0}
 .hero-video{position:absolute;inset:0;z-index:0}
-.hero-video video{width:100%;height:100%;object-fit:cover;opacity:.55}
-.hero-grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(110,90,126,.25) 0%,rgba(183,168,201,.2) 30%,rgba(43,36,51,.5) 70%,rgba(43,36,51,.75) 100%)}
+.hero-video video{width:100%;height:100%;object-fit:cover;opacity:.7}
+.hero-grad{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(215,204,255,.25) 0%,rgba(232,224,240,.15) 40%,rgba(183,168,201,.2) 70%,rgba(247,243,238,.6) 100%)}
 .hero-content{position:relative;z-index:2;max-width:620px}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,58px);font-weight:300;line-height:1.15;margin-bottom:20px;color:#fff}
-.hero h1 em{font-weight:400;color:#D7CCFF}
-.hero-sub{font-size:17px;color:rgba(255,255,255,.8);line-height:1.75;margin-bottom:12px}
-.hero-whisper{font-size:15px;color:#C99AA5;font-style:italic;margin-bottom:36px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,6vw,58px);font-weight:400;line-height:1.15;margin-bottom:20px;color:#fff;text-shadow:0 2px 20px rgba(43,36,51,.5),0 1px 4px rgba(43,36,51,.3)}
+.hero h1 em{font-weight:400;color:#D7CCFF;text-shadow:0 2px 20px rgba(43,36,51,.5)}
+.hero-sub{font-size:17px;color:#fff;line-height:1.75;margin-bottom:12px;font-weight:400;text-shadow:0 1px 12px rgba(43,36,51,.4),0 1px 3px rgba(43,36,51,.2)}
+.hero-whisper{font-size:15px;color:#E8D5E0;font-style:italic;margin-bottom:36px;font-weight:400;text-shadow:0 1px 8px rgba(43,36,51,.35)}
 
-/* Hero signup */
-.hero-signup{max-width:440px;margin:0 auto 20px;display:flex;gap:0;background:rgba(255,255,255,.12);border-radius:999px;padding:5px;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .25s}
-.hero-signup:focus-within{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.18)}
-.hero-signup input{flex:1;min-width:0;border:none;outline:none;padding:12px 18px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:300;background:transparent;color:#fff;border-radius:999px}
-.hero-signup input::placeholder{color:rgba(255,255,255,.5)}
-.hero-signup button{padding:12px 24px;border-radius:999px;border:none;background:#6E5A7E;color:#fff;font-size:14px;font-weight:400;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:background .2s}
-.hero-signup button:hover{background:#5a4869}
-.hero-signup button:disabled{opacity:.5}
-.hero-msg{font-size:13px;min-height:18px;text-align:center}
-.hero-msg.ok{color:#7CB07F}
-.hero-msg.err{color:#C99AA5}
-.hero-or{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:8px}
+/* Hero join — single button, no email */
+.hero-join-btn{padding:16px 48px;border-radius:999px;border:none;background:rgba(255,255,255,.25);color:#fff;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid rgba(255,255,255,.4);transition:all .25s;margin-bottom:20px;letter-spacing:.5px;text-shadow:0 1px 6px rgba(43,36,51,.3)}
+.hero-join-btn:hover{background:rgba(255,255,255,.4);border-color:rgba(255,255,255,.6);transform:translateY(-1px);box-shadow:0 4px 20px rgba(110,90,126,.25)}
+.hero-or{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:8px;text-shadow:0 1px 4px rgba(43,36,51,.2)}
 .hero-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .btn{padding:12px 28px;border-radius:999px;font-size:14px;font-weight:400;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;transition:all .2s;text-decoration:none;display:inline-block}
 .btn:hover{transform:translateY(-1px)}
 .btn-primary{background:#6E5A7E;color:#fff;box-shadow:0 4px 18px rgba(110,90,126,.25)}
 .btn-primary:hover{background:#5a4869}
-.btn-hero-outline{background:none;color:#fff;border:1.5px solid rgba(255,255,255,.3)}
-.btn-hero-outline:hover{border-color:rgba(255,255,255,.6)}
-.btn-hero-ghost{background:none;color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.15)}
-.btn-hero-ghost:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.btn-hero-outline{background:rgba(255,255,255,.18);color:#fff;border:1.5px solid rgba(255,255,255,.35);backdrop-filter:blur(4px);text-shadow:0 1px 4px rgba(43,36,51,.2)}
+.btn-hero-outline:hover{background:rgba(255,255,255,.3);color:#fff;border-color:rgba(255,255,255,.5)}
+.btn-hero-ghost{background:none;color:rgba(255,255,255,.85);border:1.5px solid rgba(255,255,255,.25);text-shadow:0 1px 4px rgba(43,36,51,.2)}
+.btn-hero-ghost:hover{color:#fff;border-color:rgba(255,255,255,.45)}
 .btn-outline{background:none;color:#6E5A7E;border:1.5px solid #B7A8C9}
 .btn-outline:hover{border-color:#6E5A7E}
 .btn-ghost{background:none;color:#6B6575;border:1.5px solid #DDD7CE}
 .btn-ghost:hover{color:#2B2433;border-color:#9B94A3}
 
-/* IMAGE SECTION — full-width with silhouette */
-.image-break{position:relative;height:50vh;min-height:300px;overflow:hidden}
-.image-break img{width:100%;height:100%;object-fit:cover}
-
-/* STORY — feather bg prominent */
-.story{padding:80px 24px;position:relative;overflow:hidden}
-.story-bg{position:absolute;inset:0;background:url('feather.png') center/cover no-repeat;opacity:.15;pointer-events:none}
-.story-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,238,.85),rgba(247,243,238,.9));pointer-events:none}
+/* STORY — feather image background, clearly visible */
+.story{padding:100px 24px;position:relative;overflow:hidden}
+.story-bg{position:absolute;inset:0;background:url('bg-feather.png') center/cover no-repeat;opacity:.6;pointer-events:none}
+.story-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,238,.9) 0%,rgba(247,243,238,.35) 15%,rgba(247,243,238,.25) 50%,rgba(247,243,238,.35) 85%,rgba(247,243,238,.9) 100%);pointer-events:none}
 .story-inner{max-width:640px;margin:0 auto;text-align:center;position:relative;z-index:1}
-.story h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:300;line-height:1.3;margin-bottom:24px}
+.story h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:400;line-height:1.3;margin-bottom:24px;color:#2B2433}
 .story h2 em{font-weight:400;color:#6E5A7E}
-.story p{font-size:16px;color:#2B2433;line-height:1.8;margin-bottom:16px}
+.story p{font-size:16px;color:#2B2433;line-height:1.8;margin-bottom:16px;font-weight:400}
 .story-phrase{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:#6E5A7E;margin:32px 0 0;line-height:1.5}
 
-/* VOICES — floral bg */
-.voices{padding:80px 24px;position:relative;overflow:hidden;background:#F2EDE6}
-.voices-bg{position:absolute;inset:0;background:url('floral.png') center/cover no-repeat;opacity:.1;pointer-events:none}
-.voices-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(242,237,230,.8),rgba(242,237,230,.85));pointer-events:none}
+/* VOICES — floral image background, clearly visible */
+.voices{padding:100px 24px;position:relative;overflow:hidden}
+.voices-bg{position:absolute;inset:0;background:url('bg-floral.png') center/cover no-repeat;opacity:.55;pointer-events:none}
+.voices-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,238,.9) 0%,rgba(242,237,230,.3) 15%,rgba(242,237,230,.2) 50%,rgba(242,237,230,.3) 85%,rgba(247,243,238,.9) 100%);pointer-events:none}
 .voices-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
-.voices h2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,30px);font-weight:300;margin-bottom:8px;text-align:center}
-.voices-sub{font-size:15px;color:#6B6575;text-align:center;margin-bottom:32px}
+.voices h2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,30px);font-weight:400;margin-bottom:8px;text-align:center;color:#2B2433}
+.voices-sub{font-size:15px;color:#3d3548;text-align:center;margin-bottom:32px;font-weight:400}
 .voices-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.voice-card{padding:24px;border-radius:16px;background:rgba(253,251,248,.9);border:1px solid #DDD7CE;backdrop-filter:blur(4px)}
-.voice-card p{font-size:14px;line-height:1.7;color:#2B2433;font-style:italic;margin-bottom:12px}
-.voice-name{font-size:13px;font-weight:400;color:#2B2433}
-.voice-room{font-size:12px;color:#9B94A3}
+.voice-card{padding:24px;border-radius:16px;background:rgba(253,251,248,.85);border:1px solid rgba(221,215,206,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.voice-card p{font-size:14px;line-height:1.7;color:#2B2433;font-style:italic;margin-bottom:12px;font-weight:400}
+.voice-name{font-size:13px;font-weight:500;color:#2B2433}
+.voice-room{font-size:12px;color:#6B6575}
 
-/* FOUNDER */
-.founder{padding:80px 24px;background:#F7F3EE}
-.founder-inner{max-width:700px;margin:0 auto;text-align:center}
-.founder h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:300;margin-bottom:24px}
-.founder-card{display:flex;gap:24px;align-items:flex-start;text-align:left;padding:32px;border-radius:20px;background:#FDFBF8;border:1px solid #DDD7CE}
+/* FOUNDER — feather bg */
+.founder{padding:100px 24px;position:relative;overflow:hidden}
+.founder-bg{position:absolute;inset:0;background:url('bg-feather.png') center/cover no-repeat;opacity:.45;pointer-events:none}
+.founder-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,238,.9) 0%,rgba(247,243,238,.35) 15%,rgba(247,243,238,.3) 50%,rgba(247,243,238,.35) 85%,rgba(247,243,238,.9) 100%);pointer-events:none}
+.founder-inner{max-width:700px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.founder h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:400;margin-bottom:24px;color:#2B2433}
+.founder-card{display:flex;gap:24px;align-items:flex-start;text-align:left;padding:32px;border-radius:20px;background:rgba(253,251,248,.85);border:1px solid rgba(221,215,206,.6);backdrop-filter:blur(8px)}
 .founder-avatar{width:100px;height:100px;border-radius:50%;flex-shrink:0;object-fit:cover;border:3px solid #E8E3EA}
 .founder-info h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:4px}
 .founder-info .role{font-size:13px;color:#6E5A7E;margin-bottom:12px}
 .founder-info p{font-size:14px;color:#2B2433;line-height:1.75}
 
 /* SIGNUP SECTIONS */
-.signup-section{padding:80px 24px;position:relative;overflow:hidden}
-.signup-section.community{background:#F7F3EE}
-.signup-section.founding{background:#F2EDE6}
-.signup-waves{position:absolute;inset:0;background:url('waves.png') center/cover no-repeat;opacity:.1;pointer-events:none}
+.signup-section{padding:100px 24px;position:relative;overflow:hidden}
+.signup-section.community .signup-bg{position:absolute;inset:0;background:url('bg-floral.png') center/cover no-repeat;opacity:.5;pointer-events:none}
+.signup-section.community .signup-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,238,.9) 0%,rgba(242,237,230,.3) 15%,rgba(242,237,230,.25) 50%,rgba(242,237,230,.3) 85%,rgba(242,237,230,.9) 100%);pointer-events:none}
+.signup-section.founding .signup-bg{position:absolute;inset:0;background:url('bg-feather.png') center/cover no-repeat;opacity:.45;pointer-events:none}
+.signup-section.founding .signup-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(242,237,230,.9) 0%,rgba(247,243,238,.3) 15%,rgba(247,243,238,.25) 50%,rgba(247,243,238,.3) 85%,rgba(247,243,238,.9) 100%);pointer-events:none}
 .signup-inner{max-width:480px;margin:0 auto;position:relative;z-index:1}
-.signup-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:300;text-align:center;margin-bottom:8px}
-.signup-inner .sub{font-size:15px;color:#2B2433;text-align:center;margin-bottom:28px}
+.signup-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:400;text-align:center;margin-bottom:8px;color:#2B2433}
+.signup-inner .sub{font-size:15px;color:#2B2433;text-align:center;margin-bottom:28px;font-weight:400}
 .field{margin-bottom:16px}
 .field label{display:block;font-size:13px;font-weight:400;margin-bottom:4px}
 .field label .req{color:#C99AA5}
-.field input,.field textarea,.field select{width:100%;padding:12px 14px;border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:300;border:1px solid #DDD7CE;outline:none;transition:border-color .2s;color:#2B2433;background:#fff}
+.field input,.field textarea,.field select{width:100%;padding:12px 14px;border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;font-weight:300;border:1px solid #DDD7CE;outline:none;transition:border-color .2s;color:#2B2433;background:rgba(255,255,255,.85)}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:#B7A8C9;box-shadow:0 0 0 3px rgba(183,168,201,.12)}
 .field textarea{min-height:80px;resize:vertical}
 .field .hint{font-size:12px;color:#9B94A3;margin-top:3px}
@@ -131,10 +126,13 @@ a{color:inherit}
 .success-box p{font-size:15px;color:#2B2433;line-height:1.6}
 
 /* FINAL CTA */
-.final{padding:100px 24px;text-align:center;background:linear-gradient(180deg,#F7F3EE,#E8E3EA)}
-.final h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:300;margin-bottom:12px;line-height:1.25}
+.final{padding:100px 24px;text-align:center;position:relative;overflow:hidden}
+.final-bg{position:absolute;inset:0;background:url('bg-floral.png') center/cover no-repeat;opacity:.45;pointer-events:none}
+.final-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,243,238,.9) 0%,rgba(232,224,240,.3) 15%,rgba(232,224,240,.25) 50%,rgba(232,224,240,.35) 85%,rgba(232,224,240,.85) 100%);pointer-events:none}
+.final-inner{position:relative;z-index:1}
+.final h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:400;margin-bottom:12px;line-height:1.25;color:#2B2433}
 .final h2 em{font-weight:400;color:#6E5A7E}
-.final p{font-size:16px;color:#6B6575;max-width:460px;margin:0 auto 28px;line-height:1.7}
+.final p{font-size:16px;color:#3d3548;max-width:460px;margin:0 auto 28px;line-height:1.7;font-weight:400}
 .final-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
 .footer{padding:32px 24px;text-align:center;font-size:12px;color:#9B94A3}
@@ -153,94 +151,34 @@ a{color:inherit}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
-/* LINE DRAWING — flowing Picasso animation */
-.linedraw{position:relative;padding:60px 24px;background:#F7F3EE;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:400px}
-.linedraw svg{max-width:800px;width:100%;height:auto}
-.linedraw .line{
-  fill:none;stroke:#2B2433;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
-  opacity:0;
-}
-.linedraw .accent{
-  fill:none;stroke:#C99AA5;stroke-width:1.2;stroke-linecap:round;
-  opacity:0;
-}
-.linedraw .dot{fill:#C99AA5;opacity:0}
-
-/* Drawing animation — each path draws itself then fades */
-@keyframes drawLine{
-  0%{stroke-dashoffset:var(--len);opacity:0}
-  5%{opacity:.8}
-  40%{stroke-dashoffset:0;opacity:.8}
-  70%{stroke-dashoffset:0;opacity:.8}
-  95%{opacity:0}
-  100%{stroke-dashoffset:0;opacity:0}
-}
-@keyframes drawAccent{
-  0%{stroke-dashoffset:var(--len);opacity:0}
-  10%{opacity:.5}
-  50%{stroke-dashoffset:0;opacity:.5}
-  80%{opacity:.5}
-  95%{opacity:0}
-  100%{opacity:0}
-}
-@keyframes bloomDot{
-  0%{opacity:0;r:0}
-  20%{opacity:.4;r:var(--r)}
-  70%{opacity:.4;r:var(--r)}
-  100%{opacity:0;r:0}
-}
-
-.linedraw .line{
-  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
-  animation:drawLine var(--dur) ease-in-out var(--del) infinite;
-}
-.linedraw .accent{
-  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
-  animation:drawAccent var(--dur) ease-in-out var(--del) infinite;
-}
-.linedraw .dot{
-  animation:bloomDot var(--dur) ease-in-out var(--del) infinite;
-}
-
 @media(max-width:768px){
   .voices-grid{grid-template-columns:1fr}
   .founder-card{flex-direction:column;align-items:center;text-align:center}
-  .linedraw{min-height:280px}
 }
 @media(max-width:600px){
-  .hero-video video{opacity:.3}
-  .hero{background:#2B2433}
-  .hero-signup{flex-direction:column;border-radius:14px;padding:6px}
-  .hero-signup input{text-align:center}
-  .hero-signup button{width:100%;border-radius:10px}
+  .hero-video video{opacity:.5}
+  .hero-join-btn{padding:14px 40px;font-size:15px}
   .hero-links{flex-direction:column;align-items:center}
   .final-btns{flex-direction:column;align-items:center}
   .nav-found{display:none}
-  .image-break{height:35vh}
 }
 </style>
 </head>
 <body>
-
-<!-- BUTTERFLY LOOP — ambient background -->
-<div class="butterfly-bg">
-  <video autoplay muted loop playsinline>
-    <source src="butterfly-loop.mp4" type="video/mp4">
-  </video>
-</div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">periwink</a>
     <div class="nav-btns">
+      <button class="nav-btn nav-install" id="install-btn" onclick="installApp()">Add App</button>
       <button class="nav-btn nav-found" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Founding Member</button>
-      <button class="nav-btn nav-join" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Join</button>
+      <button class="nav-btn nav-join" onclick="showThankYou()">Join</button>
     </div>
   </div>
 </nav>
 
-<!-- HERO — video bg, dark, immersive -->
+<!-- HERO — botanical video, light & bright -->
 <section class="hero">
   <div class="hero-video">
     <video autoplay muted loop playsinline>
@@ -253,26 +191,17 @@ a{color:inherit}
     <p class="hero-sub">A calm, intelligent community for women navigating perimenopause and menopause. Where women find each other, share what they're noticing, and feel held.</p>
     <p class="hero-whisper">More truth. Deeper alignment. More you.</p>
 
-    <form class="hero-signup" id="hero-form" onsubmit="submitQuick(event)">
-      <input type="email" required placeholder="Your email — join early access" autocomplete="email">
-      <button type="submit">Join</button>
-    </form>
-    <p class="hero-msg" id="hero-msg"></p>
+    <button class="hero-join-btn" onclick="showThankYou()">Join Periwink</button>
 
-    <p class="hero-or">or</p>
+    <p class="hero-or">or learn more below</p>
     <div class="hero-links">
-      <button class="btn btn-hero-outline" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Full Community Signup</button>
+      <button class="btn btn-hero-outline" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Community Signup</button>
       <button class="btn btn-hero-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
     </div>
   </div>
 </section>
 
-<!-- SILHOUETTE IMAGE BREAK -->
-<div class="image-break">
-  <img src="silhouette.png" alt="Periwink — the second becoming" loading="lazy">
-</div>
-
-<!-- STORY -->
+<!-- STORY — feather image bg -->
 <section class="story reveal">
   <div class="story-bg"></div>
   <div class="story-grad"></div>
@@ -285,12 +214,7 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- WAVES IMAGE BREAK -->
-<div class="image-break">
-  <img src="waves.png" alt="Periwink — a wiser way forward" loading="lazy">
-</div>
-
-<!-- VOICES -->
+<!-- VOICES — floral image bg -->
 <section class="voices reveal">
   <div class="voices-bg"></div>
   <div class="voices-grad"></div>
@@ -322,8 +246,10 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- FOUNDER -->
+<!-- FOUNDER — feather bg flipped -->
 <section class="founder reveal">
+  <div class="founder-bg"></div>
+  <div class="founder-grad"></div>
   <div class="founder-inner">
     <h2 class="hd">About the Founder</h2>
     <div class="founder-card">
@@ -341,14 +267,10 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- FLORAL IMAGE BREAK -->
-<div class="image-break">
-  <img src="floral.png" alt="Periwink — held in change" loading="lazy">
-</div>
-
-<!-- COMMUNITY SIGNUP -->
+<!-- COMMUNITY SIGNUP — floral bg -->
 <section class="signup-section community" id="community-section">
-  <div class="signup-waves"></div>
+  <div class="signup-bg"></div>
+  <div class="signup-grad"></div>
   <div class="signup-inner reveal">
     <h2 class="hd">Join the Community</h2>
     <p class="sub">You're taking the first step. We're glad you're here.</p>
@@ -377,8 +299,10 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- FOUNDING MEMBER SIGNUP -->
+<!-- FOUNDING MEMBER SIGNUP — feather bg -->
 <section class="signup-section founding" id="founding-section">
+  <div class="signup-bg"></div>
+  <div class="signup-grad"></div>
   <div class="signup-inner reveal">
     <h2 class="hd">Become a Founding Member</h2>
     <p class="sub">Help shape what Periwink becomes.</p>
@@ -423,11 +347,15 @@ a{color:inherit}
 
 <!-- FINAL CTA -->
 <section class="final reveal">
-  <h2 class="hd">A wiser way forward — <em>together.</em></h2>
-  <p>You don't have to figure this out by yourself. There are women here who understand — because they're feeling it too.</p>
-  <div class="final-btns">
-    <button class="btn btn-primary" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Join the Community</button>
-    <button class="btn btn-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
+  <div class="final-bg"></div>
+  <div class="final-grad"></div>
+  <div class="final-inner">
+    <h2 class="hd">A wiser way forward — <em>together.</em></h2>
+    <p>You don't have to figure this out by yourself. There are women here who understand — because they're feeling it too.</p>
+    <div class="final-btns">
+      <button class="btn btn-primary" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Join the Community</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
+    </div>
   </div>
 </section>
 
@@ -447,6 +375,11 @@ a{color:inherit}
 
 <script>
 var API = 'https://periwink-production-a893.up.railway.app';
+
+// Register service worker for PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(function() {});
+}
 
 // Nav scroll
 window.addEventListener('scroll', function() {
@@ -469,14 +402,12 @@ function showThankYou() {
   document.body.style.overflow = 'hidden';
   video.currentTime = 0;
   video.play();
-  // Show text after 3 seconds or when video ends
   var textTimer = setTimeout(function() { overlay.classList.add('show-text'); }, 3000);
   video.addEventListener('ended', function onEnd() {
     clearTimeout(textTimer);
     overlay.classList.add('show-text');
     video.removeEventListener('ended', onEnd);
   });
-  // Dismiss on click
   overlay.onclick = function() {
     overlay.classList.remove('active', 'show-text');
     document.body.style.overflow = '';
@@ -485,27 +416,26 @@ function showThankYou() {
   };
 }
 
-// Quick email signup
-function submitQuick(e) {
+// PWA Install
+var deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
   e.preventDefault();
-  var form = document.getElementById('hero-form');
-  var msg = document.getElementById('hero-msg');
-  var input = form.querySelector('input');
-  var btn = form.querySelector('button');
-  msg.textContent = ''; msg.className = 'hero-msg';
-  btn.disabled = true; btn.textContent = 'Joining...';
-  fetch(API + '/api/signup', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: input.value.trim() }),
-  })
-  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
-  .then(function(res) {
-    if (res.ok) { input.value = ''; showThankYou(); }
-    else { msg.textContent = res.data.error || 'Something went wrong.'; msg.className = 'hero-msg err'; }
-  })
-  .catch(function() { msg.textContent = 'Network error. Please try again.'; msg.className = 'hero-msg err'; })
-  .finally(function() { btn.disabled = false; btn.textContent = 'Join'; });
+  deferredPrompt = e;
+  document.getElementById('install-btn').style.display = '';
+});
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function() { deferredPrompt = null; document.getElementById('install-btn').style.display = 'none'; });
+  } else {
+    // Fallback for iOS / browsers that don't support beforeinstallprompt
+    alert('To add Periwink to your home screen:\n\niPhone/iPad: Tap the Share button, then "Add to Home Screen"\n\nAndroid: Tap the menu (three dots), then "Add to Home Screen"');
+  }
 }
+window.addEventListener('appinstalled', function() {
+  document.getElementById('install-btn').style.display = 'none';
+  deferredPrompt = null;
+});
 
 function showErr(id, msg) { var el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; }
 function hideErr(id) { document.getElementById(id).style.display = 'none'; }
