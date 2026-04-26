@@ -65,11 +65,17 @@ The first time you run it, a browser window will open asking you to sign in to y
 Inside Claude Code, paste this entire block as your first message and press Enter:
 
 ```
-I'm Dr. Adrian Tubero, the founder of Periwink. The project was just transferred to me from David Z. I am NOT a developer — please explain what you're doing as you go, and never run a command that costs money or makes a permanent change without asking me first. I am working in a single Terminal window with you and I do not know how to open additional terminals, so please run all commands inside this Claude Code session.
+I'm Dr. Adrian Tubero, the founder of Periwink. The project was just transferred to me from David Z. I am NOT a developer — please explain what you're doing as you go, and never run a command that costs money or makes a permanent change without asking me first. I am working in a single Terminal window with you and I cannot open additional terminals, so please run all commands inside this Claude Code session.
+
+My starting state:
+- Claude Code is installed (you're running it now)
+- The repo is cloned and you're inside it
+- I have a Google Cloud account with billing enabled, ready to use
+- I do NOT yet have: a Resend account, the gcloud CLI, or Homebrew (probably)
 
 Please do this in order:
 1. Read HANDOFF.md and CLAUDE.md, then give me a plain-language summary of what Periwink is and where things stand.
-2. Walk me through Section 4 of HANDOFF.md — I need to provision MY OWN Google Cloud project so the app stops depending on David's infrastructure. Stop before any step that costs money and explain what's about to happen.
+2. Walk me through Section 4 of HANDOFF.md — provision MY OWN Google Cloud project. Install gcloud and any other missing tools as you go. Stop before any step that costs money or creates a permanent resource and explain what's about to happen.
 3. After my GCP is up and the app is deployed to my Cloud Run, help me update docs/index.html so the landing-page form posts to MY Cloud Run URL (not David's), then commit and push the change.
 4. After everything is verified working, give me a checklist of what to ask David to shut down on his side.
 ```
