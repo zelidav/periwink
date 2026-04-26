@@ -66,15 +66,24 @@ Schema changes (new database tables, new fields) are applied **automatically** w
 
 ---
 
-## Project 2 — Empowered Mind (`empowered-mind`)
+## Project 2 — Empowered Mind (`drtubero03/empowered-mind`)
 
-> ⚠️ **As of 2026-04-26, this repo is still owned by David** (`zelidav/empowered-mind`). Until David transfers it to your GitHub account (or adds you as a collaborator), you can edit the files locally but **cannot push** changes. Ask David to transfer it when you're ready to take over.
+To work on this one, open a fresh Terminal and clone it the same way you cloned Periwink:
+
+```
+cd ~/Documents
+git clone https://github.com/drtubero03/empowered-mind.git
+cd empowered-mind
+claude
+```
 
 ### What lives where
 
 | If you change… | Lives at… | Goes live in… |
 |---|---|---|
-| Any `.html`, `styles.css`, or `script.js` | https://zelidav.github.io/empowered-mind/ (or your custom domain once wired) | ~1 min (GitHub Pages) |
+| Any `.html`, `styles.css`, or `script.js` | https://drtubero03.github.io/empowered-mind/ (or your custom domain once wired) | ~1 min (GitHub Pages) |
+
+> **GitHub Pages note:** because the repo just transferred, the live URL changed from `zelidav.github.io/empowered-mind/` to `drtubero03.github.io/empowered-mind/`. GitHub usually redirects automatically, but if the live site is broken after the transfer, ask Claude to: "go into the repo's Settings → Pages on github.com and confirm Pages is enabled on the main branch." Claude can walk you through the click path.
 
 This site is **pure static HTML** — no database, no build step, no server. Every page is a single editable HTML file in the repo root. That's why deploys are fast and there's nothing to break.
 
@@ -114,7 +123,6 @@ The site uses a strict palette: **sand + turquoise** (warm, calm tones). Pinks, 
 **Ask David (or escalate):**
 - Anything billing-related on Google Cloud
 - Domain transfers, DNS changes at GoDaddy
-- The Empowered Mind repo transfer (until that's done)
 - If Cloud Run goes down and Claude can't bring it back
 - If you accidentally pushed something sensitive (passwords, keys) — David can scrub it
 
