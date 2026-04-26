@@ -177,18 +177,33 @@ export default function AdminPage() {
   const [error, setError] = useState("");
   const [expandedApp, setExpandedApp] = useState<string | null>(null);
 
+  // Admin token for API auth
+  const [adminToken, setAdminToken] = useState("");
+
   // Auth
   useEffect(() => {
-    const stored = sessionStorage.getItem("periwink-admin-auth");
-    if (stored === "true") { setAuthed(true); return; }
+    const stored = sessionStorage.getItem("periwink-admin-token");
+    if (stored) { setAdminToken(stored); setAuthed(true); return; }
     const pw = window.prompt("Enter admin password:");
-    if (pw === "PERIADMIN") {
-      sessionStorage.setItem("periwink-admin-auth", "true");
+    if (pw) {
+      sessionStorage.setItem("periwink-admin-token", pw);
+      setAdminToken(pw);
       setAuthed(true);
     } else {
       setDenied(true);
     }
   }, []);
+
+  // Authenticated fetch helper
+  const adminFetch = useCallback((url: string, options?: RequestInit) => {
+    return fetch(url, {
+      ...options,
+      headers: {
+        ...options?.headers,
+        "X-Admin-Token": adminToken,
+      },
+    });
+  }, [adminToken]);
 
   // Fetch
   const fetchData = useCallback(async () => {
@@ -196,14 +211,21 @@ export default function AdminPage() {
     setError("");
     try {
       const [stRes, sRes, aRes, uRes, mRes, rRes, pRes] = await Promise.all([
-        fetch("/api/admin/stats"),
-        fetch("/api/admin/signups"),
-        fetch("/api/admin/applications"),
-        fetch("/api/admin/users"),
-        fetch("/api/admin/moderators"),
-        fetch("/api/admin/rooms"),
-        fetch("/api/admin/posts"),
+        adminFetch("/api/admin/stats"),
+        adminFetch("/api/admin/signups"),
+        adminFetch("/api/admin/applications"),
+        adminFetch("/api/admin/users"),
+        adminFetch("/api/admin/moderators"),
+        adminFetch("/api/admin/rooms"),
+        adminFetch("/api/admin/posts"),
       ]);
+      // Check if any returned 401 (bad password)
+      if ([stRes, sRes, aRes, uRes, mRes, rRes, pRes].some(r => r.status === 401)) {
+        sessionStorage.removeItem("periwink-admin-token");
+        setAuthed(false);
+        setDenied(true);
+        return;
+      }
       setStats(await stRes.json());
       setSignups(await sRes.json());
       setApplications(await aRes.json());
@@ -216,14 +238,14 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [adminFetch]);
 
-  useEffect(() => { if (authed) fetchData(); }, [authed, fetchData]);
+  useEffect(() => { if (authed && adminToken) fetchData(); }, [authed, adminToken, fetchData]);
 
   // Mutations
   async function updateApplicationStatus(id: string, status: string) {
     try {
-      await fetch(`/api/admin/applications/${id}`, {
+      await adminFetch(`/api/admin/applications/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
@@ -235,7 +257,7 @@ export default function AdminPage() {
   async function addModerator() {
     if (!newMod.userId || !newMod.roomId) { setError("Select a user and room."); return; }
     try {
-      const res = await fetch("/api/admin/moderators", {
+      const res = await adminFetch("/api/admin/moderators", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newMod),
@@ -249,7 +271,7 @@ export default function AdminPage() {
   async function removeModerator(id: string) {
     if (!confirm("Remove this moderator?")) return;
     try {
-      await fetch("/api/admin/moderators", {
+      await adminFetch("/api/admin/moderators", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
@@ -263,7 +285,7 @@ export default function AdminPage() {
       setError("Name, slug, and description required."); return;
     }
     try {
-      const res = await fetch("/api/admin/rooms", {
+      const res = await adminFetch("/api/admin/rooms", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newRoom),
@@ -276,7 +298,7 @@ export default function AdminPage() {
 
   async function togglePost(id: string, field: "isHidden" | "isPinned" | "isLocked", value: boolean) {
     try {
-      await fetch("/api/admin/posts", {
+      await adminFetch("/api/admin/posts", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, [field]: value }),
@@ -288,7 +310,7 @@ export default function AdminPage() {
   async function deletePost(id: string) {
     if (!confirm("Soft-delete this post?")) return;
     try {
-      await fetch("/api/admin/posts", {
+      await adminFetch("/api/admin/posts", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
