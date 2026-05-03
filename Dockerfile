@@ -43,5 +43,5 @@ ENV PORT=8080
 ENV HOSTNAME="0.0.0.0"
 EXPOSE 8080
 
-# Run Prisma migrations then start server
-CMD ["sh", "-c", "node node_modules/prisma/build/index.js db push --skip-generate --accept-data-loss && node server.js"]
+# Push schema, seed demo data, then start server
+CMD ["sh", "-c", "node node_modules/prisma/build/index.js db push --skip-generate --accept-data-loss && node_modules/.bin/tsx prisma/seed.ts && node server.js"]

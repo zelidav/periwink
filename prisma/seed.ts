@@ -966,6 +966,95 @@ const SYMPTOM_LOGS: SeedSymptomLog[] = [
 ];
 
 // ============================================================================
+// CITIZEN SCIENCE CONSENT
+// ============================================================================
+
+const CITIZEN_SCIENCE_CONSENTS = [
+  // Full consent
+  { userPseudonym: "MoonlitSage", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  { userPseudonym: "NightOwl3am", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  { userPseudonym: "QuietStorm42", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  { userPseudonym: "WinterBloom", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  { userPseudonym: "CopperMoon", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  { userPseudonym: "TidalGrace", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  { userPseudonym: "SilverLining", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  { userPseudonym: "SteadyRain", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  { userPseudonym: "WildSage", shareSymptomData: true, shareTreatmentData: true, shareDemographicData: true },
+  // Symptom data only
+  { userPseudonym: "GoldenThread", shareSymptomData: true, shareTreatmentData: false, shareDemographicData: false },
+  { userPseudonym: "DesertRose", shareSymptomData: true, shareTreatmentData: false, shareDemographicData: true },
+  // VelvetDusk: no consent yet — just started, still figuring things out
+];
+
+// ============================================================================
+// TREATMENT LOGS
+// ============================================================================
+
+interface SeedTreatmentLog {
+  userPseudonym: string;
+  daysAgo: number;
+  treatmentType: "HRT" | "SUPPLEMENT" | "LIFESTYLE" | "MEDICATION" | "THERAPY" | "ALTERNATIVE" | "OTHER";
+  name: string;
+  dosage: string | null;
+  frequency: string | null;
+  effectiveness: number | null;
+  sideEffects: string | null;
+  notes: string | null;
+}
+
+const TREATMENT_LOGS: SeedTreatmentLog[] = [
+  // MoonlitSage — ER nurse, late perimenopause
+  { userPseudonym: "MoonlitSage", daysAgo: 60, treatmentType: "HRT", name: "Estradiol patch (0.1mg)", dosage: "0.1mg", frequency: "twice weekly", effectiveness: 4, sideEffects: null, notes: "Hot flashes reduced by about 60% since starting" },
+  { userPseudonym: "MoonlitSage", daysAgo: 30, treatmentType: "SUPPLEMENT", name: "Magnesium glycinate", dosage: "400mg", frequency: "every evening", effectiveness: 4, sideEffects: null, notes: "Sleep noticeably better on nights I don't forget" },
+  { userPseudonym: "MoonlitSage", daysAgo: 45, treatmentType: "SUPPLEMENT", name: "Vitamin D3", dosage: "5000 IU", frequency: "daily", effectiveness: 3, sideEffects: null, notes: "Energy slightly better, hard to isolate" },
+
+  // QuietStorm42 — menopause, software engineer
+  { userPseudonym: "QuietStorm42", daysAgo: 90, treatmentType: "HRT", name: "Estradiol patch (0.075mg)", dosage: "0.075mg", frequency: "twice weekly", effectiveness: 4, sideEffects: null, notes: "Brain fog is better. Memory still not what it was but manageable." },
+  { userPseudonym: "QuietStorm42", daysAgo: 90, treatmentType: "HRT", name: "Progesterone (micronized)", dosage: "200mg", frequency: "nightly", effectiveness: 3, sideEffects: "Groggy in the morning if I take it too late", notes: "Sleep deeper, some morning sluggishness" },
+  { userPseudonym: "QuietStorm42", daysAgo: 60, treatmentType: "SUPPLEMENT", name: "Omega-3 fish oil", dosage: "2g", frequency: "daily", effectiveness: 2, sideEffects: null, notes: "Hard to tell if this is doing anything" },
+
+  // NightOwl3am — late perimenopause
+  { userPseudonym: "NightOwl3am", daysAgo: 21, treatmentType: "SUPPLEMENT", name: "Magnesium glycinate", dosage: "300mg", frequency: "every evening", effectiveness: 5, sideEffects: null, notes: "The only thing that genuinely helps. Wake-ups pushed from 2am to 4:30am." },
+  { userPseudonym: "NightOwl3am", daysAgo: 14, treatmentType: "SUPPLEMENT", name: "L-theanine", dosage: "200mg", frequency: "at bedtime", effectiveness: 3, sideEffects: null, notes: "Calmer at night, not sure if sleep is actually longer" },
+  { userPseudonym: "NightOwl3am", daysAgo: 30, treatmentType: "LIFESTYLE", name: "Alcohol-free", dosage: null, frequency: "ongoing", effectiveness: 4, sideEffects: null, notes: "Stopped wine completely. Night sweats significantly reduced. Hardest and best thing I've done." },
+
+  // WildSage — unsure stage, naturopath-curious
+  { userPseudonym: "WildSage", daysAgo: 45, treatmentType: "SUPPLEMENT", name: "Ashwagandha", dosage: "600mg", frequency: "every evening", effectiveness: 3, sideEffects: null, notes: "Anxiety slightly better. Not dramatic but real." },
+  { userPseudonym: "WildSage", daysAgo: 60, treatmentType: "SUPPLEMENT", name: "Maca root", dosage: "1000mg", frequency: "daily in smoothie", effectiveness: 2, sideEffects: "Digestive upset first two weeks", notes: "Tried for 6 weeks. Energy maybe slightly better? Hard to tell." },
+  { userPseudonym: "WildSage", daysAgo: 30, treatmentType: "SUPPLEMENT", name: "Black cohosh", dosage: "20mg", frequency: "daily", effectiveness: 2, sideEffects: "Headaches first two weeks", notes: "Stopped after a month. Headaches not worth it." },
+
+  // WinterBloom — late perimenopause, gardener
+  { userPseudonym: "WinterBloom", daysAgo: 14, treatmentType: "SUPPLEMENT", name: "Magnesium glycinate", dosage: "400mg", frequency: "every evening", effectiveness: 4, sideEffects: null, notes: "Anxiety edges are softer. Not cured but manageable." },
+  { userPseudonym: "WinterBloom", daysAgo: 21, treatmentType: "LIFESTYLE", name: "Morning walk", dosage: null, frequency: "daily, 30 minutes", effectiveness: 5, sideEffects: null, notes: "The single most effective thing I've found. Anxiety down, mood up, night sweats slightly less. Non-negotiable now." },
+  { userPseudonym: "WinterBloom", daysAgo: 7, treatmentType: "SUPPLEMENT", name: "Vitamin B complex", dosage: "standard dose", frequency: "every morning", effectiveness: 3, sideEffects: null, notes: "Energy is better. Hard to tell if it's B or just the walking." },
+
+  // CopperMoon — early perimenopause, fitness instructor
+  { userPseudonym: "CopperMoon", daysAgo: 14, treatmentType: "HRT", name: "Testosterone cream (low dose)", dosage: "0.5%", frequency: "daily", effectiveness: 3, sideEffects: null, notes: "Too early to say. Started because energy and libido were gone. Hoping for change." },
+  { userPseudonym: "CopperMoon", daysAgo: 21, treatmentType: "SUPPLEMENT", name: "Creatine monohydrate", dosage: "5g", frequency: "daily", effectiveness: 4, sideEffects: null, notes: "Workout recovery noticeably better. Energy up. Wishing I started this earlier." },
+  { userPseudonym: "CopperMoon", daysAgo: 30, treatmentType: "SUPPLEMENT", name: "Collagen peptides", dosage: "10g", frequency: "daily in coffee", effectiveness: 3, sideEffects: null, notes: "Joint pain slightly better. Nails stronger. Probably worth continuing." },
+
+  // SteadyRain — menopause, teacher
+  { userPseudonym: "SteadyRain", daysAgo: 120, treatmentType: "HRT", name: "Estradiol/progesterone combo patch", dosage: "0.05mg/0.14mg", frequency: "twice weekly", effectiveness: 4, sideEffects: null, notes: "Mood significantly more stable. Hot flashes almost gone. The transformation has been real." },
+  { userPseudonym: "SteadyRain", daysAgo: 90, treatmentType: "LIFESTYLE", name: "Mediterranean diet", dosage: null, frequency: "ongoing", effectiveness: 4, sideEffects: null, notes: "Inflammation down. Energy more consistent." },
+  { userPseudonym: "SteadyRain", daysAgo: 60, treatmentType: "THERAPY", name: "Individual therapy", dosage: null, frequency: "weekly", effectiveness: 5, sideEffects: null, notes: "Best investment I've made. Not just for menopause — for all of it." },
+
+  // DesertRose — early perimenopause, yoga teacher
+  { userPseudonym: "DesertRose", daysAgo: 180, treatmentType: "LIFESTYLE", name: "Yoga", dosage: null, frequency: "5 days/week", effectiveness: 5, sideEffects: null, notes: "Anxiety, hot flashes, mood — all better. Can't tree pose during a flash but otherwise transformative." },
+  { userPseudonym: "DesertRose", daysAgo: 30, treatmentType: "SUPPLEMENT", name: "Evening primrose oil", dosage: "1000mg", frequency: "daily", effectiveness: 2, sideEffects: null, notes: "Two months in. Minimal impact. Stopping soon." },
+  { userPseudonym: "DesertRose", daysAgo: 45, treatmentType: "ALTERNATIVE", name: "Acupuncture", dosage: null, frequency: "bi-weekly", effectiveness: 3, sideEffects: null, notes: "Hot flashes slightly less frequent after sessions. Could be coincidence. Continuing for now." },
+
+  // TidalGrace — postmenopause
+  { userPseudonym: "TidalGrace", daysAgo: 365, treatmentType: "HRT", name: "Estradiol gel", dosage: "0.75mg", frequency: "daily", effectiveness: 5, sideEffects: null, notes: "Been on this 3 years. Sleep, mood, joints, skin — all transformed. Not going off it without a compelling reason." },
+  { userPseudonym: "TidalGrace", daysAgo: 180, treatmentType: "SUPPLEMENT", name: "Calcium + Vitamin D3", dosage: "1200mg / 2000 IU", frequency: "daily", effectiveness: 4, sideEffects: null, notes: "Bone density holding steady. Not exciting but important." },
+  { userPseudonym: "TidalGrace", daysAgo: 180, treatmentType: "LIFESTYLE", name: "Strength training", dosage: null, frequency: "3 days/week", effectiveness: 5, sideEffects: null, notes: "Bone density, muscle mass, metabolism, mood. The research for postmenopause women is overwhelming. Do not skip this." },
+
+  // SilverLining — postmenopause, 10 years
+  { userPseudonym: "SilverLining", daysAgo: 1825, treatmentType: "HRT", name: "Vaginal estrogen cream", dosage: "0.01%", frequency: "twice weekly", effectiveness: 4, sideEffects: null, notes: "Systemic symptoms long gone but this keeps vaginal health intact. Local estrogen is not systemic — more women should know this." },
+  { userPseudonym: "SilverLining", daysAgo: 365, treatmentType: "SUPPLEMENT", name: "CoQ10", dosage: "200mg", frequency: "daily", effectiveness: 3, sideEffects: null, notes: "Energy and heart health. Long game." },
+  { userPseudonym: "SilverLining", daysAgo: 365, treatmentType: "LIFESTYLE", name: "Daily walking (10,000 steps)", dosage: null, frequency: "daily", effectiveness: 5, sideEffects: null, notes: "Heart health, mood, sleep, weight maintenance. 10 years post and I feel better than at 50." },
+];
+
+// ============================================================================
 // MAIN SEED FUNCTION
 // ============================================================================
 
@@ -984,6 +1073,12 @@ async function main() {
     where: { author: { email: { endsWith: "@periwink-demo.com" } } },
   });
   await prisma.symptomLog.deleteMany({
+    where: { user: { email: { endsWith: "@periwink-demo.com" } } },
+  });
+  await prisma.treatmentLog.deleteMany({
+    where: { user: { email: { endsWith: "@periwink-demo.com" } } },
+  });
+  await prisma.citizenScienceConsent.deleteMany({
     where: { user: { email: { endsWith: "@periwink-demo.com" } } },
   });
   await prisma.roomFollow.deleteMany({
@@ -1202,7 +1297,62 @@ async function main() {
   }
   console.log(`Created ${SYMPTOM_LOGS.length} symptom logs.`);
 
-  // ── Step 10: Update denormalized counts on posts ─────────────────────
+  // ── Step 10: Create citizen science consents ────────────────────────
+  console.log("Creating citizen science consents...");
+  for (const consent of CITIZEN_SCIENCE_CONSENTS) {
+    await prisma.citizenScienceConsent.create({
+      data: {
+        userId: userMap[consent.userPseudonym],
+        shareSymptomData: consent.shareSymptomData,
+        shareTreatmentData: consent.shareTreatmentData,
+        shareDemographicData: consent.shareDemographicData,
+        consentedAt: new Date(Date.now() - 30 * 86400000),
+      },
+    });
+  }
+  console.log(`Created ${CITIZEN_SCIENCE_CONSENTS.length} citizen science consents.`);
+
+  // ── Step 11: Create treatment logs ──────────────────────────────────
+  console.log("Creating treatment logs...");
+  const consentedForTreatment = new Set(
+    CITIZEN_SCIENCE_CONSENTS
+      .filter((c) => c.shareTreatmentData)
+      .map((c) => c.userPseudonym)
+  );
+  for (const log of TREATMENT_LOGS) {
+    const logDate = new Date(Date.now() - log.daysAgo * 86400000);
+    await prisma.treatmentLog.create({
+      data: {
+        userId: userMap[log.userPseudonym],
+        logDate,
+        treatmentType: log.treatmentType as any,
+        name: log.name,
+        dosage: log.dosage,
+        frequency: log.frequency,
+        effectiveness: log.effectiveness,
+        sideEffects: log.sideEffects,
+        notes: log.notes,
+        contributedToInsights: consentedForTreatment.has(log.userPseudonym),
+      },
+    });
+  }
+  console.log(`Created ${TREATMENT_LOGS.length} treatment logs.`);
+
+  // ── Step 12: Update symptom logs — mark opted-in users' logs as contributed ──
+  console.log("Updating symptom log contributions...");
+  const consentedForSymptoms = new Set(
+    CITIZEN_SCIENCE_CONSENTS
+      .filter((c) => c.shareSymptomData)
+      .map((c) => c.userPseudonym)
+  );
+  for (const pseudonym of consentedForSymptoms) {
+    await prisma.symptomLog.updateMany({
+      where: { userId: userMap[pseudonym] },
+      data: { contributedToInsights: true },
+    });
+  }
+  console.log("Updated symptom log contributions.");
+
   console.log("Updating denormalized post counts...");
   for (let i = 0; i < postIds.length; i++) {
     const commentCount = await prisma.comment.count({
@@ -1229,6 +1379,8 @@ async function main() {
   console.log(`  ${COMMENTS.length} comments`);
   console.log(`  ${reactionCount} reactions`);
   console.log(`  ${SYMPTOM_LOGS.length} symptom logs`);
+  console.log(`  ${CITIZEN_SCIENCE_CONSENTS.length} citizen science consents`);
+  console.log(`  ${TREATMENT_LOGS.length} treatment logs`);
 }
 
 main()
