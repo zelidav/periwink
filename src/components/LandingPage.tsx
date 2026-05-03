@@ -265,6 +265,7 @@ export default function LandingPage() {
     open: boolean;
     title: string;
     message: string;
+    signupUrl?: string;
   }>({ open: false, title: "", message: "" });
   const [isScrolled, setIsScrolled] = useState(false);
   const [formError, setFormError] = useState("");
@@ -343,12 +344,14 @@ export default function LandingPage() {
       });
       const data = await res.json();
       if (res.ok) {
+        const savedEmail = communityForm.email;
         setCommunityModalOpen(false);
         setCommunityForm({ name: "", email: "", pseudonym: "" });
         setSuccessModal({
           open: true,
           title: "You're in.",
-          message: "Check your email — we'll be in touch soon. We're glad you're here.",
+          message: "Check your email for your welcome note. You can also set up your account right now to start exploring the community.",
+          signupUrl: `/auth/signup?email=${encodeURIComponent(savedEmail)}`,
         });
       } else {
         setFormError(data.error || "Something went wrong. Please try again.");
@@ -1211,11 +1214,20 @@ export default function LandingPage() {
             &#10003;
           </div>
           <h4 className="font-display text-2xl mb-3">{successModal.title}</h4>
-          <p className="mb-8" style={{ color: c.inkSoft }}>{successModal.message}</p>
+          <p className="mb-6" style={{ color: c.inkSoft }}>{successModal.message}</p>
+          {successModal.signupUrl && (
+            <a
+              href={successModal.signupUrl}
+              className="block px-8 py-3 rounded-full text-sm font-medium mb-3"
+              style={{ background: c.periwinkleDeep, color: "#fff", textDecoration: "none" }}
+            >
+              Set up your account →
+            </a>
+          )}
           <button
             onClick={() => setSuccessModal({ ...successModal, open: false })}
             className="px-8 py-3 rounded-full text-sm font-medium cursor-pointer"
-            style={{ background: c.periwinkleDeep, color: "#fff" }}
+            style={{ background: "transparent", color: c.inkSoft, border: `1px solid ${c.border}` }}
           >
             Close
           </button>

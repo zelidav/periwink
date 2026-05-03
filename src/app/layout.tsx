@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Periwink â Community for Perimenopause & Menopause",
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Providers>
         <div className="relative min-h-screen">
           {/* Ambient warm glows */}
           <div
@@ -48,6 +50,7 @@ export default function RootLayout({
           />
           {children}
         </div>
+        </Providers>
       </body>
     </html>
   );

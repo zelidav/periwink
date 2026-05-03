@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { LockedButton } from "@/components/GrowingMessage";
+import { useSession, signOut } from "next-auth/react";
 
 export default function AppHeader() {
+  const { data: session } = useSession();
+
   return (
     <header
       style={{
@@ -26,29 +28,59 @@ export default function AppHeader() {
       >
         periwink
       </Link>
-      <div style={{ display: "flex", gap: 8 }}>
-        <LockedButton
-          action="sign in"
-          style={{
-            background: "none", border: "1px solid var(--color-border-warm, #DDD7CE)",
-            borderRadius: 999, padding: "7px 18px", fontSize: 13,
-            color: "var(--color-text-2, #6B6575)", cursor: "pointer",
-            fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 400,
-          }}
-        >
-          Sign in
-        </LockedButton>
-        <LockedButton
-          action="join"
-          style={{
-            background: "var(--color-dusty-plum, #6E5A7E)", color: "#fff",
-            border: "none", borderRadius: 999, padding: "7px 18px",
-            fontSize: 13, cursor: "pointer",
-            fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 400,
-          }}
-        >
-          Join
-        </LockedButton>
+
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        {session ? (
+          <>
+            <span style={{
+              fontSize: 13, color: "var(--color-text-2, #6B6575)",
+              fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+              maxWidth: 120, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+            }}>
+              {session.user?.name || session.user?.email}
+            </span>
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              style={{
+                background: "none",
+                border: "1px solid var(--color-border-warm, #DDD7CE)",
+                borderRadius: 999, padding: "7px 18px", fontSize: 13,
+                color: "var(--color-text-2, #6B6575)", cursor: "pointer",
+                fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 400,
+              }}
+            >
+              Sign out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              href="/auth/signin"
+              style={{
+                background: "none",
+                border: "1px solid var(--color-border-warm, #DDD7CE)",
+                borderRadius: 999, padding: "7px 18px", fontSize: 13,
+                color: "var(--color-text-2, #6B6575)",
+                fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 400,
+                textDecoration: "none",
+              }}
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/auth/signup"
+              style={{
+                background: "var(--color-dusty-plum, #6E5A7E)", color: "#fff",
+                border: "none", borderRadius: 999, padding: "7px 18px",
+                fontSize: 13,
+                fontFamily: "var(--font-body, 'DM Sans', sans-serif)", fontWeight: 400,
+                textDecoration: "none",
+              }}
+            >
+              Join
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );
