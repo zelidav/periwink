@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/components/Providers";
+import InstallBanner from "@/components/InstallBanner";
 
 export const metadata: Metadata = {
   title: "Periwink â Community for Perimenopause & Menopause",
@@ -49,6 +50,7 @@ export default function RootLayout({
             }}
           />
           {children}
+          <InstallBanner />
         </div>
         </Providers>
       </body>
