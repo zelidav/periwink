@@ -21,6 +21,8 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   passwordHash  String?
+  isBot         Boolean   @default(false)
+  botRoomSlug   String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime? // soft delete

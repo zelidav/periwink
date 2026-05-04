@@ -21,7 +21,7 @@ interface PostCardProps {
     body: string;
     createdAt: Date;
     identity: string;
-    author: { profile: { displayName: string | null; avatarStyle?: string | null } | null };
+    author: { isBot?: boolean; profile: { displayName: string | null; avatarStyle?: string | null } | null };
   }>;
 }
 
@@ -102,12 +102,28 @@ export default function PostCard({ post, showRoom = false, expanded = false, com
               ? "Anonymous member"
               : c.author?.profile?.displayName || "Member";
             return (
-              <div key={c.id} style={{ display: "flex", gap: 10, marginBottom: 14 }}>
-                <Avatar name={c.identity === "ANONYMOUS" ? "anon" : cName} size={28} avatarStyle={c.identity === "ANONYMOUS" ? null : c.author?.profile?.avatarStyle} />
+              <div key={c.id} style={{
+                display: "flex", gap: 10, marginBottom: 14,
+                ...(c.author?.isBot ? {
+                  background: "linear-gradient(135deg, rgba(140,146,255,0.06), rgba(183,168,201,0.08))",
+                  border: "1px solid rgba(140,146,255,0.2)",
+                  borderRadius: 12, padding: "12px 14px", marginLeft: -4,
+                } : {}),
+              }}>
+                <Avatar name={c.author?.isBot ? "bot" : c.identity === "ANONYMOUS" ? "anon" : cName} size={28} avatarStyle={c.author?.isBot ? "bot" : c.identity === "ANONYMOUS" ? null : c.author?.profile?.avatarStyle} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 13, color: "var(--color-ink, #2B2433)", fontWeight: 400 }}>
+                  <div style={{ fontSize: 13, color: "var(--color-ink, #2B2433)", fontWeight: 400, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                     {cName}
-                    <span style={{ color: "var(--color-text-3, #9B94A3)", fontWeight: 300, marginLeft: 8 }}>
+                    {c.author?.isBot && (
+                      <span style={{
+                        fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
+                        textTransform: "uppercase", padding: "2px 7px", borderRadius: 999,
+                        background: "rgba(140,146,255,0.15)", color: "#6670cc",
+                      }}>
+                        AI Guide
+                      </span>
+                    )}
+                    <span style={{ color: "var(--color-text-3, #9B94A3)", fontWeight: 300 }}>
                       {timeAgo(new Date(c.createdAt))}
                     </span>
                   </div>

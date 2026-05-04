@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { postBotResponse } from "@/lib/bot";
 
 export async function GET(req: NextRequest) {
   try {
@@ -78,6 +79,12 @@ export async function POST(req: Request) {
         identity: identity === "ANONYMOUS" ? "ANONYMOUS" : "PSEUDONYM",
       },
     });
+
+    // Trigger bot response after reply is sent to user
+    const room = await prisma.room.findUnique({ where: { id: roomId }, select: { slug: true } });
+    if (room) {
+      after(() => postBotResponse(post.id, room.slug, `${title}\n\n${body}`));
+    }
 
     return NextResponse.json(post, { status: 201 });
   } catch (error) {

@@ -41,7 +41,7 @@ steps:
       - "--cpu"
       - "1"
       - "--set-secrets"
-      - "DATABASE_URL=periwink-database-url:latest,NEXTAUTH_SECRET=periwink-nextauth-secret:latest,RESEND_API_KEY=periwink-resend-api-key:latest,ADMIN_SECRET=periwink-admin-secret:latest"
+      - "DATABASE_URL=periwink-database-url:latest,NEXTAUTH_SECRET=periwink-nextauth-secret:latest,RESEND_API_KEY=periwink-resend-api-key:latest,ADMIN_SECRET=periwink-admin-secret:latest,ANTHROPIC_API_KEY=periwink-anthropic-key:latest"
       - "--add-cloudsql-instances"
       - "${PROJECT_ID}:${_REGION}:${_CLOUD_SQL_INSTANCE}"
       - "--vpc-connector"
