@@ -23,12 +23,15 @@ function SignInForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/app";
   const prefillEmail = searchParams.get("email") || "";
+  const justVerified = searchParams.get("verified") === "1";
+  const tokenError = searchParams.get("error");
 
   const [email, setEmail] = useState(prefillEmail);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
+  const [resendState, setResendState] = useState<"idle" | "sending" | "sent">("idle");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -43,12 +46,27 @@ function SignInForm() {
     });
 
     if (result?.error) {
-      setError("Incorrect email or password. Please try again.");
+      setError("sign_in_failed");
       setLoading(false);
     } else {
       router.push(callbackUrl);
     }
   }
+
+  async function handleResend() {
+    setResendState("sending");
+    await fetch("/api/auth/resend-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.toLowerCase().trim() }),
+    });
+    setResendState("sent");
+  }
+
+  const bannerStyle = {
+    borderRadius: 10, padding: "12px 16px",
+    fontSize: 14, marginBottom: 20,
+  };
 
   return (
     <div style={{
@@ -70,15 +88,75 @@ function SignInForm() {
         Sign in to your Periwink account
       </p>
 
-      {error && (
+      {justVerified && (
         <div style={{
+          ...bannerStyle,
+          background: "rgba(140,146,255,0.1)",
+          border: "1px solid var(--color-periwinkle, #8C92FF)",
+          color: "var(--color-text-2, #6B6575)",
+        }}>
+          Your email has been verified. You can now sign in.
+        </div>
+      )}
+
+      {tokenError === "token_expired" && (
+        <div style={{
+          ...bannerStyle,
           background: "rgba(201,154,165,0.12)",
           border: "1px solid var(--color-muted-rose, #C99AA5)",
-          borderRadius: 10, padding: "12px 16px",
-          fontSize: 14, color: "var(--color-text-2, #6B6575)",
-          marginBottom: 20,
+          color: "var(--color-text-2, #6B6575)",
         }}>
-          {error}
+          That verification link has expired.{" "}
+          {email ? (
+            <button
+              onClick={handleResend}
+              disabled={resendState !== "idle"}
+              style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontSize: 14, color: "var(--color-dusty-plum, #6E5A7E)", textDecoration: "underline" }}
+            >
+              {resendState === "idle" ? "Send a new one" : resendState === "sending" ? "Sending…" : "Sent!"}
+            </button>
+          ) : "Enter your email below and request a new link."}
+        </div>
+      )}
+
+      {tokenError === "invalid_token" && (
+        <div style={{
+          ...bannerStyle,
+          background: "rgba(201,154,165,0.12)",
+          border: "1px solid var(--color-muted-rose, #C99AA5)",
+          color: "var(--color-text-2, #6B6575)",
+        }}>
+          That verification link isn't valid. It may have already been used.
+        </div>
+      )}
+
+      {error === "sign_in_failed" && (
+        <div style={{
+          ...bannerStyle,
+          background: "rgba(201,154,165,0.12)",
+          border: "1px solid var(--color-muted-rose, #C99AA5)",
+          color: "var(--color-text-2, #6B6575)",
+        }}>
+          <div>Incorrect email or password, or your email isn't verified yet.</div>
+          {resendState === "sent" ? (
+            <div style={{ marginTop: 8, fontSize: 13, color: "var(--color-text-3, #9B94A3)" }}>
+              A new verification link has been sent.
+            </div>
+          ) : (
+            <button
+              onClick={handleResend}
+              disabled={!email || resendState === "sending"}
+              style={{
+                marginTop: 8, background: "none", border: "none",
+                cursor: !email || resendState === "sending" ? "not-allowed" : "pointer",
+                padding: 0, fontSize: 13,
+                color: "var(--color-dusty-plum, #6E5A7E)",
+                textDecoration: "underline",
+              }}
+            >
+              {resendState === "sending" ? "Sending…" : "Resend verification email"}
+            </button>
+          )}
         </div>
       )}
 

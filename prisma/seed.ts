@@ -1114,6 +1114,7 @@ async function main() {
       data: {
         email,
         passwordHash,
+        emailVerified: new Date(),
         createdAt: new Date(Date.now() - 45 * 86400000 - Math.floor(Math.random() * 15) * 86400000),
       },
     });

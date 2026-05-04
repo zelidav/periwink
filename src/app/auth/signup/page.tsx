@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 function inputStyle(focused: boolean) {
   return {
@@ -19,7 +18,6 @@ function inputStyle(focused: boolean) {
 }
 
 function SignUpForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const [email, setEmail] = useState(searchParams.get("email") || "");
@@ -29,6 +27,7 @@ function SignUpForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const passwordMismatch = confirm.length > 0 && password !== confirm;
   const canSubmit = email && displayName && password.length >= 8 && password === confirm;
@@ -39,7 +38,6 @@ function SignUpForm() {
     setError("");
     setLoading(true);
 
-    // Step 1: Create the account
     const res = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -58,19 +56,46 @@ function SignUpForm() {
       return;
     }
 
-    // Step 2: Auto sign-in
-    const result = await signIn("credentials", {
-      email: email.toLowerCase().trim(),
-      password,
-      redirect: false,
-    });
+    setSubmitted(true);
+  }
 
-    if (result?.error) {
-      // Account was created — send them to sign in manually
-      router.push(`/auth/signin?email=${encodeURIComponent(email)}`);
-    } else {
-      router.push("/app/onboarding");
-    }
+  if (submitted) {
+    return (
+      <div style={{
+        background: "var(--color-card, #FDFBF8)",
+        border: "1px solid var(--color-border-warm, #DDD7CE)",
+        borderRadius: 20, padding: "36px 32px",
+        textAlign: "center",
+      }}>
+        <div style={{ fontSize: 36, marginBottom: 20 }}>📬</div>
+        <h1 style={{
+          fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
+          fontSize: 24, fontWeight: 300, color: "var(--color-ink, #2B2433)",
+          marginBottom: 12,
+        }}>
+          Check your email
+        </h1>
+        <p style={{
+          fontSize: 15, color: "var(--color-text-2, #6B6575)",
+          lineHeight: 1.7, marginBottom: 8,
+        }}>
+          We sent a verification link to
+        </p>
+        <p style={{
+          fontSize: 15, color: "var(--color-dusty-plum, #6E5A7E)",
+          fontWeight: 500, marginBottom: 24,
+        }}>
+          {email}
+        </p>
+        <p style={{
+          fontSize: 14, color: "var(--color-text-3, #9B94A3)",
+          lineHeight: 1.6, marginBottom: 24,
+        }}>
+          Click the link in the email to verify your account and sign in. The link expires in 24 hours.
+        </p>
+        <ResendButton email={email} />
+      </div>
+    );
   }
 
   return (
@@ -245,6 +270,42 @@ function SignUpForm() {
         </Link>
       </p>
     </div>
+  );
+}
+
+function ResendButton({ email }: { email: string }) {
+  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+
+  async function handleResend() {
+    setState("sending");
+    await fetch("/api/auth/resend-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    setState("sent");
+  }
+
+  if (state === "sent") {
+    return (
+      <p style={{ fontSize: 14, color: "var(--color-text-3, #9B94A3)" }}>
+        A new link has been sent.
+      </p>
+    );
+  }
+
+  return (
+    <button
+      onClick={handleResend}
+      disabled={state === "sending"}
+      style={{
+        background: "none", border: "none", cursor: "pointer",
+        fontSize: 13, color: "var(--color-dusty-plum, #6E5A7E)",
+        textDecoration: "underline", padding: 0,
+      }}
+    >
+      {state === "sending" ? "Sending…" : "Resend verification email"}
+    </button>
   );
 }
 
