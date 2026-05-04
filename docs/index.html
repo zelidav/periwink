@@ -189,6 +189,7 @@ a{color:inherit}
     <a href="#" class="nav-logo">periwink</a>
     <div class="nav-btns">
       <button class="nav-btn nav-install" id="install-btn" onclick="installApp()">Add App</button>
+      <a class="nav-btn nav-found" id="groups-link" href="#">Groups &amp; Retreats</a>
       <a class="nav-btn nav-join" id="join-link" href="#">Join the Community</a>
     </div>
   </div>
@@ -326,6 +327,7 @@ document.getElementById('rooms-link').href = API + '/app/rooms';
 document.getElementById('join-link').href = JOIN_URL;
 document.getElementById('hero-join-link').href = JOIN_URL;
 document.getElementById('final-join-link').href = JOIN_URL;
+document.getElementById('groups-link').href = API + '/app/groups';
 
 // Register service worker for PWA
 if ('serviceWorker' in navigator) {

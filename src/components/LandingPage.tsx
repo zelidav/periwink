@@ -473,8 +473,8 @@ export default function LandingPage() {
             <a href="#community" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: c.inkSoft, textDecoration: "none" }}>
               Community
             </a>
-            <a href="#builders" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: c.inkSoft, textDecoration: "none" }}>
-              Contribute
+            <a href="/app/groups" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: c.inkSoft, textDecoration: "none" }}>
+              Groups &amp; Retreats
             </a>
             <button
               onClick={openJoin}
@@ -802,6 +802,40 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Groups teaser */}
+      <Reveal>
+        <section className="py-20 px-6" style={{ background: c.warmWhite }}>
+          <div className="max-w-4xl mx-auto">
+            <div
+              className="rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-center"
+              style={{ background: `linear-gradient(135deg, ${c.periwinkleWhisper}, ${c.lavenderBlush})`, border: `1px solid ${c.periwinkleMist}` }}
+            >
+              <div className="flex-1">
+                <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: c.periwinkle }}>
+                  Optional · Led by Dr. Tubero
+                </p>
+                <h2 className="font-display text-2xl md:text-3xl mb-4" style={{ color: c.ink }}>
+                  Groups, retreats &amp; deeper support
+                </h2>
+                <p className="text-base mb-2" style={{ color: c.inkSoft, lineHeight: 1.75 }}>
+                  For women who want structured support alongside the community. Small virtual groups, in-person retreats, and one-on-one sessions — all facilitated by Dr. Tubero.
+                </p>
+                <p className="text-sm" style={{ color: c.inkMuted }}>
+                  The community is always free. Groups are an optional next step.
+                </p>
+              </div>
+              <a
+                href="/app/groups"
+                className="px-8 py-4 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 whitespace-nowrap"
+                style={{ background: c.periwinkleDeep, color: "#fff", textDecoration: "none", boxShadow: "0 6px 28px rgba(110, 90, 126, 0.3)" }}
+              >
+                Learn more &amp; apply →
+              </a>
+            </div>
+          </div>
+        </section>
+      </Reveal>
 
       {/* CTA Section */}
       <Reveal>
