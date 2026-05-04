@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 // — Design Tokens —
 const c = {
@@ -258,6 +258,7 @@ function FormTextarea({
 
 // — Main Landing Page —
 export default function LandingPage() {
+  const [joinChoiceOpen, setJoinChoiceOpen] = useState(false);
   const [communityModalOpen, setCommunityModalOpen] = useState(false);
   const [foundingModalOpen, setFoundingModalOpen] = useState(false);
   const [foundingStep, setFoundingStep] = useState(1);
@@ -270,15 +271,7 @@ export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [formError, setFormError] = useState("");
 
-  // Hero email signup
-  const [heroEmail, setHeroEmail] = useState("");
-  const [heroMsg, setHeroMsg] = useState<{ text: string; type: "success" | "error" } | null>(null);
-  const heroFormRef = useRef<HTMLFormElement>(null);
-
-  const scrollToSignup = useCallback(() => {
-    heroFormRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-    setTimeout(() => heroFormRef.current?.querySelector("input")?.focus(), 600);
-  }, []);
+  const openJoin = useCallback(() => setJoinChoiceOpen(true), []);
 
   // Community form
   const [communityForm, setCommunityForm] = useState({
@@ -308,29 +301,6 @@ export default function LandingPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleHeroSignup = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    setHeroMsg(null);
-    setIsSubmitting(true);
-    try {
-      const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: heroEmail }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setHeroEmail("");
-        setHeroMsg({ text: "You're in! We'll be in touch soon.", type: "success" });
-      } else {
-        setHeroMsg({ text: data.error || "Something went wrong.", type: "error" });
-      }
-    } catch {
-      setHeroMsg({ text: "Network error. Please try again.", type: "error" });
-    }
-    setIsSubmitting(false);
-  }, [heroEmail]);
 
   const handleCommunitySubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -507,7 +477,7 @@ export default function LandingPage() {
               Contribute
             </a>
             <button
-              onClick={scrollToSignup}
+              onClick={openJoin}
               className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
               style={{
                 background: c.periwinkleDeep,
@@ -515,7 +485,7 @@ export default function LandingPage() {
                 boxShadow: "0 4px 20px rgba(110, 90, 126, 0.3)",
               }}
             >
-              Join Early
+              Join the Community
             </button>
           </div>
         </div>
@@ -573,75 +543,26 @@ export default function LandingPage() {
             More truth. Deeper alignment. More you.
           </p>
 
-          {/* Email signup form */}
-          <div className="animate-fade-in-up delay-4">
-            <form
-              ref={heroFormRef}
-              onSubmit={handleHeroSignup}
-              className="flex gap-0 mx-auto max-w-[460px]"
+          {/* Primary CTA */}
+          <div className="animate-fade-in-up delay-4 flex flex-col items-center gap-4">
+            <button
+              onClick={openJoin}
+              className="px-10 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
               style={{
-                background: "#fff",
-                borderRadius: "999px",
-                padding: "6px",
-                border: `1px solid ${c.periwinkleLight}`,
-                boxShadow: "0 4px 24px rgba(110, 90, 126, 0.12)",
+                background: c.periwinkleDeep,
+                color: "#fff",
+                boxShadow: "0 6px 28px rgba(110, 90, 126, 0.35)",
               }}
             >
-              <input
-                type="email"
-                required
-                placeholder="Enter your email"
-                value={heroEmail}
-                onChange={(e) => setHeroEmail(e.target.value)}
-                className="flex-1 min-w-0"
-                style={{
-                  border: "none", outline: "none", padding: "14px 20px",
-                  fontSize: "16px", fontFamily: "inherit", background: "transparent",
-                  color: c.ink, borderRadius: "999px",
-                }}
-              />
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="cursor-pointer whitespace-nowrap"
-                style={{
-                  padding: "14px 28px", borderRadius: "999px", border: "none",
-                  background: c.periwinkleDeep, color: "#fff", fontSize: "15px",
-                  fontWeight: 500, fontFamily: "inherit",
-                }}
-              >
-                {isSubmitting ? "Joining..." : "Join Early"}
-              </button>
-            </form>
-            {heroMsg && (
-              <p className="text-sm text-center mt-2" style={{ color: heroMsg.type === "success" ? "#166534" : "#991B1B" }}>
-                {heroMsg.text}
-              </p>
-            )}
-          </div>
-
-          {/* Secondary CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-3 animate-fade-in-up delay-4">
+              Join the Community
+            </button>
             <a
               href="#community"
-              className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5"
-              style={{
-                background: "#fff", color: c.periwinkleDeep,
-                border: `2px solid ${c.periwinkleDeep}`, textDecoration: "none", textAlign: "center",
-              }}
+              className="text-sm transition-opacity hover:opacity-70"
+              style={{ color: c.inkMuted, textDecoration: "none" }}
             >
-              Explore Circles
+              Explore circles ↓
             </a>
-            <button
-              onClick={() => { setFormError(""); setFoundingStep(1); setFoundingModalOpen(true); }}
-              className="px-6 py-3 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
-              style={{
-                background: "transparent", color: c.ink,
-                border: `2px solid ${c.inkMuted}`,
-              }}
-            >
-              Become a Founding Member
-            </button>
           </div>
 
           {/* Social proof */}
@@ -771,7 +692,7 @@ export default function LandingPage() {
             {circles.map((circle, i) => (
               <Reveal key={i} delay={i * 0.06}>
                 <button
-                  onClick={scrollToSignup}
+                  onClick={openJoin}
                   className="text-left p-7 rounded-3xl transition-all hover:-translate-y-1 w-full cursor-pointer"
                   style={{
                     background: `linear-gradient(165deg, #fff 0%, ${c.lavenderBlush} 100%)`,
@@ -864,7 +785,7 @@ export default function LandingPage() {
                   boxShadow: "0 6px 28px rgba(110, 90, 126, 0.35)",
                 }}
               >
-                Apply as a Founding Member
+                Apply as a Founding Member →
               </button>
             </Reveal>
 
@@ -896,28 +817,17 @@ export default function LandingPage() {
             <p className="text-lg mb-10" style={{ color: c.inkSoft }}>
               Join thousands of women learning, growing, and navigating change together. Be part of building something meaningful.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <button
-                onClick={scrollToSignup}
-                className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
+                onClick={openJoin}
+                className="px-10 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
                 style={{
                   background: c.periwinkleDeep,
                   color: "#fff",
                   boxShadow: "0 6px 28px rgba(110, 90, 126, 0.35)",
                 }}
               >
-                Join Early Access
-              </button>
-              <button
-                onClick={() => { setFormError(""); setFoundingStep(1); setFoundingModalOpen(true); }}
-                className="px-8 py-4 rounded-full text-base font-medium transition-all hover:-translate-y-0.5 cursor-pointer"
-                style={{
-                  background: "transparent",
-                  color: c.ink,
-                  border: `2px solid ${c.inkMuted}`,
-                }}
-              >
-                Become a Founding Member
+                Join the Community
               </button>
             </div>
           </div>
@@ -949,6 +859,58 @@ export default function LandingPage() {
       {/* ============================================================ */}
       {/* MODALS                                                       */}
       {/* ============================================================ */}
+
+      {/* Join Choice Modal */}
+      <Modal isOpen={joinChoiceOpen} onClose={() => setJoinChoiceOpen(false)}>
+        <div className="p-10 pt-12 text-center border-b" style={{ borderColor: c.periwinkleMist }}>
+          <h3 className="font-display text-3xl mb-2">Join Periwink</h3>
+          <p style={{ color: c.inkMuted }}>How would you like to be part of our community?</p>
+        </div>
+        <div className="p-8 flex flex-col gap-4">
+          <button
+            onClick={() => {
+              setJoinChoiceOpen(false);
+              setFormError("");
+              setCommunityModalOpen(true);
+            }}
+            className="w-full text-left p-7 rounded-2xl transition-all hover:-translate-y-0.5 cursor-pointer"
+            style={{
+              background: c.lavenderBlush,
+              border: `2px solid ${c.periwinkleLight}`,
+            }}
+          >
+            <div className="text-2xl mb-3">💜</div>
+            <h4 className="font-display text-xl mb-1" style={{ color: c.periwinkleDeep }}>
+              Join as a Member
+            </h4>
+            <p className="text-sm" style={{ color: c.inkMuted }}>
+              Access circles, share experiences, and connect with women navigating the same journey.
+            </p>
+          </button>
+
+          <button
+            onClick={() => {
+              setJoinChoiceOpen(false);
+              setFormError("");
+              setFoundingStep(1);
+              setFoundingModalOpen(true);
+            }}
+            className="w-full text-left p-7 rounded-2xl transition-all hover:-translate-y-0.5 cursor-pointer"
+            style={{
+              background: "#fff",
+              border: `2px solid ${c.periwinkleMist}`,
+            }}
+          >
+            <div className="text-2xl mb-3">🌱</div>
+            <h4 className="font-display text-xl mb-1" style={{ color: c.ink }}>
+              Become a Founding Member
+            </h4>
+            <p className="text-sm" style={{ color: c.inkMuted }}>
+              For practitioners, researchers, creators, and builders who want to help shape what Periwink becomes.
+            </p>
+          </button>
+        </div>
+      </Modal>
 
       {/* Community Signup Modal */}
       <Modal isOpen={communityModalOpen} onClose={() => setCommunityModalOpen(false)}>
@@ -1227,7 +1189,7 @@ export default function LandingPage() {
           <button
             onClick={() => setSuccessModal({ ...successModal, open: false })}
             className="px-8 py-3 rounded-full text-sm font-medium cursor-pointer"
-            style={{ background: "transparent", color: c.inkSoft, border: `1px solid ${c.border}` }}
+            style={{ background: "transparent", color: c.inkSoft, border: `1px solid ${c.periwinkleMist}` }}
           >
             Close
           </button>
