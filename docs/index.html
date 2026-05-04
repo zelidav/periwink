@@ -189,8 +189,7 @@ a{color:inherit}
     <a href="#" class="nav-logo">periwink</a>
     <div class="nav-btns">
       <button class="nav-btn nav-install" id="install-btn" onclick="installApp()">Add App</button>
-      <button class="nav-btn nav-found" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Founding Member</button>
-      <button class="nav-btn nav-join" onclick="showThankYou()">Join</button>
+      <a class="nav-btn nav-join" id="join-link" href="#">Join the Community</a>
     </div>
   </div>
 </nav>
@@ -208,13 +207,9 @@ a{color:inherit}
     <p class="hero-sub">A calm, intelligent community for women navigating perimenopause and menopause. Where women find each other, share what they're noticing, and feel held.</p>
     <p class="hero-whisper">More truth. Deeper alignment. More you.</p>
 
-    <button class="hero-join-btn" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Join Periwink</button>
+    <a class="hero-join-btn" id="hero-join-link" href="#">Join the Community</a>
 
     <p class="hero-or">or learn more below</p>
-    <div class="hero-links">
-      <button class="btn btn-hero-outline" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Community Signup</button>
-      <button class="btn btn-hero-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
-    </div>
   </div>
 </section>
 
@@ -284,38 +279,6 @@ a{color:inherit}
   </div>
 </section>
 
-<!-- COMMUNITY SIGNUP — floral bg -->
-<section class="signup-section community" id="community-section">
-  <div class="signup-bg"></div>
-  <div class="signup-grad"></div>
-  <div class="signup-inner reveal">
-    <h2 class="hd">Join the Community</h2>
-    <p class="sub">You're taking the first step. We're glad you're here.</p>
-    <div id="community-error" class="error-msg"></div>
-    <form id="community-form" onsubmit="submitCommunity(event)">
-      <div class="field">
-        <label>Your name <span class="req">*</span></label>
-        <input name="name" required placeholder="How you'd like to be addressed">
-      </div>
-      <div class="field">
-        <label>Email <span class="req">*</span></label>
-        <input name="email" type="email" required placeholder="you@example.com">
-      </div>
-      <div class="field">
-        <label>Choose a pseudonym <span class="req">*</span></label>
-        <input name="pseudonym" required placeholder="Your identity in the community">
-        <p class="hint">This is how you'll appear to others. Stay as anonymous as you'd like.</p>
-      </div>
-      <button class="submit-btn" type="submit">Join Periwink</button>
-    </form>
-    <div id="community-success" class="success-box">
-      <div class="success-check">&#10003;</div>
-      <h4 class="hd">You're in.</h4>
-      <p>We'll be in touch soon. Thank you for being here.</p>
-    </div>
-  </div>
-</section>
-
 <!-- EMAIL CAPTURE -->
 <section class="email-capture reveal">
   <h3 class="hd">Not ready to join yet?</h3>
@@ -327,52 +290,6 @@ a{color:inherit}
   <p class="email-capture-success" id="capture-success">You're on the list. We'll be in touch.</p>
 </section>
 
-<!-- FOUNDING MEMBER SIGNUP — feather bg -->
-<section class="signup-section founding" id="founding-section">
-  <div class="signup-bg"></div>
-  <div class="signup-grad"></div>
-  <div class="signup-inner reveal">
-    <h2 class="hd">Become a Founding Member</h2>
-    <p class="sub">Help shape what Periwink becomes.</p>
-    <div id="founding-error" class="error-msg"></div>
-    <form id="founding-form" onsubmit="submitFounding(event)">
-      <div class="field">
-        <label>Your name <span class="req">*</span></label>
-        <input name="name" required placeholder="Full name">
-      </div>
-      <div class="field">
-        <label>Email <span class="req">*</span></label>
-        <input name="email" type="email" required placeholder="you@example.com">
-      </div>
-      <div class="field">
-        <label>What role interests you? <span class="req">*</span></label>
-        <select name="roleType" required>
-          <option value="">Select a role...</option>
-          <option value="PRACTITIONER">Healthcare Practitioner</option>
-          <option value="RESEARCHER">Researcher</option>
-          <option value="CONTENT_CREATOR">Content Creator</option>
-          <option value="COMMUNITY_BUILDER">Community Builder</option>
-          <option value="BRAND_PARTNER">Brand Partner</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Tell us about yourself</label>
-        <textarea name="bio" placeholder="What draws you to Periwink? What would you bring?"></textarea>
-      </div>
-      <div class="field">
-        <label>Website or LinkedIn</label>
-        <input name="website" type="url" placeholder="https://...">
-      </div>
-      <button class="submit-btn" type="submit">Submit Application</button>
-    </form>
-    <div id="founding-success" class="success-box">
-      <div class="success-check">&#10003;</div>
-      <h4 class="hd">Application received.</h4>
-      <p>We'll review and be in touch within a few days. Thank you for wanting to build with us.</p>
-    </div>
-  </div>
-</section>
-
 <!-- FINAL CTA -->
 <section class="final reveal">
   <div class="final-bg"></div>
@@ -381,8 +298,7 @@ a{color:inherit}
     <h2 class="hd">A wiser way forward — <em>together.</em></h2>
     <p>You don't have to figure this out by yourself. There are women here who understand — because they're feeling it too.</p>
     <div class="final-btns">
-      <button class="btn btn-primary" onclick="document.getElementById('community-section').scrollIntoView({behavior:'smooth'})">Join the Community</button>
-      <button class="btn btn-ghost" onclick="document.getElementById('founding-section').scrollIntoView({behavior:'smooth'})">Become a Founding Member</button>
+      <a class="btn btn-primary" id="final-join-link" href="#">Join the Community</a>
     </div>
   </div>
 </section>
@@ -404,8 +320,12 @@ a{color:inherit}
 </div>
 
 <script>
-var API = 'https://periwink-1034240207685.us-east1.run.app';
+var API = 'https://periwink-rjmcuborrq-ue.a.run.app';
+var JOIN_URL = API + '/auth/signup';
 document.getElementById('rooms-link').href = API + '/app/rooms';
+document.getElementById('join-link').href = JOIN_URL;
+document.getElementById('hero-join-link').href = JOIN_URL;
+document.getElementById('final-join-link').href = JOIN_URL;
 
 // Register service worker for PWA
 if ('serviceWorker' in navigator) {
@@ -468,9 +388,6 @@ window.addEventListener('appinstalled', function() {
   deferredPrompt = null;
 });
 
-function showErr(id, msg) { var el = document.getElementById(id); el.textContent = msg; el.style.display = 'block'; }
-function hideErr(id) { document.getElementById(id).style.display = 'none'; }
-
 // Quick email capture
 function submitEmailCapture() {
   var input = document.getElementById('capture-email');
@@ -485,54 +402,6 @@ function submitEmailCapture() {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: email }),
   }).catch(function() {});
-}
-
-// Community signup
-function submitCommunity(e) {
-  e.preventDefault(); hideErr('community-error');
-  var form = document.getElementById('community-form');
-  var btn = form.querySelector('.submit-btn');
-  btn.disabled = true; btn.textContent = 'Joining...';
-  fetch(API + '/api/signup/community', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: form.name.value.trim(),
-      email: form.email.value.trim(),
-      pseudonym: form.pseudonym.value.trim(),
-    }),
-  })
-  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
-  .then(function(res) {
-    if (res.ok) { form.style.display = 'none'; document.getElementById('community-success').style.display = 'block'; showThankYou(); }
-    else { showErr('community-error', res.data.error || 'Something went wrong.'); }
-  })
-  .catch(function() { showErr('community-error', 'Network error. Please try again.'); })
-  .finally(function() { btn.disabled = false; btn.textContent = 'Join Periwink'; });
-}
-
-// Founding signup
-function submitFounding(e) {
-  e.preventDefault(); hideErr('founding-error');
-  var form = document.getElementById('founding-form');
-  var btn = form.querySelector('.submit-btn');
-  btn.disabled = true; btn.textContent = 'Submitting...';
-  fetch(API + '/api/signup/founding', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: form.name.value.trim(),
-      email: form.email.value.trim(),
-      roleType: form.roleType.value,
-      bio: form.bio.value.trim(),
-      website: form.website.value.trim() || null,
-    }),
-  })
-  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
-  .then(function(res) {
-    if (res.ok) { form.style.display = 'none'; document.getElementById('founding-success').style.display = 'block'; showThankYou(); }
-    else { showErr('founding-error', res.data.error || 'Something went wrong.'); }
-  })
-  .catch(function() { showErr('founding-error', 'Network error. Please try again.'); })
-  .finally(function() { btn.disabled = false; btn.textContent = 'Submit Application'; });
 }
 </script>
 </body>
