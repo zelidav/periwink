@@ -1,5 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/prisma";
+import { sendModerationAlert } from "@/lib/email";
 
 const BOT_PERSONAS: Record<string, { name: string; expertise: string }> = {
   "hot-flashes": {
@@ -89,7 +90,74 @@ async function getOrCreateBotUser(roomSlug: string): Promise<string | null> {
   return bot.id;
 }
 
-export async function postBotResponse(postId: string, roomSlug: string, postContent: string): Promise<void> {
+async function checkModeration(
+  client: Anthropic,
+  postId: string,
+  postTitle: string,
+  postBody: string,
+  authorName: string,
+  roomName: string,
+): Promise<void> {
+  try {
+    const result = await client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 200,
+      system: `You are a content moderation assistant for Periwink, a private community for women navigating perimenopause. Your job is to identify posts that may need human review.
+
+Flag content that contains:
+- Direct personal attacks, bullying, or harassment of another member
+- Crisis signals (explicit self-harm intent, suicidal ideation — wellness venting is NOT this)
+- Obvious spam or commercial promotion
+- Sharing another person's private information
+
+Do NOT flag:
+- Emotional venting, frustration, grief, or anger (even strong)
+- Sharing personal struggles or dark moods
+- Medical questions or strong opinions about treatments
+- Confrontational writing style without targeting a specific person
+
+Respond ONLY with valid JSON in this exact format:
+{"flagged": false}
+or
+{"flagged": true, "severity": "LOW"|"MEDIUM"|"HIGH", "reason": "one sentence explanation"}`,
+      messages: [{ role: "user", content: `Post title: ${postTitle}\n\nPost body: ${postBody}` }],
+    });
+
+    const text = result.content.find((b) => b.type === "text")?.text || "";
+    const parsed = JSON.parse(text.trim());
+
+    if (!parsed.flagged) return;
+
+    await prisma.moderationFlag.create({
+      data: {
+        postId,
+        reason: parsed.reason || "Flagged by AI moderation",
+        severity: parsed.severity || "MEDIUM",
+        status: "PENDING",
+      },
+    });
+
+    await sendModerationAlert({
+      postId,
+      postTitle,
+      postBody,
+      authorName,
+      roomName,
+      reason: parsed.reason || "Flagged by AI moderation",
+      severity: parsed.severity || "MEDIUM",
+    });
+  } catch (err) {
+    console.error("Moderation check error:", err);
+  }
+}
+
+export async function postBotResponse(
+  postId: string,
+  roomSlug: string,
+  postContent: string,
+  postTitle: string,
+  authorName: string,
+): Promise<void> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return;
 
@@ -99,19 +167,18 @@ export async function postBotResponse(postId: string, roomSlug: string, postCont
   try {
     const client = new Anthropic({ apiKey });
 
-    const botUserId = await getOrCreateBotUser(roomSlug);
+    const [botUserId] = await Promise.all([
+      getOrCreateBotUser(roomSlug),
+      checkModeration(client, postId, postTitle, postContent, authorName, persona.name),
+    ]);
+
     if (!botUserId) return;
 
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 300,
       system: systemPrompt(roomSlug),
-      messages: [
-        {
-          role: "user",
-          content: postContent,
-        },
-      ],
+      messages: [{ role: "user", content: postContent }],
     });
 
     const responseText = message.content
@@ -130,7 +197,6 @@ export async function postBotResponse(postId: string, roomSlug: string, postCont
       },
     });
 
-    // Update post comment count
     await prisma.post.update({
       where: { id: postId },
       data: { commentCount: { increment: 1 } },

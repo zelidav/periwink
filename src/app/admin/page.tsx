@@ -91,6 +91,50 @@ interface PostRecord {
   _count: { comments: number; reactions: number };
 }
 
+interface ActivityItem {
+  type: "post" | "comment";
+  id: string;
+  createdAt: string;
+  identity: string;
+  isHidden: boolean;
+  room: { name: string; icon: string | null } | null;
+  author: { displayName: string | null; isBot: boolean };
+  title?: string;
+  body: string;
+  postId?: string;
+  postTitle?: string;
+  commentCount?: number;
+  reactionCount?: number;
+}
+
+interface FlagRecord {
+  id: string;
+  postId: string | null;
+  commentId: string | null;
+  reason: string;
+  severity: "LOW" | "MEDIUM" | "HIGH";
+  status: "PENDING" | "REVIEWED" | "DISMISSED";
+  createdAt: string;
+  reviewedAt: string | null;
+  post: {
+    id: string;
+    title: string;
+    body: string;
+    identity: string;
+    isHidden: boolean;
+    room: { name: string; icon: string | null } | null;
+    author: { email: string; profile: { displayName: string | null } | null };
+  } | null;
+  comment: {
+    id: string;
+    body: string;
+    identity: string;
+    isHidden: boolean;
+    post: { id: string; title: string; room: { name: string; icon: string | null } | null } | null;
+    author: { email: string; profile: { displayName: string | null } | null };
+  } | null;
+}
+
 // ---------------------------------------------------------------------------
 // Colors & Styles
 // ---------------------------------------------------------------------------
@@ -146,7 +190,7 @@ function timeAgo(iso: string) {
 // Component
 // ---------------------------------------------------------------------------
 
-type Tab = "dashboard" | "signups" | "applications" | "users" | "posts" | "rooms" | "moderators";
+type Tab = "dashboard" | "activity" | "flags" | "signups" | "applications" | "users" | "posts" | "rooms" | "moderators";
 
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -161,6 +205,9 @@ export default function AdminPage() {
   const [moderators, setModerators] = useState<ModeratorRecord[]>([]);
   const [rooms, setRooms] = useState<RoomRecord[]>([]);
   const [posts, setPosts] = useState<PostRecord[]>([]);
+  const [activity, setActivity] = useState<ActivityItem[]>([]);
+  const [flags, setFlags] = useState<FlagRecord[]>([]);
+  const [flagFilter, setFlagFilter] = useState<"ALL" | "PENDING" | "REVIEWED" | "DISMISSED">("PENDING");
 
   // Forms
   const [newMod, setNewMod] = useState({ userId: "", roomId: "", role: "MODERATOR" });
@@ -210,7 +257,7 @@ export default function AdminPage() {
     setLoading(true);
     setError("");
     try {
-      const [stRes, sRes, aRes, uRes, mRes, rRes, pRes] = await Promise.all([
+      const [stRes, sRes, aRes, uRes, mRes, rRes, pRes, actRes, flRes] = await Promise.all([
         adminFetch("/api/admin/stats"),
         adminFetch("/api/admin/signups"),
         adminFetch("/api/admin/applications"),
@@ -218,6 +265,8 @@ export default function AdminPage() {
         adminFetch("/api/admin/moderators"),
         adminFetch("/api/admin/rooms"),
         adminFetch("/api/admin/posts"),
+        adminFetch("/api/admin/activity"),
+        adminFetch("/api/admin/flags"),
       ]);
       // Check if any returned 401 (bad password)
       if ([stRes, sRes, aRes, uRes, mRes, rRes, pRes].some(r => r.status === 401)) {
@@ -233,6 +282,8 @@ export default function AdminPage() {
       setModerators(await mRes.json());
       setRooms(await rRes.json());
       setPosts(await pRes.json());
+      setActivity(await actRes.json());
+      setFlags(await flRes.json());
     } catch (e) {
       setError("Failed to load data. " + (e instanceof Error ? e.message : ""));
     } finally {
@@ -319,6 +370,17 @@ export default function AdminPage() {
     } catch { setError("Failed to delete post."); }
   }
 
+  async function resolveFlag(id: string, status: "REVIEWED" | "DISMISSED") {
+    try {
+      await adminFetch("/api/admin/flags", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+      setFlags(prev => prev.map(f => f.id === id ? { ...f, status, reviewedAt: new Date().toISOString() } : f));
+    } catch { setError("Failed to update flag."); }
+  }
+
   // Guards
   if (denied) return (
     <div style={{ textAlign: "center", marginTop: 80, fontFamily: "'DM Sans', sans-serif", color: C.text2 }}>
@@ -328,8 +390,11 @@ export default function AdminPage() {
   if (!authed) return null;
 
   // Tab config
-  const tabs: { key: Tab; label: string; count?: number }[] = [
+  const pendingFlags = flags.filter(f => f.status === "PENDING").length;
+  const tabs: { key: Tab; label: string; count?: number; alert?: boolean }[] = [
     { key: "dashboard", label: "Dashboard" },
+    { key: "activity", label: "Activity", count: activity.length || undefined },
+    { key: "flags", label: "Flags", count: pendingFlags || undefined, alert: pendingFlags > 0 },
     { key: "signups", label: "Signups", count: signups.length },
     { key: "applications", label: "Applications", count: applications.filter(a => a.status === "PENDING").length || undefined },
     { key: "users", label: "Users", count: users.length },
@@ -517,6 +582,7 @@ export default function AdminPage() {
           <StatCard label="Reactions" value={stats.totalReactions} color={C.plumLight} />
           <StatCard label="Rooms" value={stats.totalRooms} color={C.plumLight} />
           <StatCard label="Symptom Logs" value={stats.totalSymptomLogs} color={C.plumLight} />
+          <StatCard label="Flags Pending" value={pendingFlags} color={pendingFlags > 0 ? C.red : C.text3} bg={pendingFlags > 0 ? C.redBg : undefined} />
         </div>
 
         {/* Signup trend - simple bar chart */}
@@ -858,6 +924,187 @@ export default function AdminPage() {
     );
   }
 
+  // -----------------------------------------------------------------------
+  // Activity
+  // -----------------------------------------------------------------------
+
+  function renderActivity() {
+    if (activity.length === 0) {
+      return <div style={{ color: C.text3, fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem" }}>No community activity yet.</div>;
+    }
+    return (
+      <>
+        <SectionHead title={`Community Activity (${activity.length})`} />
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {activity.map((item) => (
+            <div key={`${item.type}-${item.id}`} style={{
+              background: item.author.isBot
+                ? "linear-gradient(135deg, rgba(140,146,255,0.06), rgba(183,168,201,0.08))"
+                : C.card,
+              border: `1px solid ${item.author.isBot ? "rgba(140,146,255,0.2)" : C.borderLight}`,
+              borderRadius: 12,
+              padding: "14px 18px",
+              opacity: item.isHidden ? 0.5 : 1,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
+                <span style={{
+                  fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em",
+                  padding: "2px 8px", borderRadius: 999,
+                  background: item.type === "post" ? C.borderLight : "rgba(183,168,201,0.3)",
+                  color: C.plum, fontFamily: "'DM Sans', sans-serif",
+                }}>
+                  {item.type === "post" ? "Post" : "Reply"}
+                </span>
+                {item.room && (
+                  <span style={{ fontSize: "0.8rem", color: C.text3, fontFamily: "'DM Sans', sans-serif" }}>
+                    {item.room.icon} {item.room.name}
+                  </span>
+                )}
+                <span style={{ fontSize: "0.8rem", color: C.text3, fontFamily: "'DM Sans', sans-serif", marginLeft: "auto" }}>
+                  {timeAgo(item.createdAt)}
+                </span>
+                {item.isHidden && <Badge text="Hidden" color={C.red} bg={C.redBg} />}
+              </div>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
+                <span style={{ fontSize: "0.83rem", fontWeight: 500, color: C.ink, fontFamily: "'DM Sans', sans-serif" }}>
+                  {item.author.displayName || "—"}
+                </span>
+                {item.author.isBot && (
+                  <span style={{ fontSize: "0.7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", padding: "1px 6px", borderRadius: 999, background: "rgba(140,146,255,0.15)", color: "#6670cc", fontFamily: "'DM Sans', sans-serif" }}>
+                    AI Guide
+                  </span>
+                )}
+                {item.type === "comment" && item.postTitle && (
+                  <span style={{ fontSize: "0.78rem", color: C.text3, fontFamily: "'DM Sans', sans-serif" }}>
+                    → {item.postTitle}
+                  </span>
+                )}
+              </div>
+              {item.title && (
+                <div style={{ fontSize: "0.9rem", fontWeight: 500, color: C.ink, marginBottom: 4, fontFamily: "'Cormorant Garamond', serif" }}>
+                  {item.title}
+                </div>
+              )}
+              <p style={{ fontSize: "0.83rem", color: C.text2, lineHeight: 1.55, margin: 0, fontFamily: "'DM Sans', sans-serif", whiteSpace: "pre-wrap" }}>
+                {item.body.length > 240 ? item.body.slice(0, 240) + "…" : item.body}
+              </p>
+              {item.type === "post" && (item.commentCount! > 0 || item.reactionCount! > 0) && (
+                <div style={{ marginTop: 8, fontSize: "0.75rem", color: C.text3, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: 12 }}>
+                  {item.commentCount! > 0 && <span>{item.commentCount} {item.commentCount === 1 ? "reply" : "replies"}</span>}
+                  {item.reactionCount! > 0 && <span>{item.reactionCount} reactions</span>}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Flags
+  // -----------------------------------------------------------------------
+
+  function renderFlags() {
+    const filteredFlags = flagFilter === "ALL" ? flags : flags.filter(f => f.status === flagFilter);
+    const counts = {
+      ALL: flags.length,
+      PENDING: flags.filter(f => f.status === "PENDING").length,
+      REVIEWED: flags.filter(f => f.status === "REVIEWED").length,
+      DISMISSED: flags.filter(f => f.status === "DISMISSED").length,
+    };
+
+    return (
+      <>
+        <SectionHead title={`AI Moderation Flags (${flags.length})`} />
+        <div style={{ display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }}>
+          {(["PENDING", "ALL", "REVIEWED", "DISMISSED"] as const).map(f => (
+            <button key={f} onClick={() => setFlagFilter(f)} style={{
+              padding: "5px 14px", borderRadius: 999, border: "none", cursor: "pointer",
+              fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", fontWeight: 500,
+              background: flagFilter === f ? (f === "PENDING" ? C.red : C.plum) : "transparent",
+              color: flagFilter === f ? "#fff" : (f === "PENDING" && counts.PENDING > 0 ? C.red : C.text2),
+            }}>
+              {f} {counts[f] > 0 ? `(${counts[f]})` : ""}
+            </button>
+          ))}
+        </div>
+
+        {filteredFlags.length === 0 ? (
+          <div style={{ color: C.text3, fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", padding: "32px 0" }}>
+            {flagFilter === "PENDING" ? "No pending flags — community is clean." : "None in this category."}
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {filteredFlags.map((flag) => {
+              const isPost = !!flag.post;
+              const content = isPost ? flag.post : flag.comment;
+              const authorName = content?.identity === "ANONYMOUS"
+                ? "Anonymous member"
+                : (content?.author?.profile?.displayName || content?.author?.email || "Unknown");
+              const roomName = isPost
+                ? `${flag.post?.room?.icon || ""} ${flag.post?.room?.name || ""}`.trim()
+                : `${flag.comment?.post?.room?.icon || ""} ${flag.comment?.post?.room?.name || ""}`.trim();
+              const contentTitle = isPost ? flag.post?.title : flag.comment?.post?.title;
+              const body = isPost ? flag.post?.body : flag.comment?.body;
+              const severityColor = flag.severity === "HIGH" ? C.red : flag.severity === "MEDIUM" ? C.amber : C.blue;
+              const severityBg = flag.severity === "HIGH" ? C.redBg : flag.severity === "MEDIUM" ? C.amberBg : C.blueBg;
+
+              return (
+                <div key={flag.id} style={{
+                  background: C.card,
+                  border: `1px solid ${flag.status === "PENDING" ? severityColor : C.borderLight}`,
+                  borderRadius: 14,
+                  padding: "18px 20px",
+                  opacity: flag.status !== "PENDING" ? 0.6 : 1,
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", padding: "3px 10px", borderRadius: 999, background: severityBg, color: severityColor, fontFamily: "'DM Sans', sans-serif" }}>
+                      {flag.severity}
+                    </span>
+                    <span style={{ fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: C.text3, fontFamily: "'DM Sans', sans-serif" }}>
+                      {isPost ? "Post" : "Comment"}
+                    </span>
+                    {roomName && <span style={{ fontSize: "0.8rem", color: C.text3, fontFamily: "'DM Sans', sans-serif" }}>{roomName}</span>}
+                    <span style={{ marginLeft: "auto", fontSize: "0.78rem", color: C.text3, fontFamily: "'DM Sans', sans-serif" }}>{timeAgo(flag.createdAt)}</span>
+                    {flag.status !== "PENDING" && <Badge text={flag.status} color={flag.status === "REVIEWED" ? C.green : C.text2} bg={flag.status === "REVIEWED" ? C.greenBg : C.borderLight} />}
+                  </div>
+
+                  <div style={{ marginBottom: 6 }}>
+                    <span style={{ fontSize: "0.83rem", fontWeight: 500, color: C.ink, fontFamily: "'DM Sans', sans-serif" }}>{authorName}</span>
+                    {contentTitle && !isPost && (
+                      <span style={{ fontSize: "0.78rem", color: C.text3, fontFamily: "'DM Sans', sans-serif", marginLeft: 8 }}>→ {contentTitle}</span>
+                    )}
+                  </div>
+
+                  {isPost && contentTitle && (
+                    <div style={{ fontSize: "0.95rem", fontFamily: "'Cormorant Garamond', serif", color: C.ink, fontWeight: 500, marginBottom: 6 }}>{contentTitle}</div>
+                  )}
+
+                  <p style={{ fontSize: "0.83rem", color: C.text2, lineHeight: 1.6, margin: "0 0 12px", fontFamily: "'DM Sans', sans-serif", whiteSpace: "pre-wrap" }}>
+                    {(body || "").length > 300 ? body!.slice(0, 300) + "…" : body}
+                  </p>
+
+                  <div style={{ background: "rgba(183,168,201,0.1)", borderLeft: `3px solid ${severityColor}`, padding: "8px 12px", borderRadius: "0 8px 8px 0", marginBottom: 14 }}>
+                    <span style={{ fontSize: "0.78rem", fontWeight: 600, color: C.text2, fontFamily: "'DM Sans', sans-serif" }}>AI note: </span>
+                    <span style={{ fontSize: "0.78rem", color: C.text2, fontFamily: "'DM Sans', sans-serif" }}>{flag.reason}</span>
+                  </div>
+
+                  {flag.status === "PENDING" && (
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <Btn small variant="ghost" onClick={() => resolveFlag(flag.id, "REVIEWED")}>Mark Reviewed</Btn>
+                      <Btn small variant="ghost" onClick={() => resolveFlag(flag.id, "DISMISSED")}>Dismiss</Btn>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </>
+    );
+  }
+
   // Shared input style
   const inputS: React.CSSProperties = {
     padding: "8px 12px",
@@ -900,16 +1147,16 @@ export default function AdminPage() {
           <button key={t.key} onClick={() => setTab(t.key)} style={{
             padding: "8px 18px", borderRadius: 8, border: "none", cursor: "pointer",
             fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", fontWeight: 500,
-            background: tab === t.key ? C.plum : "transparent",
-            color: tab === t.key ? "#fff" : C.text2,
+            background: tab === t.key ? (t.alert ? C.red : C.plum) : "transparent",
+            color: tab === t.key ? "#fff" : (t.alert ? C.red : C.text2),
             transition: "all 0.15s ease",
           }}>
             {t.label}
             {t.count !== undefined && (
               <span style={{
                 marginLeft: 6, fontSize: "0.75rem", opacity: 0.8,
-                background: tab === t.key ? "rgba(255,255,255,0.2)" : C.borderLight,
-                color: tab === t.key ? "#fff" : C.text3,
+                background: tab === t.key ? "rgba(255,255,255,0.2)" : (t.alert ? C.redBg : C.borderLight),
+                color: tab === t.key ? "#fff" : (t.alert ? C.red : C.text3),
                 padding: "1px 7px", borderRadius: 999,
               }}>
                 {t.count}
@@ -928,6 +1175,8 @@ export default function AdminPage() {
       </div>
 
       {tab === "dashboard" && renderDashboard()}
+      {tab === "activity" && renderActivity()}
+      {tab === "flags" && renderFlags()}
       {tab === "signups" && renderSignups()}
       {tab === "applications" && renderApplications()}
       {tab === "users" && renderUsers()}

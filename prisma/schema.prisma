@@ -314,11 +314,12 @@ model Post {
   isHidden      Boolean @default(false) // hidden by mod
   moderationNote String?
 
-  room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  room      Room             @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  author    User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments  Comment[]
   reactions Reaction[]
   reports   Report[]
+  flags     ModerationFlag[]
 
   @@index([roomId, createdAt(sort: Desc)])
   @@index([authorId])
@@ -341,12 +342,13 @@ model Comment {
   isHidden      Boolean @default(false)
   moderationNote String?
 
-  post     Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  parent   Comment?  @relation("CommentThread", fields: [parentId], references: [id])
-  children Comment[] @relation("CommentThread")
+  post     Post             @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author   User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent   Comment?         @relation("CommentThread", fields: [parentId], references: [id])
+  children Comment[]        @relation("CommentThread")
   reactions Reaction[]
   reports   Report[]
+  flags     ModerationFlag[]
 
   @@index([postId, createdAt])
   @@index([parentId])
@@ -744,4 +746,37 @@ enum NotificationType {
   ROOM_NEW_POST
   SYSTEM_ANNOUNCEMENT
   APPLICATION_UPDATE
+}
+
+// ============================================================================
+// AI MODERATION FLAGS
+// ============================================================================
+
+model ModerationFlag {
+  id         String       @id @default(cuid())
+  postId     String?
+  commentId  String?
+  reason     String
+  severity   FlagSeverity @default(MEDIUM)
+  status     FlagStatus   @default(PENDING)
+  createdAt  DateTime     @default(now())
+  reviewedAt DateTime?
+
+  post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt(sort: Desc)])
+  @@map("moderation_flags")
+}
+
+enum FlagSeverity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum FlagStatus {
+  PENDING
+  REVIEWED
+  DISMISSED
 }

@@ -70,20 +70,23 @@ export async function POST(req: Request) {
       );
     }
 
-    const post = await prisma.post.create({
-      data: {
-        title,
-        body,
-        roomId,
-        authorId: session.user.id,
-        identity: identity === "ANONYMOUS" ? "ANONYMOUS" : "PSEUDONYM",
-      },
-    });
+    const [post, profile, room] = await Promise.all([
+      prisma.post.create({
+        data: {
+          title,
+          body,
+          roomId,
+          authorId: session.user.id,
+          identity: identity === "ANONYMOUS" ? "ANONYMOUS" : "PSEUDONYM",
+        },
+      }),
+      prisma.profile.findUnique({ where: { userId: session.user.id }, select: { displayName: true } }),
+      prisma.room.findUnique({ where: { id: roomId }, select: { slug: true, name: true } }),
+    ]);
 
-    // Trigger bot response after reply is sent to user
-    const room = await prisma.room.findUnique({ where: { id: roomId }, select: { slug: true } });
     if (room) {
-      after(() => postBotResponse(post.id, room.slug, `${title}\n\n${body}`));
+      const authorName = identity === "ANONYMOUS" ? "Anonymous member" : (profile?.displayName || "Member");
+      after(() => postBotResponse(post.id, room.slug, `${title}\n\n${body}`, title, authorName));
     }
 
     return NextResponse.json(post, { status: 201 });
