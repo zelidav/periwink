@@ -181,27 +181,25 @@ export default function GroupsPage() {
       <div style={{
         background: `linear-gradient(135deg, ${c.plumWhisper}, ${c.ivory})`,
         borderRadius: 20,
-        padding: "48px 36px",
-        marginBottom: 40,
+        padding: "52px 36px",
+        marginBottom: 32,
         textAlign: "center",
         border: `1px solid ${c.plumMist}`,
       }}>
-        <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: c.plum, marginBottom: 16 }}>
-          Optional offerings
-        </p>
         <h1 style={{
           fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
-          fontSize: "clamp(28px, 5vw, 40px)",
+          fontSize: "clamp(26px, 5vw, 38px)",
           fontWeight: 300,
-          lineHeight: 1.2,
+          lineHeight: 1.25,
           color: c.ink,
           marginBottom: 16,
+          maxWidth: 560,
+          margin: "0 auto 16px",
         }}>
-          Go deeper —{" "}
-          <em style={{ color: c.plum }}>with others who understand.</em>
+          A shared space for growth, understanding, and real conversation
         </h1>
-        <p style={{ fontSize: 16, color: c.inkSoft, lineHeight: 1.75, maxWidth: 520, margin: "0 auto 20px" }}>
-          For women who want structured support alongside the community — intimate groups, immersive retreats, and other offerings led by Dr. Adrian Tubero, Psy.D.
+        <p style={{ fontSize: 16, color: c.inkSoft, lineHeight: 1.75, maxWidth: 480, margin: "0 auto 24px" }}>
+          Thoughtfully guided groups for women navigating change — together.
         </p>
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 8,
@@ -209,7 +207,78 @@ export default function GroupsPage() {
           borderRadius: 999, padding: "8px 16px", fontSize: 13, color: "#3d7a40",
         }}>
           <span style={{ width: 8, height: 8, borderRadius: "50%", background: c.sage, display: "inline-block" }} />
-          The Periwink community is always free &amp; open — these offerings are entirely optional
+          The Periwink community is always free &amp; open — groups are entirely optional
+        </div>
+      </div>
+
+      {/* Intro: different from going through it alone */}
+      <div style={{
+        background: "#fff",
+        border: `1px solid ${c.border}`,
+        borderRadius: 20,
+        padding: "36px 32px",
+        marginBottom: 24,
+      }}>
+        <h2 style={{
+          fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
+          fontSize: "clamp(22px, 4vw, 30px)",
+          fontWeight: 300,
+          color: c.ink,
+          marginBottom: 16,
+        }}>
+          This is different from going through it alone.
+        </h2>
+        <p style={{ fontSize: 15, color: c.inkSoft, lineHeight: 1.8, marginBottom: 20 }}>
+          These groups are designed to offer something many women don&apos;t have access to during this phase:
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {[
+            "A space to speak honestly — without having to explain yourself first",
+            "A way to understand what's happening more clearly",
+            "The experience of moving through it alongside others who truly get it",
+          ].map((point, i) => (
+            <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ color: c.plum, fontSize: 16, marginTop: 1, flexShrink: 0 }}>→</span>
+              <p style={{ fontSize: 15, color: c.inkSoft, lineHeight: 1.7, margin: 0 }}>{point}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* What to expect */}
+      <div style={{
+        background: `linear-gradient(135deg, ${c.plumWhisper}, ${c.ivory})`,
+        border: `1px solid ${c.plumMist}`,
+        borderRadius: 20,
+        padding: "32px",
+        marginBottom: 24,
+      }}>
+        <h2 style={{
+          fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
+          fontSize: 22,
+          fontWeight: 300,
+          color: c.ink,
+          marginBottom: 20,
+        }}>
+          What to expect
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+          {[
+            { icon: "🗣", text: "Guided conversations with structure and intention" },
+            { icon: "🧠", text: "Insight into what's changing — emotionally and physically" },
+            { icon: "👥", text: "A consistent group of women over several weeks" },
+            { icon: "🌿", text: "A space that is thoughtful, grounded, and real" },
+          ].map((item, i) => (
+            <div key={i} style={{
+              background: "#fff",
+              borderRadius: 14,
+              padding: "20px 18px",
+              border: `1px solid ${c.plumMist}`,
+            }}>
+              <div style={{ fontSize: 22, marginBottom: 10 }}>{item.icon}</div>
+              <p style={{ fontSize: 14, color: c.inkSoft, lineHeight: 1.65, margin: 0 }}>{item.text}</p>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -326,7 +395,7 @@ export default function GroupsPage() {
       </div>
 
       {/* Application form */}
-      <div style={{
+      <div id="apply" style={{
         background: c.card, border: `1px solid ${c.border}`,
         borderRadius: 20, padding: "36px 32px", marginBottom: 32,
       }}>
@@ -346,28 +415,43 @@ export default function GroupsPage() {
       <div style={{
         background: `linear-gradient(135deg, ${c.plumWhisper}, ${c.ivory})`,
         border: `1px solid ${c.plumMist}`,
-        borderRadius: 20, padding: "32px",
-        display: "flex", gap: 20, alignItems: "flex-start",
+        borderRadius: 20, padding: "36px 32px",
+        textAlign: "center",
       }}>
-        <div style={{ fontSize: 28, flexShrink: 0, marginTop: 2 }}>💜</div>
-        <div>
-          <h3 style={{ fontFamily: "var(--font-heading)", fontSize: 20, fontWeight: 400, color: c.ink, marginBottom: 8 }}>
-            You don't need a group to belong here.
-          </h3>
-          <p style={{ fontSize: 15, color: c.inkSoft, lineHeight: 1.75, marginBottom: 16 }}>
-            The Periwink community — the rooms, the conversations, the shared experiences — is entirely free and always open. Groups, retreats, and one-on-one work are optional deepening paths, not prerequisites. Come as you are.
-          </p>
+        <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(20px, 4vw, 26px)", fontWeight: 300, color: c.ink, marginBottom: 12 }}>
+          You don&apos;t have to figure this out alone.
+        </h3>
+        <p style={{ fontSize: 15, color: c.inkSoft, lineHeight: 1.75, marginBottom: 8, maxWidth: 480, margin: "0 auto 8px" }}>
+          There is a way forward — and it&apos;s better shared.
+        </p>
+        <p style={{ fontSize: 14, color: c.inkMuted, lineHeight: 1.7, marginBottom: 24, maxWidth: 440, margin: "0 auto 24px" }}>
+          The Periwink community is always free and open. Groups are an optional next step — not a requirement.
+        </p>
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <Link
             href="/auth/signup"
             style={{
               display: "inline-block",
               background: c.plum, color: "#fff",
               textDecoration: "none", borderRadius: 10,
-              padding: "11px 22px", fontSize: 14,
+              padding: "12px 24px", fontSize: 14, fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
             }}
           >
-            Join the community — free, always →
+            Join the Community →
           </Link>
+          <a
+            href="#apply"
+            style={{
+              display: "inline-block",
+              background: "transparent", color: c.plum,
+              textDecoration: "none", borderRadius: 10,
+              padding: "12px 24px", fontSize: 14,
+              border: `1px solid ${c.plumMist}`,
+              fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+            }}
+          >
+            Stay in the loop
+          </a>
         </div>
       </div>
 

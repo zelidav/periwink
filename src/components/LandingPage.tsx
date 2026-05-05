@@ -256,6 +256,73 @@ function FormTextarea({
   );
 }
 
+// — Email Signup —
+function EmailSignup() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      setStatus(res.ok ? "done" : "error");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <section className="py-20 px-6" style={{ background: "#fff" }}>
+      <div className="max-w-xl mx-auto text-center">
+        <Reveal>
+          <h2 className="font-display text-3xl md:text-4xl mb-3">Stay connected</h2>
+          <p className="text-base mb-8" style={{ color: c.inkSoft, lineHeight: 1.7 }}>
+            Be the first to hear about new groups, conversations, and openings.
+          </p>
+          {status === "done" ? (
+            <p className="text-base font-medium" style={{ color: c.periwinkleDeep }}>
+              You&apos;re on the list. We&apos;ll be in touch.
+            </p>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="flex-1 px-5 py-3.5 rounded-full text-base"
+                style={{
+                  border: `1px solid ${c.periwinkleLight}`,
+                  outline: "none",
+                  background: c.lavenderBlush,
+                  color: c.ink,
+                }}
+              />
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="px-7 py-3.5 rounded-full text-sm font-medium transition-all hover:-translate-y-0.5 disabled:opacity-50 cursor-pointer whitespace-nowrap"
+                style={{ background: c.periwinkleDeep, color: "#fff" }}
+              >
+                {status === "loading" ? "..." : "Stay in the loop"}
+              </button>
+            </form>
+          )}
+          {status === "error" && (
+            <p className="text-sm mt-3" style={{ color: "#991B1B" }}>Something went wrong — please try again.</p>
+          )}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 // — Main Landing Page —
 export default function LandingPage() {
   const [joinChoiceOpen, setJoinChoiceOpen] = useState(false);
@@ -591,8 +658,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Why Section */}
-      <section id="about" className="py-24 px-6" style={{ background: c.warmWhite }}>
+      {/* Clarity Section */}
+      <section id="about" className="py-24 px-6" style={{ background: "#fff" }}>
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <Reveal>
@@ -608,61 +675,86 @@ export default function LandingPage() {
 
             <Reveal delay={0.15}>
               <h2 className="font-display text-3xl md:text-4xl leading-tight mb-6">
-                You&apos;re not imagining it.
+                Something is changing — and it&apos;s not just physical.
               </h2>
               <p className="text-base mb-5" style={{ color: c.inkSoft, lineHeight: 1.8 }}>
-                Something is shifting — physically, emotionally, relationally.
+                What you&apos;re experiencing is real. And it&apos;s more than symptoms.
               </p>
               <p className="text-base mb-5" style={{ color: c.inkSoft, lineHeight: 1.8 }}>
-                And while it&apos;s often described as something to manage, it can also be something to understand.
+                This phase often brings shifts in mood, sleep, focus, relationships, and sense of self. It can feel confusing — especially when there isn&apos;t a clear way to understand it.
               </p>
               <p className="text-base" style={{ color: c.inkSoft, lineHeight: 1.8 }}>
-                Periwink was created to offer a different way forward — one that brings together <span className="highlight">insight, support, and shared experience.</span>
+                <span className="highlight">Periwink exists to change that.</span>
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* What You'll Find Section */}
       <section
         className="py-24 px-6"
-        style={{ background: `linear-gradient(180deg, ${c.warmWhite} 0%, ${c.lavenderBlush} 100%)` }}
+        style={{ background: `linear-gradient(180deg, #fff 0%, ${c.lavenderBlush} 100%)` }}
       >
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <p
-                className="text-xs font-semibold tracking-widest uppercase mb-4"
-                style={{ color: c.periwinkle }}
-              >
-                What we're building
-              </p>
-              <h2 className="font-display text-3xl md:text-4xl mb-5">
-                Better outcomes through connection
+              <h2 className="font-display text-3xl md:text-4xl mb-4">
+                What you&apos;ll find here
               </h2>
               <p className="text-base" style={{ color: c.inkSoft }}>
-                A thoughtful platform where learning happens together, and support feels like belonging.
+                Support, understanding, and connection — designed for this phase of life.
               </p>
             </div>
           </Reveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, i) => (
-              <Reveal key={i} delay={i * 0.08}>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: "🌿",
+                title: "Groups & Circles",
+                desc: "Guided spaces for reflection, conversation, and shared experience.",
+                href: "/app/groups",
+                linkText: "Learn about groups →",
+              },
+              {
+                icon: "✨",
+                title: "Learning & Insight",
+                desc: "Clear, grounded information to help you understand what's changing — without the noise.",
+                href: null,
+                linkText: null,
+              },
+              {
+                icon: "💜",
+                title: "Community",
+                desc: "A place to connect with others who truly understand — because they're living it too.",
+                href: null,
+                linkText: null,
+              },
+            ].map((item, i) => (
+              <Reveal key={i} delay={i * 0.1}>
                 <div
-                  className="p-8 rounded-3xl transition-all hover:-translate-y-1 h-full"
+                  className="p-8 rounded-3xl h-full"
                   style={{
                     background: "#fff",
                     border: `1px solid ${c.periwinkleMist}`,
                     boxShadow: "0 4px 24px rgba(110, 90, 126, 0.06)",
                   }}
                 >
-                  <span className="text-3xl mb-5 block">{feature.icon}</span>
-                  <h3 className="font-display text-xl mb-3">{feature.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: c.inkSoft }}>
-                    {feature.desc}
+                  <span className="text-3xl mb-5 block">{item.icon}</span>
+                  <h3 className="font-display text-xl mb-3">{item.title}</h3>
+                  <p className="text-sm leading-relaxed mb-4" style={{ color: c.inkSoft }}>
+                    {item.desc}
                   </p>
+                  {item.href && (
+                    <a
+                      href={item.href}
+                      className="text-sm font-medium transition-opacity hover:opacity-70"
+                      style={{ color: c.periwinkleDeep, textDecoration: "none" }}
+                    >
+                      {item.linkText}
+                    </a>
+                  )}
                 </div>
               </Reveal>
             ))}
@@ -675,17 +767,11 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <p
-                className="text-xs font-semibold tracking-widest uppercase mb-4"
-                style={{ color: c.periwinkle }}
-              >
-                Active circles
-              </p>
-              <h2 className="font-display text-3xl md:text-4xl mb-5">
-                Find your people
+              <h2 className="font-display text-3xl md:text-4xl mb-4">
+                You&apos;re not the only one noticing this
               </h2>
               <p className="text-base" style={{ color: c.inkSoft }}>
-                Every circle is a safe space for honest conversation. Real women sharing real experiences.
+                Real experiences from women moving through it — together.
               </p>
             </div>
           </Reveal>
@@ -753,15 +839,15 @@ export default function LandingPage() {
       </Reveal>
 
       {/* Builders Section */}
-      <section id="builders" className="py-24 px-6" style={{ background: c.warmWhite }}>
+      <section id="builders" className="py-24 px-6" style={{ background: "#fff" }}>
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <Reveal>
-              <h2 className="font-display text-3xl md:text-4xl leading-tight mb-6">
-                Help us build something that matters.
+              <h2 className="font-display text-3xl md:text-4xl leading-tight mb-5">
+                Help build something that matters.
               </h2>
               <p className="text-base mb-6" style={{ color: c.inkSoft, lineHeight: 1.8 }}>
-                Periwink isn't just a product — it's a collaborative movement. We're looking for practitioners, researchers, creators, and community builders who want to shape what this becomes.
+                We&apos;re looking for practitioners, researchers, creators, and community builders to help shape what Periwink becomes — from the inside.
               </p>
               <div className="flex flex-wrap gap-3 mb-8">
                 {roleOptions.map((role) => (
@@ -807,21 +893,21 @@ export default function LandingPage() {
 
       {/* Groups teaser */}
       <Reveal>
-        <section className="py-20 px-6" style={{ background: c.warmWhite }}>
+        <section className="py-20 px-6" style={{ background: c.lavenderBlush }}>
           <div className="max-w-4xl mx-auto">
             <div
               className="rounded-3xl p-10 flex flex-col md:flex-row gap-8 items-center"
-              style={{ background: `linear-gradient(135deg, ${c.periwinkleWhisper}, ${c.lavenderBlush})`, border: `1px solid ${c.periwinkleMist}` }}
+              style={{ background: "#fff", border: `1px solid ${c.periwinkleMist}`, boxShadow: "0 4px 24px rgba(110, 90, 126, 0.07)" }}
             >
               <div className="flex-1">
                 <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: c.periwinkle }}>
                   Optional · Led by Dr. Tubero
                 </p>
-                <h2 className="font-display text-2xl md:text-3xl mb-4" style={{ color: c.ink }}>
-                  Groups, retreats &amp; deeper support
+                <h2 className="font-display text-2xl md:text-3xl mb-3" style={{ color: c.ink }}>
+                  Groups &amp; retreats
                 </h2>
                 <p className="text-base mb-2" style={{ color: c.inkSoft, lineHeight: 1.75 }}>
-                  For women who want structured support alongside the community. Small virtual groups, in-person retreats, and one-on-one sessions — all facilitated by Dr. Tubero.
+                  For women who want structured support alongside the community — small virtual groups, retreats, and one-on-one sessions with Dr. Tubero.
                 </p>
                 <p className="text-sm" style={{ color: c.inkMuted }}>
                   The community is always free. Groups are an optional next step.
@@ -839,19 +925,25 @@ export default function LandingPage() {
         </section>
       </Reveal>
 
+      {/* Email Signup Section */}
+      <EmailSignup />
+
       {/* CTA Section */}
       <Reveal>
         <section
           className="py-28 px-6 text-center"
-          style={{ background: `linear-gradient(180deg, ${c.cream} 0%, ${c.lavenderBlush} 100%)` }}
+          style={{ background: `linear-gradient(180deg, ${c.lavenderBlush} 0%, ${c.periwinkleWhisper} 100%)` }}
         >
           <div className="max-w-2xl mx-auto">
             <h2 className="font-display text-4xl md:text-5xl leading-tight mb-5">
-              Ready to find your{" "}
-              <em style={{ color: c.periwinkleDeep }}>wiser way forward?</em>
+              A wiser way forward —{" "}
+              <em style={{ color: c.periwinkleDeep }}>together.</em>
             </h2>
-            <p className="text-lg mb-10" style={{ color: c.inkSoft }}>
-              Join thousands of women learning, growing, and navigating change together. Be part of building something meaningful.
+            <p className="text-lg mb-3" style={{ color: c.inkSoft, lineHeight: 1.7 }}>
+              You don&apos;t have to figure this out alone.
+            </p>
+            <p className="text-lg mb-10" style={{ color: c.inkSoft, lineHeight: 1.7 }}>
+              There is a way forward — and it&apos;s better shared.
             </p>
             <div className="flex justify-center">
               <button
