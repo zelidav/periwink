@@ -533,7 +533,7 @@ export default function LandingPage() {
             className="text-lg md:text-xl mb-4 animate-fade-in-up delay-2"
             style={{ color: c.inkSoft, maxWidth: "600px", margin: "0 auto", lineHeight: 1.7 }}
           >
-            Growth, wisdom, and shared experience — for the women you are becoming.
+            A space to understand what&apos;s changing, feel supported, and grow into what&apos;s next.
           </p>
 
           <p
@@ -608,14 +608,16 @@ export default function LandingPage() {
 
             <Reveal delay={0.15}>
               <h2 className="font-display text-3xl md:text-4xl leading-tight mb-6">
-                This isn't about managing symptoms. It's about{" "}
-                <span className="highlight">becoming who you're meant to be.</span>
+                You&apos;re not imagining it.
               </h2>
               <p className="text-base mb-5" style={{ color: c.inkSoft, lineHeight: 1.8 }}>
-                There's a reason so many women feel unseen during this chapter. The conversations that matter most are rarely had. The questions that keep you up at night feel too personal to ask.
+                Something is shifting — physically, emotionally, relationally.
+              </p>
+              <p className="text-base mb-5" style={{ color: c.inkSoft, lineHeight: 1.8 }}>
+                And while it&apos;s often described as something to manage, it can also be something to understand.
               </p>
               <p className="text-base" style={{ color: c.inkSoft, lineHeight: 1.8 }}>
-                Periwink changes that. We're building a space where <span className="highlight">wisdom is shared</span>, where lived experience matters as much as expertise, and where you're never navigating alone.
+                Periwink was created to offer a different way forward — one that brings together <span className="highlight">insight, support, and shared experience.</span>
               </p>
             </Reveal>
           </div>
