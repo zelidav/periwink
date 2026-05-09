@@ -167,25 +167,49 @@ export async function sendFoundersNote({
               </p>
 
               <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
-                I'm a clinical psychologist, and I've spent over 20 years helping people navigate emotional change, relationships, and the deeper patterns that shape how we live. But Periwink didn't come from my clinical work alone.
+                I&rsquo;m a clinical psychologist, and I&rsquo;ve spent over 20 years helping people navigate emotional change, relationships, and the deeper patterns that shape how we live. But Periwink didn&rsquo;t come from my clinical work alone.
               </p>
 
               <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
-                It came from a personal recognition — that so many women move through this phase of life feeling confused, isolated, and without enough honest support or conversation. Not just about the physical changes, but about what it does to your identity, your relationships, and your sense of self.
+                It came from a personal recognition &mdash; that many women move through this phase of life feeling confused, unsupported, or alone in experiences that are actually deeply shared.
               </p>
 
               <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
-                I built Periwink as a different kind of space. One where you can better understand what's happening, hear from women who genuinely get it, and move through this with more clarity and less isolation.
+                What&rsquo;s happening during this time is often spoken about narrowly &mdash; reduced to symptoms or kept quietly to ourselves. But for many women, the changes reach far beyond the physical. They affect how we feel, how we relate, how we see ourselves, and how we move through the world.
               </p>
 
               <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
-                I'm glad you're here. And I mean that.
+                My hope for Periwink is that this becomes something different.
               </p>
 
-              <p style="font-size: 17px; color: #6B6575; line-height: 1.8; margin: 32px 0 0; font-style: italic;">
-                With warmth,<br>
-                <strong style="color: #2B2433; font-style: normal;">Adrian</strong><br>
-                <span style="font-size: 14px; color: #9B94A3;">Dr. Adrian Tubero, Psy.D. · Founder, Periwink</span>
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                A place where women can learn from one another, share openly, explore what helps, and feel supported as they navigate this evolving chapter of life &mdash; without shame, pressure, or the expectation that there is one &ldquo;right&rdquo; way through.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                There is no one-size-fits-all approach recognized here.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                Some women feel empowered by medical and hormonal interventions. Others lean toward lifestyle, psychological, relational, nutritional, spiritual, or integrative approaches. Most are simply trying to better understand themselves and feel more supported in the process.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                At Periwink, all respectful perspectives are welcome.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                Above all, I hope this becomes a space where women help women &mdash; where honest conversations replace silence, and where what once felt isolating becomes more understandable, connected, and shared.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                I&rsquo;m glad you&rsquo;re here. And I mean that.
+              </p>
+
+              <p style="font-size: 17px; color: #6B6575; line-height: 1.8; margin: 32px 0 0;">
+                Warmly,<br>
+                <strong style="color: #2B2433;">Dr. Adrian Tubero, Psy.D.</strong><br>
+                <span style="font-size: 14px; color: #9B94A3;">Founder, Periwink</span>
               </p>
 
             </div>
