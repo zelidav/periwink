@@ -19,7 +19,7 @@ export default function AppHeader() {
       }}
     >
       <Link
-        href="/app"
+        href="/"
         style={{
           fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
           fontSize: 22, fontWeight: 400, color: "var(--color-dusty-plum, #6E5A7E)",
