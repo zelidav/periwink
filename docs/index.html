@@ -17,7 +17,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#FAFAF8;color:#2B2433;-webkit-font-smoothing:antialiased;line-height:1.65}
+body{font-family:'DM Sans',-apple-system,sans-serif;font-weight:300;background:#FAFAF8;color:#2B2433;-webkit-font-smoothing:antialiased;line-height:1.75;font-size:17px}
 ::selection{background:rgba(215,204,255,.3)}
 .hd{font-family:'Cormorant Garamond',Georgia,serif}
 a{color:inherit}
@@ -74,8 +74,8 @@ a{color:inherit}
 .story-inner{max-width:640px;margin:0 auto;text-align:center;position:relative;z-index:1}
 .story h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:400;line-height:1.3;margin-bottom:24px;color:#2B2433}
 .story h2 em{font-weight:400;color:#5C4870}
-.story p{font-size:16px;color:#3d3548;line-height:1.8;margin-bottom:16px;font-weight:400}
-.story-phrase{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:#5C4870;margin:28px 0 0;line-height:1.6}
+.story p{font-size:17px;color:#3d3548;line-height:1.85;margin-bottom:18px;font-weight:400}
+.story-phrase{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#5C4870;margin:28px 0 0;line-height:1.6}
 
 /* WHAT YOU'LL FIND */
 .finds{padding:80px 24px;background:linear-gradient(180deg,#fff 0%,#F5F1FA 100%)}
@@ -86,7 +86,7 @@ a{color:inherit}
 .find-card{background:#fff;border:1px solid rgba(183,168,201,.3);border-radius:16px;padding:28px 24px;text-align:center;box-shadow:0 2px 12px rgba(92,72,112,.05)}
 .find-card .icon{font-size:28px;margin-bottom:12px}
 .find-card h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:#2B2433;margin-bottom:8px}
-.find-card p{font-size:14px;color:#4E4858;line-height:1.65}
+.find-card p{font-size:15px;color:#4E4858;line-height:1.7}
 .find-card a{display:inline-block;margin-top:10px;font-size:13px;color:#5C4870;font-weight:400;text-decoration:none}
 .find-card a:hover{text-decoration:underline}
 
@@ -97,11 +97,11 @@ a{color:inherit}
 .voices-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
 .voices h2{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,30px);font-weight:400;margin-bottom:8px;text-align:center;color:#2B2433}
 .voices-sub{font-size:15px;color:#3d3548;text-align:center;margin-bottom:32px;font-weight:400}
-.voices-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.voice-card{padding:24px;border-radius:16px;background:rgba(253,251,248,.85);border:1px solid rgba(221,215,206,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.voice-card p{font-size:14px;line-height:1.7;color:#2B2433;font-style:italic;margin-bottom:12px;font-weight:400}
-.voice-name{font-size:13px;font-weight:500;color:#2B2433}
-.voice-room{font-size:12px;color:#4E4858}
+.voices-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.voice-card{padding:32px;border-radius:16px;background:rgba(255,255,255,.9);border:1px solid rgba(183,168,201,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 2px 16px rgba(92,72,112,.05)}
+.voice-card p{font-size:16px;line-height:1.8;color:#2B2433;font-style:italic;margin-bottom:14px;font-weight:400}
+.voice-name{font-size:14px;font-weight:500;color:#2B2433}
+.voice-room{font-size:13px;color:#5C4870}
 
 /* FOUNDER — feather bg */
 .founder{padding:100px 24px;position:relative;overflow:hidden}
@@ -109,11 +109,11 @@ a{color:inherit}
 .founder-grad{position:absolute;inset:0;background:linear-gradient(180deg,#fff 0%,rgba(248,245,255,.7) 30%,rgba(245,240,255,.65) 70%,#fff 100%);pointer-events:none}
 .founder-inner{max-width:700px;margin:0 auto;text-align:center;position:relative;z-index:1}
 .founder h2{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.5vw,32px);font-weight:400;margin-bottom:24px;color:#2B2433}
-.founder-card{display:flex;gap:24px;align-items:flex-start;text-align:left;padding:32px;border-radius:20px;background:rgba(253,251,248,.85);border:1px solid rgba(221,215,206,.6);backdrop-filter:blur(8px)}
-.founder-avatar{width:100px;height:100px;border-radius:50%;flex-shrink:0;object-fit:cover;border:3px solid #E8E3EA}
-.founder-info h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:4px}
-.founder-info .role{font-size:13px;color:#5C4870;margin-bottom:12px}
-.founder-info p{font-size:14px;color:#2B2433;line-height:1.75}
+.founder-card{display:flex;gap:28px;align-items:flex-start;text-align:left;padding:36px;border-radius:20px;background:rgba(255,255,255,.9);border:1px solid rgba(183,168,201,.25);backdrop-filter:blur(8px);box-shadow:0 2px 16px rgba(92,72,112,.05)}
+.founder-avatar{width:120px;height:120px;border-radius:50%;flex-shrink:0;object-fit:cover;border:3px solid #E0D8EE}
+.founder-info h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;margin-bottom:4px}
+.founder-info .role{font-size:14px;color:#5C4870;margin-bottom:16px}
+.founder-info p{font-size:16px;color:#2B2433;line-height:1.85}
 
 /* SIGNUP SECTIONS */
 .signup-section{padding:100px 24px;position:relative;overflow:hidden}
@@ -309,10 +309,13 @@ a{color:inherit}
       <div class="founder-info">
         <h3 class="hd">Dr. Adrian Tubero, Psy.D.</h3>
         <p class="role">Clinical Psychologist &middot; Founder, Periwink &middot; New York City</p>
-        <p>Adrian is a clinical psychologist with over 20 years in private practice, specializing in trauma, attachment, and the emotional patterns that shape how we live and relate. Her work is about helping people understand themselves more fully — creating lasting, internal change, not just symptom relief.</p>
-        <p style="margin-top:12px">Her own experience with perimenopause revealed how fragmented and isolating this phase of life can be. Not just the symptoms — but how profoundly it affects identity, emotional stability, relationships, and sense of self. That gap is what led her to build Periwink.</p>
-        <p style="margin-top:12px">Adrian is trained in AEDP and Core Self Reclamation Therapy (CSRT), and is currently completing Harvard Medical School&rsquo;s Executive Education program in Women&rsquo;s Health and Wellness.</p>
-        <p style="margin-top:12px;font-style:italic;color:#C99AA5">&ldquo;This is not simply a problem to manage — it is a profound psychological and relational experience. With the right support, it becomes a path toward greater clarity and self-understanding.&rdquo;</p>
+        <p>Dr. Adrian Tubero is a clinical psychologist with over 20 years of experience helping people navigate emotional change, relationships, trauma, and the deeper patterns that shape how we live and relate.</p>
+        <p style="margin-top:16px">But Periwink did not come only from professional work.</p>
+        <p style="margin-top:16px">It grew from a personal recognition that many women move through this phase of life feeling confused, isolated, and left to make sense of profound changes without enough support, understanding, or honest conversation.</p>
+        <p style="margin-top:16px">What struck Adrian most was not only the physical experience — but how deeply this phase can affect identity, relationships, emotional wellbeing, and a woman&rsquo;s sense of self.</p>
+        <p style="margin-top:16px">Periwink was created as a different kind of space: one that brings together insight, shared experience, learning, and community — so women can better understand what&rsquo;s happening and move through it with greater clarity, support, and self-trust.</p>
+        <p style="margin-top:16px">Adrian&rsquo;s work is informed by both clinical training and lived experience, with a focus on helping women feel more connected, informed, and less alone in what can otherwise feel difficult to name.</p>
+        <p style="margin-top:20px;font-style:italic;color:#8B6FA8;font-size:15px">A wiser way forward — together.</p>
       </div>
     </div>
   </div>
