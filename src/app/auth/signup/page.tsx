@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
@@ -15,6 +15,170 @@ function inputStyle(focused: boolean) {
     transition: "border-color 0.15s",
     boxSizing: "border-box" as const,
   };
+}
+
+// Botanical sprig from the Periwink logo, scaled for use as an icon
+function BotanicalSprig({ size = 64 }: { size?: number }) {
+  const scale = size / 60;
+  return (
+    <svg
+      width={size}
+      height={size * 0.6}
+      viewBox="0 0 120 60"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ display: "block", margin: "0 auto" }}
+    >
+      <path d="M 42 34 C 46 26 54 20 60 18 C 66 16 72 18 74 24 C 76 28 73 33 68 33 C 64 33 61 30 63 26"
+        stroke="#8B7AA8" strokeWidth="1.1" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.75"/>
+      <path d="M 46 28 C 40 22 34 20 31 22"
+        stroke="#8B7AA8" strokeWidth="0.9" fill="none" strokeLinecap="round" opacity="0.65"/>
+      <path d="M 70 20 C 76 14 82 13 84 16"
+        stroke="#8B7AA8" strokeWidth="0.85" fill="none" strokeLinecap="round" opacity="0.6"/>
+      <path d="M 31 22 C 28 18 29 14 32 15 C 35 16 34 20 31 22 Z" fill="#8B7AA8" opacity="0.5"/>
+      <path d="M 50 24 C 47 19 49 15 52 16 C 55 17 53 22 50 24 Z" fill="#8B7AA8" opacity="0.42"/>
+      <path d="M 84 16 C 82 12 85 10 87 12 C 89 14 86 17 84 16 Z" fill="#8B7AA8" opacity="0.45"/>
+      <path d="M 63 26 C 60 21 62 17 65 18 C 68 19 66 24 63 26 Z" fill="#8B7AA8" opacity="0.4"/>
+      <circle cx="58" cy="17" r="1.2" fill="#8B7AA8" opacity="0.32"/>
+      <circle cx="78" cy="21" r="1" fill="#8B7AA8" opacity="0.28"/>
+      <circle cx="37" cy="19" r="0.9" fill="#8B7AA8" opacity="0.28"/>
+    </svg>
+  );
+}
+
+const BUTTERFLY_CONFIG = [
+  { left: "8%",  delay: 0.0, size: 20, driftX: 18,  duration: 3.8 },
+  { left: "22%", delay: 0.5, size: 16, driftX: -14, duration: 4.2 },
+  { left: "36%", delay: 0.2, size: 24, driftX: 10,  duration: 3.5 },
+  { left: "50%", delay: 0.7, size: 18, driftX: -20, duration: 4.0 },
+  { left: "63%", delay: 0.3, size: 22, driftX: 16,  duration: 3.7 },
+  { left: "76%", delay: 0.9, size: 15, driftX: -12, duration: 4.4 },
+  { left: "88%", delay: 0.1, size: 19, driftX: 8,   duration: 3.9 },
+  { left: "44%", delay: 1.1, size: 17, driftX: -18, duration: 4.1 },
+];
+
+function ButterflyOverlay({ active }: { active: boolean }) {
+  if (!active) return null;
+  return (
+    <>
+      <style>{`
+        @keyframes bf-rise {
+          0%   { transform: translateY(0) translateX(0);      opacity: 0; }
+          8%   { opacity: 0.85; }
+          50%  { opacity: 0.6; }
+          85%  { opacity: 0.15; }
+          100% { transform: translateY(-90vh) translateX(var(--drift)); opacity: 0; }
+        }
+      `}</style>
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 100, overflow: "hidden" }}>
+        {BUTTERFLY_CONFIG.map((b, i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              bottom: "-40px",
+              left: b.left,
+              fontSize: b.size,
+              lineHeight: 1,
+              "--drift": `${b.driftX}px`,
+              animation: `bf-rise ${b.duration}s ease-out ${b.delay}s 1 forwards`,
+            } as React.CSSProperties}
+          >
+            🦋
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function VerificationScreen({ email }: { email: string }) {
+  const [showButterflies, setShowButterflies] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowButterflies(false), 6000);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <>
+      <ButterflyOverlay active={showButterflies} />
+      <div style={{
+        background: "var(--color-card, #FDFBF8)",
+        border: "1px solid var(--color-border-warm, #DDD7CE)",
+        borderRadius: 20, padding: "40px 32px",
+        textAlign: "center",
+      }}>
+        {/* Wordmark */}
+        <p style={{
+          fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
+          fontSize: 22, fontWeight: 300, color: "var(--color-dusty-plum, #6E5A7E)",
+          letterSpacing: "0.04em", marginBottom: 28,
+        }}>
+          periwink
+        </p>
+
+        {/* Botanical icon */}
+        <div style={{ marginBottom: 24 }}>
+          <BotanicalSprig size={72} />
+        </div>
+
+        {/* Heading */}
+        <h1 style={{
+          fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
+          fontSize: 26, fontWeight: 300, color: "var(--color-ink, #2B2433)",
+          marginBottom: 10, lineHeight: 1.3,
+        }}>
+          Welcome to Periwink
+        </h1>
+
+        {/* Warm subtext */}
+        <p style={{
+          fontSize: 15, color: "var(--color-text-2, #6B6575)",
+          lineHeight: 1.7, marginBottom: 24,
+        }}>
+          We&apos;re so glad you joined our community.
+        </p>
+
+        {/* Divider */}
+        <div style={{
+          width: 40, height: 1,
+          background: "var(--color-border-warm, #DDD7CE)",
+          margin: "0 auto 24px",
+        }} />
+
+        {/* Email instruction */}
+        <p style={{
+          fontSize: 14, color: "var(--color-text-2, #6B6575)",
+          lineHeight: 1.7, marginBottom: 6,
+        }}>
+          Please check your email. We sent a verification link to:
+        </p>
+        <p style={{
+          fontSize: 15, color: "var(--color-dusty-plum, #6E5A7E)",
+          fontWeight: 500, marginBottom: 20,
+          wordBreak: "break-word",
+        }}>
+          {email}
+        </p>
+
+        <p style={{
+          fontSize: 14, color: "var(--color-text-2, #6B6575)",
+          lineHeight: 1.7, marginBottom: 6,
+        }}>
+          Click the link in the email to verify your account and sign in.
+        </p>
+        <p style={{
+          fontSize: 13, color: "var(--color-text-3, #9B94A3)",
+          marginBottom: 28, lineHeight: 1.6,
+        }}>
+          This link expires in 24 hours.
+        </p>
+
+        <ResendButton email={email} />
+      </div>
+    </>
+  );
 }
 
 function SignUpForm() {
@@ -60,42 +224,7 @@ function SignUpForm() {
   }
 
   if (submitted) {
-    return (
-      <div style={{
-        background: "var(--color-card, #FDFBF8)",
-        border: "1px solid var(--color-border-warm, #DDD7CE)",
-        borderRadius: 20, padding: "36px 32px",
-        textAlign: "center",
-      }}>
-        <div style={{ fontSize: 36, marginBottom: 20 }}>📬</div>
-        <h1 style={{
-          fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
-          fontSize: 24, fontWeight: 300, color: "var(--color-ink, #2B2433)",
-          marginBottom: 12,
-        }}>
-          Check your email
-        </h1>
-        <p style={{
-          fontSize: 15, color: "var(--color-text-2, #6B6575)",
-          lineHeight: 1.7, marginBottom: 8,
-        }}>
-          We sent a verification link to
-        </p>
-        <p style={{
-          fontSize: 15, color: "var(--color-dusty-plum, #6E5A7E)",
-          fontWeight: 500, marginBottom: 24,
-        }}>
-          {email}
-        </p>
-        <p style={{
-          fontSize: 14, color: "var(--color-text-3, #9B94A3)",
-          lineHeight: 1.6, marginBottom: 24,
-        }}>
-          Click the link in the email to verify your account and sign in. The link expires in 24 hours.
-        </p>
-        <ResendButton email={email} />
-      </div>
-    );
+    return <VerificationScreen email={email} />;
   }
 
   return (
@@ -115,7 +244,7 @@ function SignUpForm() {
         fontSize: 14, color: "var(--color-text-3, #9B94A3)",
         textAlign: "center", marginBottom: 28,
       }}>
-        Your community for perimenopause & menopause
+        Your community for perimenopause &amp; menopause
       </p>
 
       {error && (
