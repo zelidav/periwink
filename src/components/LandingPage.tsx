@@ -623,29 +623,6 @@ export default function LandingPage() {
             >
               Join the Community
             </button>
-            <a
-              href="#community"
-              className="text-sm transition-opacity hover:opacity-70"
-              style={{ color: c.inkMuted, textDecoration: "none" }}
-            >
-              Explore circles ↓
-            </a>
-          </div>
-
-          {/* Social proof */}
-          <div className="flex items-center justify-center gap-4 mt-12 animate-fade-in-up delay-5">
-            <div className="flex -space-x-3">
-              {[c.periwinkleLight, c.sageSoft, c.roseSoft, c.periwinkleMist].map((bg, i) => (
-                <div
-                  key={i}
-                  className="w-10 h-10 rounded-full border-2 border-white"
-                  style={{ background: `linear-gradient(135deg, ${bg}, ${c.periwinkleMist})`, boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
-                />
-              ))}
-            </div>
-            <p className="text-sm" style={{ color: c.inkMuted }}>
-              Join <strong style={{ color: c.inkSoft }}>2,400+ women</strong> finding their way forward
-            </p>
           </div>
         </div>
 
