@@ -114,9 +114,7 @@ a{color:inherit}
 .convo-icon{font-size:26px;margin-bottom:12px;display:block}
 .convo-card h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:#2B2433;margin-bottom:6px;line-height:1.3}
 .convo-card p{font-size:13px;color:#6B6575;line-height:1.65;font-weight:400}
-.convo-card.becoming{background:linear-gradient(135deg,rgba(240,236,255,.55),rgba(255,250,248,.85));border-color:rgba(140,146,255,.28)}
-.convo-card.becoming:hover{border-color:rgba(140,146,255,.55);box-shadow:0 8px 28px rgba(140,146,255,.13)}
-.convo-card.becoming h3{color:#4A3866}
+.convo-card.becoming{background:rgba(248,245,255,.5);border-color:rgba(183,168,201,.42)}
 .convos-cta{text-align:center;padding:8px 0 0}
 .convos-cta-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,26px);font-weight:400;color:#2B2433;margin-bottom:8px;line-height:1.4}
 .convos-cta-sub{font-size:15px;color:#6B6575;margin-bottom:28px;font-weight:400;line-height:1.7}
@@ -199,6 +197,9 @@ a{color:inherit}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 .reveal.vis{opacity:1;transform:translateY(0)}
 
+@media(min-width:769px){
+  .convo-card.becoming{grid-column:2}
+}
 @media(max-width:768px){
   .voices-grid{grid-template-columns:1fr}
   .founder-card{flex-direction:column;align-items:center;text-align:center}
@@ -333,7 +334,7 @@ a{color:inherit}
       <a class="convo-card" id="room-relationships" href="#"><span class="convo-icon">💜</span><h3 class="hd">Relationships &amp; Intimacy</h3><p>How midlife reshapes connection — with partners, friends, and yourself.</p></a>
       <a class="convo-card" id="room-body-changes" href="#"><span class="convo-icon">🦋</span><h3 class="hd">Your Changing Body</h3><p>A compassionate space for body image, weight, skin, and reconnecting with who you are now.</p></a>
       <a class="convo-card" id="room-work-life" href="#"><span class="convo-icon">💼</span><h3 class="hd">Work &amp; Career</h3><p>Ambition, burnout, reinvention, and professional identity in midlife.</p></a>
-      <a class="convo-card becoming" id="room-becoming" href="#"><span class="convo-icon">✨</span><h3 class="hd">Becoming &amp; Identity</h3><p>Who are you becoming? The emotional and transformational center of everything happening in midlife.</p></a>
+      <a class="convo-card becoming" id="room-becoming" href="#"><span class="convo-icon">✨</span><h3 class="hd">Becoming &amp; Identity</h3><p>Conversations about identity, reinvention, meaning, emotional growth, and who you are becoming now.</p></a>
     </div>
     <div class="convos-cta">
       <p class="convos-cta-headline hd">Join the conversation.</p>

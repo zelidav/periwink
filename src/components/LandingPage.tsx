@@ -441,7 +441,7 @@ export default function LandingPage() {
     { emoji: "💜", slug: "relationships", name: "Relationships & Intimacy", desc: "How midlife reshapes connection — with partners, friends, and yourself." },
     { emoji: "🦋", slug: "body-changes", name: "Your Changing Body", desc: "A compassionate space for body image, weight, skin, and reconnecting with who you are now." },
     { emoji: "💼", slug: "work-life", name: "Work & Career", desc: "Ambition, burnout, reinvention, and professional identity in midlife." },
-    { emoji: "✨", slug: "becoming", name: "Becoming & Identity", desc: "Who are you becoming? The emotional and transformational center of everything happening in midlife.", featured: true },
+    { emoji: "✨", slug: "becoming", name: "Becoming & Identity", desc: "Conversations about identity, reinvention, meaning, emotional growth, and who you are becoming now.", featured: true },
   ];
 
   const features = [
@@ -759,16 +759,14 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {conversations.map((conv, i) => (
-              <Reveal key={conv.slug} delay={i * 0.05}>
+              <Reveal key={conv.slug} delay={i * 0.05} className={conv.featured ? "lg:col-start-2" : ""}>
                 <a
                   href={`/app/rooms/${conv.slug}`}
                   className="text-left p-6 rounded-2xl transition-all hover:-translate-y-1 block"
                   style={{
-                    background: conv.featured
-                      ? "linear-gradient(135deg, rgba(240,236,255,.6), rgba(255,250,248,.95))"
-                      : "#fff",
+                    background: conv.featured ? "rgba(248,245,255,.5)" : "#fff",
                     border: conv.featured
-                      ? "1px solid rgba(140,146,255,.32)"
+                      ? "1px solid rgba(183,168,201,.42)"
                       : `1px solid ${c.periwinkleMist}`,
                     boxShadow: "0 2px 16px rgba(110, 90, 126, 0.04)",
                     textDecoration: "none",
@@ -778,7 +776,7 @@ export default function LandingPage() {
                   <span className="text-3xl mb-3 block">{conv.emoji}</span>
                   <h4
                     className="font-display text-lg mb-2"
-                    style={{ color: conv.featured ? "#4A3866" : "inherit" }}
+                    style={{ color: "inherit" }}
                   >
                     {conv.name}
                   </h4>
