@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 // — Design Tokens —
 const c = {
@@ -466,7 +466,7 @@ export default function LandingPage() {
         html { scroll-behavior: smooth; }
         body {
           font-family: 'Outfit', -apple-system, sans-serif;
-          background: ${c.cream};
+          background: #FFFFFF;
           color: ${c.ink};
           -webkit-font-smoothing: antialiased;
         }
