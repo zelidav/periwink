@@ -145,84 +145,124 @@ export async function sendFoundersNote({
       from: "Adrian Tubero at Periwink <hello@yourperiwink.com>",
       to,
       subject: "A note from the founder",
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
-        <body style="margin: 0; padding: 0; background-color: #FAFAF8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-          <div style="max-width: 520px; margin: 0 auto; padding: 48px 24px;">
+      html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body style="margin: 0; padding: 0; background-color: #F8F5F0;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F8F5F0;">
+    <tr>
+      <td align="center" style="padding: 48px 16px 56px;">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 500px;">
 
-            <div style="text-align: center; margin-bottom: 36px;">
-              <h1 style="font-family: Georgia, serif; font-size: 26px; font-weight: 300; color: #6E5A7E; margin: 0; letter-spacing: 0.5px;">periwink</h1>
-            </div>
+          <!-- Wordmark -->
+          <tr>
+            <td align="center" style="padding-bottom: 44px;">
+              <div style="display: inline-block; padding: 0 0 16px; border-bottom: 1px solid rgba(183,168,201,0.35);">
+                <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-weight: 300; color: #7B6490; letter-spacing: 2px;">periwink</span>
+              </div>
+            </td>
+          </tr>
 
-            <div style="background: #fff; border-radius: 20px; padding: 40px 36px; border: 1px solid rgba(183,168,201,0.3); box-shadow: 0 2px 16px rgba(92,72,112,0.05);">
+          <!-- Letter body -->
+          <tr>
+            <td style="background-color: #FFFCF9; border-radius: 4px; padding: 48px 44px 52px; border: 1px solid rgba(183,168,201,0.2);">
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <!-- Greeting -->
+              <p style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-weight: 300; color: #2B2433; line-height: 1.5; margin: 0 0 32px;">
                 ${greeting}
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <!-- Body paragraphs -->
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 Thank you for joining Periwink. I wanted to reach out personally, because this community matters to me in a way that goes beyond the professional.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 I&rsquo;m a clinical psychologist, and I&rsquo;ve spent over 20 years helping people navigate emotional change, relationships, and the deeper patterns that shape how we live. But Periwink didn&rsquo;t come from my clinical work alone.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 It came from a personal recognition &mdash; that many women move through this phase of life feeling confused, unsupported, or alone in experiences that are actually deeply shared.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 What&rsquo;s happening during this time is often spoken about narrowly &mdash; reduced to symptoms or kept quietly to ourselves. But for many women, the changes reach far beyond the physical. They affect how we feel, how we relate, how we see ourselves, and how we move through the world.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <!-- Pulled-out line -->
+              <p style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; font-weight: 300; font-style: italic; color: #7B6490; line-height: 1.6; margin: 36px 0; padding: 0 0 0 20px; border-left: 2px solid rgba(183,168,201,0.5);">
                 My hope for Periwink is that this becomes something different.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 A place where women can learn from one another, share openly, explore what helps, and feel supported as they navigate this evolving chapter of life &mdash; without shame, pressure, or the expectation that there is one &ldquo;right&rdquo; way through.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 There is no one-size-fits-all approach recognized here.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 Some women feel empowered by medical and hormonal interventions. Others lean toward lifestyle, psychological, relational, nutritional, spiritual, or integrative approaches. Most are simply trying to better understand themselves and feel more supported in the process.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 At Periwink, all respectful perspectives are welcome.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 24px;">
                 Above all, I hope this becomes a space where women help women &mdash; where honest conversations replace silence, and where what once felt isolating becomes more understandable, connected, and shared.
               </p>
 
-              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 16px; font-weight: 300; color: #3A3142; line-height: 1.9; margin: 0 0 40px;">
                 I&rsquo;m glad you&rsquo;re here. And I mean that.
               </p>
 
-              <p style="font-size: 17px; color: #6B6575; line-height: 1.8; margin: 32px 0 0;">
-                Warmly,<br>
-                <strong style="color: #2B2433;">Dr. Adrian Tubero, Psy.D.</strong><br>
-                <span style="font-size: 14px; color: #9B94A3;">Founder, Periwink</span>
+              <!-- Sign-off -->
+              <div style="border-top: 1px solid rgba(183,168,201,0.25); padding-top: 28px;">
+                <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 15px; font-weight: 300; color: #6B6575; line-height: 1.7; margin: 0 0 6px;">
+                  Warmly,
+                </p>
+                <p style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; font-weight: 400; color: #2B2433; margin: 0 0 4px; line-height: 1.4;">
+                  Dr. Adrian Tubero, Psy.D.
+                </p>
+                <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 13px; font-weight: 300; color: #9B8FAA; margin: 0;">
+                  Founder, Periwink
+                </p>
+              </div>
+
+            </td>
+          </tr>
+
+          <!-- Closing tagline -->
+          <tr>
+            <td align="center" style="padding-top: 36px; padding-bottom: 8px;">
+              <p style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 14px; font-weight: 300; font-style: italic; color: #B0A3BC; margin: 0; letter-spacing: 0.3px;">
+                A wiser way forward &mdash; together.
               </p>
+            </td>
+          </tr>
 
-            </div>
+          <!-- Footer -->
+          <tr>
+            <td align="center" style="padding-top: 12px;">
+              <p style="font-family: 'DM Sans', -apple-system, sans-serif; font-size: 11px; font-weight: 300; color: #C4BAD0; margin: 0; line-height: 1.7;">
+                &copy; ${new Date().getFullYear()} Periwink &nbsp;&middot;&nbsp;
+                <a href="https://www.yourperiwink.com" style="color: #C4BAD0; text-decoration: none;">yourperiwink.com</a>
+              </p>
+            </td>
+          </tr>
 
-            <p style="text-align: center; font-size: 12px; color: #9B94A3; margin-top: 28px; line-height: 1.6;">
-              &copy; ${new Date().getFullYear()} Periwink &middot;
-              <a href="https://www.yourperiwink.com" style="color: #9B94A3;">yourperiwink.com</a>
-            </p>
-
-          </div>
-        </body>
-        </html>
-      `,
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`,
     });
     return { success: true };
   } catch (error) {
