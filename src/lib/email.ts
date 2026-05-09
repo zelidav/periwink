@@ -131,6 +131,82 @@ export async function sendCommunityWelcome({
     }
 }
 
+export async function sendFoundersNote({
+  to,
+  name,
+}: {
+  to: string;
+  name?: string;
+}) {
+  const greeting = name ? `Dear ${name},` : "Hello,";
+
+  try {
+    await getResend().emails.send({
+      from: "Adrian Tubero at Periwink <hello@yourperiwink.com>",
+      to,
+      subject: "A note from the founder",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+        <body style="margin: 0; padding: 0; background-color: #FAFAF8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+          <div style="max-width: 520px; margin: 0 auto; padding: 48px 24px;">
+
+            <div style="text-align: center; margin-bottom: 36px;">
+              <h1 style="font-family: Georgia, serif; font-size: 26px; font-weight: 300; color: #6E5A7E; margin: 0; letter-spacing: 0.5px;">periwink</h1>
+            </div>
+
+            <div style="background: #fff; border-radius: 20px; padding: 40px 36px; border: 1px solid rgba(183,168,201,0.3); box-shadow: 0 2px 16px rgba(92,72,112,0.05);">
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                ${greeting}
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                Thank you for joining Periwink. I wanted to reach out personally, because this community matters to me in a way that goes beyond the professional.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                I'm a clinical psychologist, and I've spent over 20 years helping people navigate emotional change, relationships, and the deeper patterns that shape how we live. But Periwink didn't come from my clinical work alone.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                It came from a personal recognition — that so many women move through this phase of life feeling confused, isolated, and without enough honest support or conversation. Not just about the physical changes, but about what it does to your identity, your relationships, and your sense of self.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                I built Periwink as a different kind of space. One where you can better understand what's happening, hear from women who genuinely get it, and move through this with more clarity and less isolation.
+              </p>
+
+              <p style="font-size: 17px; color: #2B2433; line-height: 1.8; margin: 0 0 20px;">
+                I'm glad you're here. And I mean that.
+              </p>
+
+              <p style="font-size: 17px; color: #6B6575; line-height: 1.8; margin: 32px 0 0; font-style: italic;">
+                With warmth,<br>
+                <strong style="color: #2B2433; font-style: normal;">Adrian</strong><br>
+                <span style="font-size: 14px; color: #9B94A3;">Dr. Adrian Tubero, Psy.D. · Founder, Periwink</span>
+              </p>
+
+            </div>
+
+            <p style="text-align: center; font-size: 12px; color: #9B94A3; margin-top: 28px; line-height: 1.6;">
+              &copy; ${new Date().getFullYear()} Periwink &middot;
+              <a href="https://www.yourperiwink.com" style="color: #9B94A3;">yourperiwink.com</a>
+            </p>
+
+          </div>
+        </body>
+        </html>
+      `,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to send founder's note:", error);
+    return { success: false, error };
+  }
+}
+
 export async function sendModerationAlert({
   postId,
   postTitle,

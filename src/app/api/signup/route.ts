@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendFoundersNote } from "@/lib/email";
 import { Resend } from "resend";
 
 let resend: Resend | null = null;
@@ -48,6 +49,13 @@ export async function POST(req: NextRequest) {
         pseudonym: "Member",
       },
     });
+
+    // Founder's note to the new member
+    try {
+      await sendFoundersNote({ to: normalizedEmail });
+    } catch (emailErr) {
+      console.error("Failed to send founder's note:", emailErr);
+    }
 
     // Notify admin
     try {
