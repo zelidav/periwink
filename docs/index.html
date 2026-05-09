@@ -103,6 +103,24 @@ a{color:inherit}
 .voice-name{font-size:14px;font-weight:500;color:#2B2433}
 .voice-room{font-size:13px;color:#5C4870}
 
+/* EXPLORE THE CONVERSATIONS */
+.convos{padding:100px 24px;background:#FAFAF8}
+.convos-inner{max-width:960px;margin:0 auto}
+.convos h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,36px);font-weight:400;text-align:center;color:#2B2433;margin-bottom:10px;line-height:1.3}
+.convos-sub{font-size:15px;color:#4E4858;text-align:center;margin-bottom:48px;font-weight:400;max-width:500px;margin-left:auto;margin-right:auto;margin-top:0;line-height:1.7}
+.convos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;margin-bottom:52px}
+.convo-card{background:#fff;border:1px solid rgba(183,168,201,.28);border-radius:16px;padding:24px 22px;text-decoration:none;color:inherit;transition:transform .2s,box-shadow .2s,border-color .2s;display:block}
+.convo-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(92,72,112,.09);border-color:rgba(183,168,201,.55)}
+.convo-icon{font-size:26px;margin-bottom:12px;display:block}
+.convo-card h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:#2B2433;margin-bottom:6px;line-height:1.3}
+.convo-card p{font-size:13px;color:#6B6575;line-height:1.65;font-weight:400}
+.convo-card.becoming{background:linear-gradient(135deg,rgba(240,236,255,.55),rgba(255,250,248,.85));border-color:rgba(140,146,255,.28)}
+.convo-card.becoming:hover{border-color:rgba(140,146,255,.55);box-shadow:0 8px 28px rgba(140,146,255,.13)}
+.convo-card.becoming h3{color:#4A3866}
+.convos-cta{text-align:center;padding:8px 0 0}
+.convos-cta-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3vw,26px);font-weight:400;color:#2B2433;margin-bottom:8px;line-height:1.4}
+.convos-cta-sub{font-size:15px;color:#6B6575;margin-bottom:28px;font-weight:400;line-height:1.7}
+
 /* FOUNDER — feather bg */
 .founder{padding:100px 24px;position:relative;overflow:hidden}
 .founder-bg{position:absolute;inset:0;background:url('bg-feather.png') center/cover no-repeat;opacity:.3;pointer-events:none}
@@ -185,6 +203,10 @@ a{color:inherit}
   .voices-grid{grid-template-columns:1fr}
   .founder-card{flex-direction:column;align-items:center;text-align:center}
   .finds-grid{grid-template-columns:1fr}
+  .convos-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .convos-grid{grid-template-columns:1fr}
 }
 @media(max-width:600px){
   .hero-video video{opacity:.5}
@@ -296,6 +318,31 @@ a{color:inherit}
   </div>
 </section>
 
+<!-- EXPLORE THE CONVERSATIONS -->
+<section class="convos reveal">
+  <div class="convos-inner">
+    <h2 class="hd">Explore the Conversations</h2>
+    <p class="convos-sub">Community conversations for every part of the midlife experience.</p>
+    <div class="convos-grid">
+      <a class="convo-card" id="room-hot-flashes" href="#"><span class="convo-icon">🔥</span><h3 class="hd">Hot Flashes &amp; Night Sweats</h3><p>The sudden heat, the disrupted nights, the body doing things no one fully warned you about.</p></a>
+      <a class="convo-card" id="room-sleep" href="#"><span class="convo-icon">🌙</span><h3 class="hd">Sleep &amp; Fatigue</h3><p>When rest becomes elusive and exhaustion runs deeper than sleep alone can explain.</p></a>
+      <a class="convo-card" id="room-hrt" href="#"><span class="convo-icon">💊</span><h3 class="hd">HRT &amp; Hormone Therapy</h3><p>Navigating hormone therapy, options, research, and conversations with your doctor.</p></a>
+      <a class="convo-card" id="room-mood" href="#"><span class="convo-icon">🌊</span><h3 class="hd">Mood &amp; Emotional Health</h3><p>The anxiety, the overwhelm, the feelings that seem outsized — and what they're really about.</p></a>
+      <a class="convo-card" id="room-brain-fog" href="#"><span class="convo-icon">🧠</span><h3 class="hd">Brain Fog &amp; Cognitive Changes</h3><p>When your memory, focus, and mental clarity aren't behaving the way they used to.</p></a>
+      <a class="convo-card" id="room-supplements" href="#"><span class="convo-icon">🌿</span><h3 class="hd">Supplements &amp; Nutrition</h3><p>What actually helps? Evidence-informed conversations about nourishment and support.</p></a>
+      <a class="convo-card" id="room-relationships" href="#"><span class="convo-icon">💜</span><h3 class="hd">Relationships &amp; Intimacy</h3><p>How midlife reshapes connection — with partners, friends, and yourself.</p></a>
+      <a class="convo-card" id="room-body-changes" href="#"><span class="convo-icon">🦋</span><h3 class="hd">Your Changing Body</h3><p>A compassionate space for body image, weight, skin, and reconnecting with who you are now.</p></a>
+      <a class="convo-card" id="room-work-life" href="#"><span class="convo-icon">💼</span><h3 class="hd">Work &amp; Career</h3><p>Ambition, burnout, reinvention, and professional identity in midlife.</p></a>
+      <a class="convo-card becoming" id="room-becoming" href="#"><span class="convo-icon">✨</span><h3 class="hd">Becoming &amp; Identity</h3><p>Who are you becoming? The emotional and transformational center of everything happening in midlife.</p></a>
+    </div>
+    <div class="convos-cta">
+      <p class="convos-cta-headline hd">Join the conversation.</p>
+      <p class="convos-cta-sub">Read, reflect, and connect with women navigating similar experiences.</p>
+      <a class="btn btn-primary" id="convos-join-link" href="#">Explore the Community</a>
+    </div>
+  </div>
+</section>
+
 <!-- FOUNDER — feather bg flipped -->
 <section class="founder reveal">
   <div class="founder-bg"></div>
@@ -366,8 +413,14 @@ document.getElementById('rooms-link').href = API + '/app/rooms';
 document.getElementById('join-link').href = JOIN_URL;
 document.getElementById('hero-join-link').href = JOIN_URL;
 document.getElementById('final-join-link').href = JOIN_URL;
+document.getElementById('convos-join-link').href = JOIN_URL;
 document.getElementById('groups-link').href = API + '/app/groups';
 document.getElementById('finds-groups-link').href = API + '/app/groups';
+var roomSlugs = ['hot-flashes','sleep','hrt','mood','brain-fog','supplements','relationships','body-changes','work-life','becoming'];
+roomSlugs.forEach(function(slug) {
+  var el = document.getElementById('room-' + slug);
+  if (el) el.href = API + '/app/rooms/' + slug;
+});
 
 // Register service worker for PWA
 if ('serviceWorker' in navigator) {
