@@ -162,7 +162,7 @@ export async function sendFoundersNote({
           <tr>
             <td align="center" style="padding-bottom: 44px;">
               <div style="display: inline-block; padding: 0 0 16px; border-bottom: 1px solid rgba(183,168,201,0.35);">
-                <span style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-weight: 300; color: #7B6490; letter-spacing: 2px;">periwink</span>
+                <img src="https://www.yourperiwink.com/periwink-logo.svg" alt="periwink" width="140" height="62" style="display: block; border: 0;">
               </div>
             </td>
           </tr>

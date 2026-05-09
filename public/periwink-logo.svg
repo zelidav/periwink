@@ -1,0 +1,63 @@
+<svg width="180" height="80" viewBox="0 0 180 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&display=swap');
+    </style>
+  </defs>
+
+  <!-- Botanical sprig — inverted S-curve stem -->
+  <!-- Main stem -->
+  <path d="M 72 34 C 76 26 84 20 90 18 C 96 16 102 18 104 24 C 106 28 103 33 98 33 C 94 33 91 30 93 26"
+        stroke="#8B7AA8" stroke-width="0.85" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+
+  <!-- Left branch -->
+  <path d="M 76 28 C 70 22 64 20 61 22"
+        stroke="#8B7AA8" stroke-width="0.7" fill="none" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Right upward tendril -->
+  <path d="M 100 20 C 106 14 112 13 114 16"
+        stroke="#8B7AA8" stroke-width="0.65" fill="none" stroke-linecap="round" opacity="0.65"/>
+
+  <!-- Small leaf left branch tip -->
+  <path d="M 61 22 C 58 18 59 14 62 15 C 65 16 64 20 61 22 Z"
+        fill="#8B7AA8" opacity="0.5"/>
+
+  <!-- Small leaf along main stem -->
+  <path d="M 80 24 C 77 19 79 15 82 16 C 85 17 83 22 80 24 Z"
+        fill="#8B7AA8" opacity="0.42"/>
+
+  <!-- Bud at right tendril -->
+  <path d="M 114 16 C 112 12 115 10 117 12 C 119 14 116 17 114 16 Z"
+        fill="#8B7AA8" opacity="0.45"/>
+
+  <!-- Top small leaf at stem peak -->
+  <path d="M 93 26 C 90 21 92 17 95 18 C 98 19 96 24 93 26 Z"
+        fill="#8B7AA8" opacity="0.4"/>
+
+  <!-- Tiny dots -->
+  <circle cx="88" cy="17" r="1.1" fill="#8B7AA8" opacity="0.35"/>
+  <circle cx="108" cy="21" r="0.9" fill="#8B7AA8" opacity="0.3"/>
+  <circle cx="67" cy="19" r="0.8" fill="#8B7AA8" opacity="0.3"/>
+
+  <!-- Wordmark -->
+  <text
+    x="90"
+    y="58"
+    text-anchor="middle"
+    font-family="'Cormorant Garamond', Georgia, serif"
+    font-size="26"
+    font-weight="300"
+    fill="#5C4870"
+    letter-spacing="1.5">periwink</text>
+
+  <!-- Tagline -->
+  <text
+    x="90"
+    y="72"
+    text-anchor="middle"
+    font-family="'DM Sans', -apple-system, sans-serif"
+    font-size="5.5"
+    font-weight="400"
+    fill="#A899B8"
+    letter-spacing="2.8">A WISER WAY FORWARD—TOGETHER</text>
+</svg>
