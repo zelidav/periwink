@@ -534,9 +534,13 @@ export default function LandingPage() {
         }}
       >
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-          <a href="#" className="font-display text-2xl" style={{ color: c.periwinkleDeep, textDecoration: "none" }}>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="font-display text-2xl cursor-pointer"
+            style={{ color: c.periwinkleDeep, background: "none", border: "none", padding: 0, fontFamily: "inherit" }}
+          >
             periwink
-          </a>
+          </button>
           <div className="flex items-center gap-8">
             <a href="#about" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: c.inkSoft, textDecoration: "none" }}>
               Our Story

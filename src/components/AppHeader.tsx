@@ -20,6 +20,7 @@ export default function AppHeader() {
     >
       <Link
         href="/"
+        onClick={() => window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior })}
         style={{
           fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
           fontSize: 22, fontWeight: 400, color: "var(--color-dusty-plum, #6E5A7E)",
