@@ -271,6 +271,64 @@ export async function sendFoundersNote({
   }
 }
 
+export async function sendPasswordReset({
+  to,
+  token,
+}: {
+  to: string;
+  token: string;
+}) {
+  const appUrl = process.env.NEXTAUTH_URL || "https://periwink-hvwa5fgo5q-ue.a.run.app";
+  const resetUrl = `${appUrl}/auth/reset-password?token=${token}`;
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to,
+      subject: "Reset your password — Periwink",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #F7F3EE; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+          <div style="max-width: 520px; margin: 0 auto; padding: 48px 24px;">
+            <div style="text-align: center; margin-bottom: 36px;">
+              <h1 style="font-family: Georgia, serif; font-size: 28px; font-weight: 300; color: #6E5A7E; margin: 0; letter-spacing: 0.5px;">periwink</h1>
+            </div>
+            <div style="background: #FDFBF8; border-radius: 20px; padding: 36px 32px; border: 1px solid #E8E3EA;">
+              <p style="font-size: 16px; color: #2B2433; line-height: 1.7; margin: 0 0 12px;">
+                We received a request to reset your Periwink password.
+              </p>
+              <p style="font-size: 15px; color: #6B6575; line-height: 1.7; margin: 0 0 28px;">
+                Click the button below to choose a new password. This link expires in 1 hour.
+              </p>
+              <div style="text-align: center; margin: 32px 0;">
+                <a href="${resetUrl}" style="display: inline-block; background: #6E5A7E; color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 12px; font-size: 15px; font-family: -apple-system, sans-serif;">
+                  Reset my password
+                </a>
+              </div>
+              <p style="font-size: 13px; color: #9B94A3; line-height: 1.6; margin: 0;">
+                If you didn't request this, you can safely ignore this email — your password won't change.
+              </p>
+            </div>
+            <p style="text-align: center; font-size: 12px; color: #9B94A3; margin-top: 32px;">
+              © ${new Date().getFullYear()} Periwink
+            </p>
+          </div>
+        </body>
+        </html>
+      `,
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to send password reset email:", error);
+    return { success: false, error };
+  }
+}
+
 export async function sendModerationAlert({
   postId,
   postTitle,

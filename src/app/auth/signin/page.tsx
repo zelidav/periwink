@@ -181,12 +181,17 @@ function SignInForm() {
         </div>
 
         <div>
-          <label style={{
-            display: "block", fontSize: 13, color: "var(--color-text-2, #6B6575)",
-            marginBottom: 6, fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
-          }}>
-            Password
-          </label>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+            <label style={{
+              fontSize: 13, color: "var(--color-text-2, #6B6575)",
+              fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
+            }}>
+              Password
+            </label>
+            <Link href="/auth/forgot-password" style={{ fontSize: 12, color: "var(--color-dusty-plum, #6E5A7E)", textDecoration: "none" }}>
+              Forgot password?
+            </Link>
+          </div>
           <input
             type="password"
             value={password}
