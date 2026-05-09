@@ -188,18 +188,18 @@ export default function GroupsPage() {
       }}>
         <h1 style={{
           fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
-          fontSize: "clamp(26px, 5vw, 38px)",
+          fontSize: "clamp(30px, 5.5vw, 44px)",
           fontWeight: 300,
-          lineHeight: 1.25,
+          lineHeight: 1.2,
           color: c.ink,
           marginBottom: 16,
           maxWidth: 560,
           margin: "0 auto 16px",
         }}>
-          A shared space for growth, understanding, and real conversation
+          Midlife changes more than your body.
         </h1>
-        <p style={{ fontSize: 16, color: c.inkSoft, lineHeight: 1.75, maxWidth: 480, margin: "0 auto 24px" }}>
-          Thoughtfully guided groups for women navigating change — together.
+        <p style={{ fontSize: 16, color: c.inkSoft, lineHeight: 1.75, maxWidth: 500, margin: "0 auto 24px" }}>
+          A thoughtful space for women navigating identity, emotion, relationships, and change — together.
         </p>
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 8,
@@ -219,6 +219,15 @@ export default function GroupsPage() {
         padding: "36px 32px",
         marginBottom: 24,
       }}>
+        <p style={{
+          fontSize: 14,
+          color: c.inkMuted,
+          lineHeight: 1.85,
+          maxWidth: 520,
+          marginBottom: 28,
+        }}>
+          Many women arrive here feeling unlike themselves — emotionally overwhelmed, disconnected, invisible, restless, uncertain, or simply changed in ways they can&apos;t fully explain.
+        </p>
         <h2 style={{
           fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
           fontSize: "clamp(22px, 4vw, 30px)",
@@ -265,7 +274,7 @@ export default function GroupsPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
           {[
             { icon: "🗣", text: "Guided conversations with structure and intention" },
-            { icon: "🧠", text: "Insight into what's changing — emotionally and physically" },
+            { icon: "🧠", text: "A clearer understanding of what's happening emotionally, relationally, and physically" },
             { icon: "👥", text: "A consistent group of women over several weeks" },
             { icon: "🌿", text: "A space that is thoughtful, grounded, and real" },
           ].map((item, i) => (
@@ -403,7 +412,7 @@ export default function GroupsPage() {
           fontFamily: "var(--font-heading, 'Cormorant Garamond', serif)",
           fontSize: 26, fontWeight: 300, color: c.ink, marginBottom: 8,
         }}>
-          Apply for an upcoming session
+          Join an upcoming group
         </h2>
         <p style={{ fontSize: 15, color: c.inkSoft, lineHeight: 1.7, marginBottom: 28 }}>
           Tell us a little about yourself and which offering interests you. Dr. Tubero will follow up personally.
@@ -413,9 +422,9 @@ export default function GroupsPage() {
 
       {/* Community reassurance */}
       <div style={{
-        background: `linear-gradient(135deg, ${c.plumWhisper}, ${c.ivory})`,
+        background: `linear-gradient(160deg, ${c.plumWhisper} 0%, #fff 50%, ${c.ivory} 100%)`,
         border: `1px solid ${c.plumMist}`,
-        borderRadius: 20, padding: "36px 32px",
+        borderRadius: 20, padding: "56px 40px",
         textAlign: "center",
       }}>
         <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "clamp(20px, 4vw, 26px)", fontWeight: 300, color: c.ink, marginBottom: 12 }}>
@@ -437,7 +446,7 @@ export default function GroupsPage() {
               padding: "12px 24px", fontSize: 14, fontFamily: "var(--font-body, 'DM Sans', sans-serif)",
             }}
           >
-            Join the Community →
+            Join the Conversation →
           </Link>
           <a
             href="#apply"
