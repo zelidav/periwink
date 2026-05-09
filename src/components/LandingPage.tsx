@@ -431,13 +431,17 @@ export default function LandingPage() {
     setIsSubmitting(false);
   }, [foundingForm]);
 
-  const circles = [
-    { emoji: "🔥", name: "Bodies in Flux", desc: "Hot flashes, night sweats, and everything your body is doing differently.", members: "2,847" },
-    { emoji: "🌙", name: "Sleep & Energy", desc: "Finding rest when your body forgot how. Real strategies that work.", members: "3,201" },
-    { emoji: "🧠", name: "Mind & Mood", desc: "The emotional journey — anxiety, clarity, fog, and breakthroughs.", members: "2,956" },
-    { emoji: "💊", name: "Treatment Paths", desc: "HRT, alternatives, and everything in between. What's working for whom.", members: "4,102" },
-    { emoji: "💜", name: "Identity & Relationships", desc: "Who you're becoming. How your relationships are evolving.", members: "1,890" },
-    { emoji: "🌿", name: "Nourishment", desc: "Food, movement, supplements. What feeds you now.", members: "2,103" },
+  const conversations = [
+    { emoji: "🔥", slug: "hot-flashes", name: "Hot Flashes & Night Sweats", desc: "The sudden heat, the disrupted nights, the body doing things no one fully warned you about." },
+    { emoji: "🌙", slug: "sleep", name: "Sleep & Fatigue", desc: "When rest becomes elusive and exhaustion runs deeper than sleep alone can explain." },
+    { emoji: "💊", slug: "hrt", name: "HRT & Hormone Therapy", desc: "Navigating hormone therapy, options, research, and conversations with your doctor." },
+    { emoji: "🌊", slug: "mood", name: "Mood & Emotional Health", desc: "The anxiety, the overwhelm, the feelings that seem outsized — and what they're really about." },
+    { emoji: "🧠", slug: "brain-fog", name: "Brain Fog & Cognitive Changes", desc: "When your memory, focus, and mental clarity aren't behaving the way they used to." },
+    { emoji: "🌿", slug: "supplements", name: "Supplements & Nutrition", desc: "What actually helps? Evidence-informed conversations about nourishment and support." },
+    { emoji: "💜", slug: "relationships", name: "Relationships & Intimacy", desc: "How midlife reshapes connection — with partners, friends, and yourself." },
+    { emoji: "🦋", slug: "body-changes", name: "Your Changing Body", desc: "A compassionate space for body image, weight, skin, and reconnecting with who you are now." },
+    { emoji: "💼", slug: "work-life", name: "Work & Career", desc: "Ambition, burnout, reinvention, and professional identity in midlife." },
+    { emoji: "✨", slug: "becoming", name: "Becoming & Identity", desc: "Who are you becoming? The emotional and transformational center of everything happening in midlife.", featured: true },
   ];
 
   const features = [
@@ -537,8 +541,8 @@ export default function LandingPage() {
             <a href="#about" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: c.inkSoft, textDecoration: "none" }}>
               Our Story
             </a>
-            <a href="#community" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: c.inkSoft, textDecoration: "none" }}>
-              Community
+            <a href="#conversations" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: c.inkSoft, textDecoration: "none" }}>
+              Conversations
             </a>
             <a href="/app/groups" className="hidden md:block text-sm hover:opacity-70 transition-opacity" style={{ color: c.inkSoft, textDecoration: "none" }}>
               Groups &amp; Retreats
@@ -739,50 +743,78 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Circles Section */}
-      <section id="community" className="py-24 px-6" style={{ background: c.cream }}>
+      {/* Conversations Section */}
+      <section id="conversations" className="py-24 px-6" style={{ background: c.cream }}>
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
               <h2 className="font-display text-3xl md:text-4xl mb-4">
-                You&apos;re not the only one noticing this
+                Explore the Conversations
               </h2>
-              <p className="text-base" style={{ color: c.inkSoft }}>
-                Real experiences from women moving through it — together.
+              <p className="text-base" style={{ color: c.inkSoft, lineHeight: 1.75 }}>
+                Community conversations for every part of the midlife experience.
               </p>
             </div>
           </Reveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {circles.map((circle, i) => (
-              <Reveal key={i} delay={i * 0.06}>
-                <button
-                  onClick={openJoin}
-                  className="text-left p-7 rounded-3xl transition-all hover:-translate-y-1 w-full cursor-pointer"
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {conversations.map((conv, i) => (
+              <Reveal key={conv.slug} delay={i * 0.05}>
+                <a
+                  href={`/app/rooms/${conv.slug}`}
+                  className="text-left p-6 rounded-2xl transition-all hover:-translate-y-1 block"
                   style={{
-                    background: `linear-gradient(165deg, #fff 0%, ${c.lavenderBlush} 100%)`,
-                    border: `1px solid ${c.periwinkleMist}`,
+                    background: conv.featured
+                      ? "linear-gradient(135deg, rgba(240,236,255,.6), rgba(255,250,248,.95))"
+                      : "#fff",
+                    border: conv.featured
+                      ? "1px solid rgba(140,146,255,.32)"
+                      : `1px solid ${c.periwinkleMist}`,
                     boxShadow: "0 2px 16px rgba(110, 90, 126, 0.04)",
+                    textDecoration: "none",
+                    color: "inherit",
                   }}
                 >
-                  <span className="text-4xl mb-4 block">{circle.emoji}</span>
-                  <h4 className="font-display text-lg mb-2">{circle.name}</h4>
-                  <p className="text-sm mb-4" style={{ color: c.inkMuted }}>
-                    {circle.desc}
+                  <span className="text-3xl mb-3 block">{conv.emoji}</span>
+                  <h4
+                    className="font-display text-lg mb-2"
+                    style={{ color: conv.featured ? "#4A3866" : "inherit" }}
+                  >
+                    {conv.name}
+                  </h4>
+                  <p className="text-sm" style={{ color: c.inkMuted, lineHeight: 1.65 }}>
+                    {conv.desc}
                   </p>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="w-2 h-2 rounded-full"
-                      style={{ background: "#7CB07F" }}
-                    />
-                    <span className="text-sm font-medium" style={{ color: c.periwinkleDeep }}>
-                      {circle.members} sharing
-                    </span>
-                  </div>
-                </button>
+                </a>
               </Reveal>
             ))}
           </div>
+
+          <Reveal>
+            <div className="text-center mt-14">
+              <p
+                className="font-display text-xl md:text-2xl mb-3"
+                style={{ color: c.ink, fontWeight: 300 }}
+              >
+                Join the conversation.
+              </p>
+              <p className="text-sm mb-8" style={{ color: c.inkSoft, lineHeight: 1.75 }}>
+                Read, reflect, and connect with women navigating similar experiences.
+              </p>
+              <button
+                onClick={openJoin}
+                className="px-8 py-3 rounded-full text-sm transition-all hover:-translate-y-0.5 cursor-pointer"
+                style={{
+                  background: c.periwinkleDeep,
+                  color: "#fff",
+                  border: "none",
+                  boxShadow: "0 4px 18px rgba(110, 90, 126, 0.25)",
+                }}
+              >
+                Explore the Community
+              </button>
+            </div>
+          </Reveal>
         </div>
       </section>
 
