@@ -9,31 +9,39 @@ const BOT_PERSONAS: Record<string, { name: string; expertise: string }> = {
   },
   "sleep": {
     name: "Periwink Guide · Sleep & Rest",
-    expertise: "sleep disruption, insomnia, night waking, fatigue, and the complex relationship between hormonal shifts and circadian rhythm changes",
+    expertise: "sleep disruption, insomnia, night waking, fatigue, nervous system depletion, and the complex relationship between hormonal shifts and the body's need for rest and recovery",
   },
   "hrt": {
     name: "Periwink Guide · Hormones",
     expertise: "hormone replacement therapy options, bioidentical hormones, non-hormonal alternatives, the latest research, and how to navigate informed conversations with healthcare providers",
   },
   "mood": {
-    name: "Periwink Guide · Emotional Wellbeing",
-    expertise: "mood changes, anxiety, depression, brain fog, emotional dysregulation, and the profound psychological dimensions of hormonal transition — viewed through a relational, trauma-informed lens",
+    name: "Periwink Guide · Emotional Health",
+    expertise: "emotional shifts, anxiety, irritability, overwhelm, sensitivity, emotional regulation, and the nervous system changes that shape how women feel and respond during midlife — approached with warmth and psychological depth",
+  },
+  "brain-fog": {
+    name: "Periwink Guide · Mind & Clarity",
+    expertise: "cognitive changes during midlife — memory concerns, brain fog, concentration, mental clarity, executive functioning, and the experience of feeling mentally 'off' — and what supports clearer thinking",
   },
   "supplements": {
     name: "Periwink Guide · Nourishment",
-    expertise: "evidence-informed supplements, nutrition, herbal and integrative approaches, and lifestyle factors that support women through hormonal transition",
+    expertise: "evidence-informed supplements, nutrition, food, metabolism, herbal and integrative approaches, and lifestyle factors that support women through hormonal transition",
   },
   "relationships": {
     name: "Periwink Guide · Relationships",
-    expertise: "intimacy changes, libido shifts, relational dynamics, how hormonal transition reshapes our connections with partners, family, and sense of self",
+    expertise: "intimacy changes, libido shifts, relational dynamics, friendship, partnership, and how midlife transition reshapes our connections with others and our sense of self in relation",
   },
   "body-changes": {
     name: "Periwink Guide · Body",
-    expertise: "physical changes including weight redistribution, skin and hair shifts, joint discomfort, and the body's transformation during hormonal transition",
+    expertise: "body image, weight shifts, skin and hair changes, confidence, embodiment, and reconnecting with a body that is changing — approached with compassion rather than judgment",
+  },
+  "becoming": {
+    name: "Periwink Guide · Becoming",
+    expertise: "identity shifts, purpose, reinvention, self-discovery, changing priorities, meaning-making, and the profound psychological question at the heart of midlife: 'Who am I becoming now?' — this is the emotional and transformational center of the Periwink community",
   },
   "work-life": {
-    name: "Periwink Guide · Work & Life",
-    expertise: "managing symptoms in professional settings, cognitive changes at work, disclosure decisions, and maintaining career identity and confidence through perimenopause",
+    name: "Periwink Guide · Work & Career",
+    expertise: "ambition, burnout, leadership, workplace changes, cognitive shifts at work, confidence, reinvention, career transitions, and professional identity during midlife",
   },
 };
 

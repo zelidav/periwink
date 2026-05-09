@@ -8,14 +8,16 @@ const prisma = new PrismaClient();
 // ============================================================================
 
 const ROOMS = [
-  { slug: "hot-flashes", name: "Hot Flashes & Night Sweats", description: "Share experiences and strategies for managing vasomotor symptoms", icon: "🔥", sortOrder: 1, isDefault: true },
-  { slug: "sleep", name: "Sleep & Fatigue", description: "Finding rest when your body won't cooperate", icon: "🌙", sortOrder: 2, isDefault: true },
-  { slug: "hrt", name: "HRT & Hormone Therapy", description: "Navigating hormone replacement options together", icon: "💊", sortOrder: 3, isDefault: true },
-  { slug: "mood", name: "Mood & Mental Health", description: "Anxiety, brain fog, mood swings — you're not alone", icon: "🧠", sortOrder: 4, isDefault: true },
-  { slug: "supplements", name: "Supplements & Nutrition", description: "What's working, what's not, and the science behind it", icon: "🌿", sortOrder: 5, isDefault: true },
-  { slug: "relationships", name: "Relationships & Intimacy", description: "Honest conversations about changing dynamics", icon: "💜", sortOrder: 6, isDefault: false },
-  { slug: "body-changes", name: "Body Changes", description: "Weight, skin, hair, and everything in between", icon: "🦋", sortOrder: 7, isDefault: false },
-  { slug: "work-life", name: "Work & Career", description: "Managing symptoms at work, disclosure decisions, and professional impact", icon: "💼", sortOrder: 8, isDefault: false },
+  { slug: "hot-flashes",  name: "Hot Flashes & Night Sweats", description: "Conversations around vasomotor symptoms, overheating, temperature dysregulation, cooling strategies, and navigating physical discomfort.", icon: "🔥", sortOrder: 1, isDefault: true },
+  { slug: "sleep",        name: "Sleep & Fatigue",             description: "A space for insomnia, exhaustion, restless sleep, low energy, recovery, nervous system depletion, and restoring balance.",                  icon: "🌙", sortOrder: 2, isDefault: true },
+  { slug: "hrt",          name: "HRT & Hormone Therapy",       description: "Discussions around hormone therapy, patches, creams, progesterone, estrogen, medical experiences, questions, decisions, and outcomes.",        icon: "💊", sortOrder: 3, isDefault: true },
+  { slug: "mood",         name: "Mood & Emotional Health",     description: "A supportive space for emotional shifts, anxiety, irritability, overwhelm, sensitivity, emotional regulation, and nervous system changes during midlife.", icon: "🌊", sortOrder: 4, isDefault: true },
+  { slug: "brain-fog",    name: "Brain Fog & Cognitive Changes", description: "A dedicated space for memory concerns, concentration, focus, mental clarity, executive functioning, cognitive shifts, and feeling mentally 'off' during midlife transitions.", icon: "🧠", sortOrder: 5, isDefault: true },
+  { slug: "supplements",  name: "Supplements & Nutrition",     description: "Conversations around nourishment, supplements, food, metabolism, integrative approaches, wellness practices, and supporting the body through midlife.", icon: "🌿", sortOrder: 6, isDefault: true },
+  { slug: "relationships", name: "Relationships & Intimacy",   description: "Discussions around marriage, partnership, friendship, emotional connection, sexuality, libido, intimacy, communication, and relational shifts.", icon: "💜", sortOrder: 7, isDefault: false },
+  { slug: "body-changes", name: "Your Changing Body",          description: "A compassionate space for body image, weight shifts, skin and hair changes, confidence, embodiment, aging, and reconnecting with your body.", icon: "🦋", sortOrder: 8, isDefault: false },
+  { slug: "becoming",     name: "Becoming & Identity",         description: "A space for conversations around identity shifts, purpose, reinvention, emotional growth, self-discovery, changing priorities, meaning-making, and the question: 'Who am I becoming now?'", icon: "✨", sortOrder: 9, isDefault: false },
+  { slug: "work-life",    name: "Work & Career",               description: "Conversations around ambition, burnout, leadership, workplace changes, productivity, confidence, reinvention, career transitions, and professional identity during midlife.", icon: "💼", sortOrder: 10, isDefault: false },
 ];
 
 // ============================================================================
